@@ -1,0 +1,113 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Minify.WPF</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Database\**" />
+    <EmbeddedResource Remove="Database\**" />
+    <None Remove="Database\**" />
+    <Page Remove="Database\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ImageResources\back.png" />
+    <None Remove="ImageResources\megascale_m.png" />
+    <None Remove="ImageResources\next.png" />
+    <None Remove="ImageResources\pause.png" />
+    <None Remove="ImageResources\play.png" />
+    <None Remove="Music\AVILA - FUEGO.mp3" />
+    <None Remove="Music\Charlie Puth - Attention.mp3" />
+    <None Remove="Music\Echosmith - Cool Kids.mp3" />
+    <None Remove="Music\Ed Sheeran - Thinking Out Loud.mp3" />
+    <None Remove="Music\G-Eazy &amp; Halsey - Him &amp; I.mp3" />
+    <None Remove="Music\James Arthur - Say You Wont Let Go.mp3" />
+    <None Remove="Music\Lukrative - Anthem.mp3" />
+    <None Remove="Music\Shawn Mendes &amp; Hailee Steinfeld - Stitches.mp3" />
+    <None Remove="Music\Shawn Mendes - Stitches.mp3" />
+    <None Remove="Music\Simple Plan - Summer Paradise.mp3" />
+    <None Remove="Music\The Chainsmokers - Closer.mp3" />
+    <None Remove="Music\Zara Larsson - Ain%27t My Fault.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ImageResources\back.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageResources\megascale_m.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageResources\next.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageResources\pause.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ImageResources\play.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\AVILA - FUEGO.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Charlie Puth - Attention.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Echosmith - Cool Kids.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Ed Sheeran - Thinking Out Loud.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\G-Eazy &amp; Halsey - Him &amp; I.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\James Arthur - Say You Wont Let Go.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Lukrative - Anthem.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Shawn Mendes &amp; Hailee Steinfeld - Stitches.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Shawn Mendes - Stitches.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Simple Plan - Summer Paradise.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\The Chainsmokers - Closer.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Music\Zara Larsson - Ain't My Fault.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Minify.Core\Minify.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
