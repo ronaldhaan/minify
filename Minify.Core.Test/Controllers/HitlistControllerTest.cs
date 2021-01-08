@@ -118,7 +118,7 @@ namespace Minify.Core.Test
             // Assemble
             string title = "";
             // Act
-            var ValidationTitle = _controller.Validation_Title(title);
+            var ValidationTitle = _controller.ValidateTitle(title);
 
             // Assert
             Assert.IsFalse(ValidationTitle);
@@ -130,7 +130,7 @@ namespace Minify.Core.Test
             // Assemble
             string title = "HuhHuh";
             // Act
-            var ValidationTitle = _controller.Validation_Title(title);
+            var ValidationTitle = _controller.ValidateTitle(title);
 
             // Assert
             Assert.IsTrue(ValidationTitle);
@@ -142,7 +142,7 @@ namespace Minify.Core.Test
             // Assemble
             string description = "HuhHuh";
             // Act
-            var ValidationDescription = _controller.Validation_Description(description);
+            var ValidationDescription = _controller.ValidateDescription(description);
 
             // Assert
             Assert.IsTrue(ValidationDescription);
@@ -156,7 +156,7 @@ namespace Minify.Core.Test
                 "HuhHuhHuhHHuhHuhHuhHHuhHuhHuhHHuhHuhHuhH1"
                 ;
             // Act
-            var ValidationDescription = _controller.Validation_Description(description);
+            var ValidationDescription = _controller.ValidateDescription(description);
 
             // Assert
             Assert.IsFalse(ValidationDescription);

@@ -241,7 +241,7 @@ namespace Minify.Core.Controllers
         /// </summary>
         /// <param name="title"></param>
         /// <returns>Returns true if not empty and false if empty</returns>
-        public bool Validation_Title(string title)
+        public bool ValidateTitle(string title)
         {
             return !title.IsNullOrEmpty();
         }
@@ -251,7 +251,7 @@ namespace Minify.Core.Controllers
         /// </summary>
         /// <param name="description"></param>
         /// <returns>Returns true if lenght is not greater than 140 and false if greater than 140</returns>
-        public bool Validation_Description(string description)
+        public bool ValidateDescription(string description)
         {
             return description.Length <= 140;
         }

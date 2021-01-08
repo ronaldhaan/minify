@@ -1,4 +1,7 @@
 ﻿using Castle.Core.Internal;
+
+using MahApps.Metro.Controls;
+
 using Minify.Core.Controllers;
 using Minify.Core.Managers;
 using Minify.DAL.Entities;
@@ -10,7 +13,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for Register.xaml
     /// </summary>
-    public partial class Register : Window
+    public partial class Register : MetroWindow
     {
         private readonly RegisterController _controller;
 

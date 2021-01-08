@@ -10,27 +10,29 @@
     <Grid Height="auto">
         <StackPanel Margin="50">
             <Image Source="\ImageResources\megascale_m.png" Width="100" Height="100" />
-            <Border  Margin="10 20" CornerRadius="5" Background="LightGray">
+            <Border Margin="10 20" CornerRadius="5">
                 <StackPanel Margin="40" >
-                    <Label  HorizontalAlignment="Center" Margin="5" Content="Username" />
-                    <TextBox x:Name="Username" Margin="5"  Background="White" />
-                    <Label HorizontalAlignment="Center" Margin="5" Content="Password"></Label>
-                    <PasswordBox x:Name="Password" Margin="5"  />
+                    <Label Style="{DynamicResource MahApps.Styles.Label}"  HorizontalAlignment="Center" Margin="5" Content="Username" />
+                    <TextBox Style="{DynamicResource MahApps.Styles.TextBox}" x:Name="Username" Margin="5" />
+                    <Label Style="{DynamicResource MahApps.Styles.Label}"  HorizontalAlignment="Center" Margin="5" Content="Password"></Label>
+                    <PasswordBox Style="{DynamicResource MahApps.Styles.PasswordBox}" 
+                                 x:Name="Password" 
+                                 Margin="5"/>
                     
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <Button Margin="15 20" HorizontalAlignment="Left" Content="Login" Background="#FF993FC3"  Foreground="White" Click="Login_Button_Click"></Button>
-                        <Button Margin="15 20" HorizontalAlignment="Right" Content="Cancel" Background="#FF993FC3" Foreground="White" Click="Cancel_Button_Click"></Button>
+                        <Button Style="{DynamicResource MahApps.Styles.Button}"  Margin="15 20" HorizontalAlignment="Left" Content="Login" Background="#FF993FC3"  Foreground="White" Click="Login_Button_Click"></Button>
+                        <Button Style="{DynamicResource MahApps.Styles.Button}"  Margin="15 20" HorizontalAlignment="Right" Content="Cancel" Background="#FF993FC3" Foreground="White" Click="Cancel_Button_Click"></Button>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Don't have an account?"></Label>
-                        <Label Content="Register by clicking here" MouseDown="Create_Account_Button_click"></Label>
+                        <Label Style="{DynamicResource MahApps.Styles.Label}"  Content="Don't have an account?"></Label>
+                        <Label Style="{DynamicResource MahApps.Styles.Label}"  Content="Register by clicking here" MouseDown="Create_Account_Button_click"></Label>
                     </StackPanel>
                 </StackPanel>
             </Border>
             <Border Name="Messages" Margin="10 10" CornerRadius="10" Visibility="Collapsed">
                 <StackPanel>
-                    <Label Name="LoginErrorMessage" Visibility="Hidden" Foreground="Red" HorizontalAlignment="Center" Margin="5" Content="Invalid credentials" />
-                    <Label Name="RegisteredMessage" Visibility="Hidden" Foreground="Green" HorizontalAlignment="Center" Margin="5" Content="Successfully registered" />
+                    <Label Style="{DynamicResource MahApps.Styles.Label}"  Name="LoginErrorMessage" Visibility="Hidden" Foreground="Red" HorizontalAlignment="Center" Margin="5" Content="Invalid credentials" />
+                    <Label Style="{DynamicResource MahApps.Styles.Label}"  Name="RegisteredMessage" Visibility="Hidden" Foreground="Green" HorizontalAlignment="Center" Margin="5" Content="Successfully registered" />
                 </StackPanel>
             </Border>
         </StackPanel>

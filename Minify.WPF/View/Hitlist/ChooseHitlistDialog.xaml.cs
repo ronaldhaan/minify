@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Minify.Core.Managers;
+using MahApps.Metro.Controls;
 
 namespace Minify.WPF.View
 
@@ -21,7 +22,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for ChooseHitlistDialog.xaml
     /// </summary>
-    public partial class ChooseHitlistDialog : Window
+    public partial class ChooseHitlistDialog : MetroWindow
     {
         private HitlistController hitlistController;
         private Guid songId;

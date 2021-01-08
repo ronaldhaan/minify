@@ -14,43 +14,43 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class AddHistlistPage : Page
     {
-        private HitlistController controller;
+        private readonly HitlistController _controller;
 
         public event HitlistAddedEventHandler HitlistAdded;
         
 
         public AddHistlistPage()
         {
-            controller = ControllerManager.Get<HitlistController>();
+            _controller = ControllerManager.Get<HitlistController>();
             InitializeComponent();
         }
 
         private void Create_Button_Click(object sender, RoutedEventArgs e)
         {
             // get Title and Description from page
-            string title = TitleText.Text;
-            string description = DescriptionText.Text;
+            string title = tbxTitle.Text;
+            string description = tbxDescription.Text;
 
-            if (controller.Validation_Title(title) == false)
+            if (!_controller.ValidateTitle(title))
             {
                 // display error message for title
                 TitleError.Visibility = Visibility.Visible;
             }
-            else if (controller.Validation_Description(description) == false)
+            
+            if (!_controller.ValidateDescription(description))
             {
                 // display error message for description
                 DescriptionError.Visibility = Visibility.Visible;
             }
-            else
+
+            if(_controller.ValidateTitle(title) && _controller.ValidateDescription(description))
             {
                 Hitlist hitlist = new Hitlist(title, description, AppData.UserId);
-                hitlist = controller.Add(hitlist);
+                hitlist = _controller.Add(hitlist);
                 HitlistAdded.Invoke(this, new UpdateHitlistMenuEventArgs(hitlist.Id));
-                //OverviewHitlist overviewHitlist = new OverviewHitlist(hitlist.Id);
-                //overviewHitlist.Show();
 
-                TitleText.Text = string.Empty;
-                DescriptionText.Text = string.Empty;
+                tbxTitle.Text = string.Empty;
+                tbxDescription.Text = string.Empty;
             }
         }
     }

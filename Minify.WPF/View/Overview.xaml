@@ -1,14 +1,21 @@
-﻿<mah:MetroWindow x:Class="Minify.WPF.View.Overview"
+﻿<Controls:MetroWindow x:Class="Minify.WPF.View.Overview"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Minify.WPF.View"
+        xmlns:viewModels="clr-namespace:Minify.WPF.ViewModels"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Overview" Initialized="Window_Initialized"  Height="450" Width="800" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+        Title="Minify" 
+        Initialized="Window_Initialized"  
+        Height="450" 
+        Width="800"
+        GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
+        WindowTransitionsEnabled="False"
+        WindowState="Maximized" 
+        WindowStartupLocation="CenterScreen">
     <Grid>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="9*" />
@@ -20,66 +27,136 @@
             <RowDefinition Height="9*" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
-        <StackPanel Name="MessagePanel" Grid.Row="1" Grid.Column="2" Visibility="Hidden">
-            <TextBox x:Name="Chat" KeyDown="Chat_KeyDown" />
-            <ScrollViewer ScrollChanged="ScrollViewer_ScrollChanged" VerticalScrollBarVisibility="auto" x:Name="ScrollViewer" Height="500" >
-                <StackPanel Name="scrollviewMessages">
-                </StackPanel>
+        
+        <StackPanel Name="MessagePanel" 
+                    Grid.Row="1" 
+                    Grid.Column="2" 
+                    Visibility="Hidden">
+            <TextBox x:Name="Chat"
+                    Style="{DynamicResource MahApps.Styles.TextBox}" 
+                    KeyDown="Chat_KeyDown" />
+            <ScrollViewer x:Name="ScrollViewer" 
+                    Style="{DynamicResource MahApps.Styles.ScrollViewer}"
+                    ScrollChanged="ScrollViewer_ScrollChanged" 
+                    VerticalScrollBarVisibility="auto"
+                    Height="500" >
+                <StackPanel Name="scrollviewMessages"/>
             </ScrollViewer>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Background="White">
-            <TextBox Text="Search..." TextChanged="SearchBox_TextChanged" MouseEnter="Search_MouseEnter" MaxLength="30" x:Name="Search" Margin="5" Background="White" Width="160" Height="30" HorizontalAlignment="Left" />
+        <StackPanel 
+            Grid.Row="0" 
+            Grid.Column="1" >
+            <TextBox x:Name="Search" 
+                Style="{DynamicResource MahApps.Styles.TextBox.Search}"
+                Text="Search..." 
+                TextChanged="SearchBox_TextChanged" 
+                MouseEnter="Search_MouseEnter" 
+                MaxLength="30" 
+                Margin="5"  
+                Width="160" Height="30" 
+                HorizontalAlignment="Left" />
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" >
-            <!--placeholder for buttons-->
-            <Button Background="#FF821BB2" Foreground="White" Height="50" Click="Btn_home">Home</Button>
-            <Button Background="#FF821BB2" Foreground="White" Height="50" Click="Btn_songs">Songs</Button>
-            <Button Background="#FF821BB2" Foreground="White" Height="50" Click="Btn_Add_Hitlist">Add Hitlist</Button>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="0" >
-            <StackPanel Height="200">
-                <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
-                    <ListView Name="HitlistMenu"  HorizontalAlignment="Stretch"  SelectionChanged="HitlistMenu_SelectionChanged">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Hitlists" DisplayMemberBinding="{Binding Title}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </ScrollViewer>
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Left">
+                <!--placeholder for buttons-->
+                <Button Style="{DynamicResource MahApps.Styles.Button}"
+                        Height="50"
+                        Width="50"
+                        Click="Btn_home">
+                    <iconPacks:PackIconFontAwesome Kind="HomeSolid"/>
+                </Button>
+                <Button Style="{DynamicResource MahApps.Styles.Button}"
+                        Height="50"
+                        Width="50" 
+                        Click="Btn_songs">
+                    <iconPacks:PackIconFontAwesome Kind="MusicSolid"/>
+                </Button>
+                <Button Style="{DynamicResource MahApps.Styles.Button}"
+                        Width="50"
+                        Height="50"  
+                        Click="Btn_Add_Hitlist">
+                    <iconPacks:PackIconFontAwesome Kind="ListSolid"/>
+                </Button>
+                <Button x:Name="btnUser"
+                        Style="{DynamicResource MahApps.Styles.Button}"
+                        Width="50"
+                        Height="50" 
+                        Click="btnUser_Click">  
+                    <iconPacks:PackIconFontAwesome Kind="UserSolid"/>
+                </Button>
+                <Button x:Name="btnSettings"
+                        Style="{DynamicResource MahApps.Styles.Button}"
+                        Width="50"
+                        Height="50" 
+                        Click="btnSettings_Click">  
+                    <iconPacks:PackIconFontAwesome Kind="CogsSolid"/>
+                </Button>
             </StackPanel>
-            <StackPanel Height="200" Background="White">
-                <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
-                    <ListView Name="streamrooms"  HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectionChanged="Streamroom_SelectionChanged">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Streamrooms" DisplayMemberBinding="{Binding Hitlist.Title}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </ScrollViewer>
+            <StackPanel>
+                <StackPanel Height="200">
+                    <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
+                        <ListView Name="HitlistMenu"  
+                                  HorizontalAlignment="Stretch"  
+                                  SelectionChanged="HitlistMenu_SelectionChanged">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn 
+                                        Header="Hitlists" 
+                                        DisplayMemberBinding="{Binding Title}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
+                <StackPanel Height="200">
+                    <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
+                        <ListView Name="streamrooms"  
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Center" 
+                                  SelectionChanged="Streamroom_SelectionChanged">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn 
+                                        Header="Streamrooms" 
+                                        DisplayMemberBinding="{Binding Hitlist.Title}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.Column="1" Background="White" >
+
+        <StackPanel Grid.Row="1" Grid.Column="1">
             <!--placeholder for contentframe-->
-            <Frame Name="contentFrame" NavigationUIVisibility="Hidden">
-            </Frame>
+            <Frame Name="contentFrame" NavigationUIVisibility="Hidden"/>
+
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Background="White" />
 
-
-        <StackPanel Grid.Row="2" Grid.Column="0" >
+        <StackPanel Grid.Row="2" Grid.Column="1" >
             <!--placeholder for displaying songs and artist-->
-            <Label Style="{DynamicResource MahApps.Styles.Label}" x:Name="lbl_Song_Name" Margin="10" FontSize="24" />
-            <Label Style="{DynamicResource MahApps.Styles.Label}" x:Name="lbl_Artist" Margin="10" FontSize="24" />
+            <Label x:Name="lbl_Song_Name"  
+                Style="{DynamicResource MahApps.Styles.Label}" 
+                Margin="10" 
+                FontSize="24" />
+            <Label x:Name="lbl_Artist" 
+                Style="{DynamicResource MahApps.Styles.Label}" 
+                Margin="10" 
+                FontSize="24" />
         </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="2" Background="White">
+        <StackPanel Grid.Row="0" Grid.Column="3">
             <!--placeholder for logout-->
-            <Label Style="{DynamicResource MahApps.Styles.Label}" x:Name="label_Username" HorizontalContentAlignment="Center">Some Username</Label>
-            <Button Click="Btn_Logout">Logout</Button>
+            <Label x:Name="label_Username" 
+                Style="{DynamicResource MahApps.Styles.Label}" 
+                HorizontalContentAlignment="Center" 
+                Content="Some Username"/>
+            <Button 
+                Style="{DynamicResource MahApps.Styles.Button}" 
+                Click="Btn_Logout" 
+                Content="Logout"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.Column="1" >
@@ -89,46 +166,67 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
 
                 <Button Name="btn_Back"
+                        ToolTipService.InitialShowDelay="5000" 
+                        ToolTipService.ShowDuration="2000" 
+                        ToolTipService.BetweenShowDelay="10000" 
+                        ToolTip="Previous"
                         Background="#FF821BB2" 
                         Foreground="White"
                         Width="50"
                         Height="50"
                         Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                        Content="Prev" 
-                        Padding="5, 5, 5, 5"
-                        MouseDown="OnMouseDownBack"/>
+                       Margin="5, 5, 5, 5"
+                        MouseDown="OnMouseDownBack">
+                    <iconPacks:PackIconFontAwesome Kind="ArrowLeftSolid"/>
+                </Button>
 
                 <Button Name="btn_Play"
                         Background="#FF821BB2" 
                         Foreground="White"
+                        ToolTipService.InitialShowDelay="5000" 
+                        ToolTipService.ShowDuration="2000" 
+                        ToolTipService.BetweenShowDelay="10000" 
+                        ToolTip="Play"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Content="Play" 
-                        Padding="5, 5, 5, 5"
-                        MouseDown="OnMouseDownPlay"/>
+                        Margin="5, 5, 5, 5"
+                        MouseDown="OnMouseDownPlay">
+                    <iconPacks:PackIconFontAwesome Kind="PlaySolid" />
+                </Button>
 
 
                 <Button Name="btn_Pause"
+                        ToolTipService.InitialShowDelay="5000" 
+                        ToolTipService.ShowDuration="2000" 
+                        ToolTipService.BetweenShowDelay="10000" 
+                        ToolTip="Pause"
                         Background="#FF821BB2" 
                         Foreground="White"
                         Visibility="Collapsed"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Content="Play" 
-                        Padding="5, 5, 5, 5"
-                        MouseDown="OnMouseDownPlay"/>
+                        Margin="5, 5, 5, 5"
+                        MouseDown="OnMouseDownPause">
+                    <iconPacks:PackIconFontAwesome Kind="PlaySolid" />
+                </Button>
 
                 <Button Name="btn_Next"
+                        ToolTipService.InitialShowDelay="5000" 
+                        ToolTipService.ShowDuration="2000" 
+                        ToolTipService.BetweenShowDelay="10000" 
+                        ToolTip="Next"
                         Background="#FF821BB2" 
                         Foreground="White"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Content="Next" 
-                        Padding="5, 5, 5, 5"
-                        MouseDown="OnMouseDownNext"/>
+                        Margin="5, 5, 5, 5"
+                        MouseDown="OnMouseDownNext"
+                        >
+                    <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid"/>
+                </Button>
 
 
                 <!--<Image Name="btn_Back" Source="/ImageResources\back.png" MouseDown="OnMouseDownBack" Height="50" Width="50" Margin="5, 0 , 5, 0" />
@@ -139,13 +237,13 @@
                 -->
                 </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Label Name="lbl_Current_Time" VerticalAlignment="Center">00:00</Label>
-                <ProgressBar x:Name="Song_Progressbar" Height="5" Width="400" Minimum="0" Maximum="100" Value="0" Foreground="#FF821BB2" />
-                <Label Name="lbl_Song_Duration" VerticalAlignment="Center">00:00</Label>
+                <Label Style="{DynamicResource MahApps.Styles.Label}" Name="lbl_Current_Time" VerticalAlignment="Center">00:00</Label>
+                <ProgressBar Style="{DynamicResource MahApps.Styles.ProgressBar}" x:Name="Song_Progressbar" Height="5" Width="400" Minimum="0" Maximum="100" Value="0" Foreground="#FF821BB2" />
+                <Label Style="{DynamicResource MahApps.Styles.Label}" Name="lbl_Song_Duration" VerticalAlignment="Center">00:00</Label>
             </StackPanel>
             <StackPanel >
                 <!--right side of mediaplayer-->
             </StackPanel>
         </StackPanel>
     </Grid>
-</mah:MetroWindow>
+</Controls:MetroWindow>

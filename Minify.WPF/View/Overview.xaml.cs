@@ -10,6 +10,9 @@ using Minify.WPF.Managers;
 using Minify.Core.Managers;
 using System.Threading;
 using MahApps.Metro.Controls;
+using Minify.WPF.ViewModels;
+using System.Windows.Navigation;
+using System.Linq;
 
 namespace Minify.WPF.View
 {
@@ -20,6 +23,8 @@ namespace Minify.WPF.View
     {
         private TimeSpan _positionCache;
         private bool _autoScroll = true;
+
+        private readonly NavigationServiceEx navigationServiceEx;
 
         private readonly HitlistController _hitlistController;
         private readonly StreamroomController _streamroomController;
@@ -76,8 +81,9 @@ namespace Minify.WPF.View
             _mediaManager = new WpfMediaManager(null);
             _mediaManager.UpdateMediaplayer += UpdateMediaplayer;
 
-            InitializeComponent();
+            // Navigate to the home page.
 
+            InitializeComponent();
         }
 
         #region Events
@@ -140,7 +146,7 @@ namespace Minify.WPF.View
         {
             Dispatcher.Invoke(() =>
             {
-                btn_Pause.Visibility = Visibility.Collapsed;
+                btn_Pause.Visibility = Visibility.Hidden;
                 btn_Play.Visibility = Visibility.Visible;
             });
         }
@@ -149,7 +155,7 @@ namespace Minify.WPF.View
         {
             Dispatcher.Invoke(() =>
             {
-                btn_Play.Visibility = Visibility.Collapsed;
+                btn_Play.Visibility = Visibility.Hidden;
                 btn_Pause.Visibility = Visibility.Visible;
             });
         }
@@ -222,7 +228,8 @@ namespace Minify.WPF.View
 
             _positionCache = e.Position;
 
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(() =>
+            {
                 lbl_Song_Name.Content = e.SongName;
                 lbl_Artist.Content = e.Artist;
                 lbl_Current_Time.Content = e.Position.ToString(@"mm\:ss");
@@ -371,7 +378,7 @@ namespace Minify.WPF.View
         }
 
         #endregion Events
-        
+
         public void LoadMessages(List<Message> messages)
         {
             foreach (Message message in messages)
@@ -415,6 +422,14 @@ namespace Minify.WPF.View
             streamrooms.ItemsSource = streamroom;
         }
 
+        private void btnUser_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
