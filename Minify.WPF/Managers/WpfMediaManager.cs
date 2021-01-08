@@ -45,7 +45,7 @@ namespace Minify.WPF.Managers
         /// </summary>
         protected override void InitializeTimer()
         {
-            DispatcherTimer _timer = new DispatcherTimer();
+            _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromMilliseconds(1);
             _timer.Tick += Update;
             _timer.Start();

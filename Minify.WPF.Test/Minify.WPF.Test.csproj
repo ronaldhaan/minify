@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Minify.Core\Minify.Core.csproj" />
-    <ProjectReference Include="..\minify\Minify.WPF.csproj" />
+    <ProjectReference Include="..\Minify.WPF\Minify.WPF.csproj" />
   </ItemGroup>
 
 </Project>

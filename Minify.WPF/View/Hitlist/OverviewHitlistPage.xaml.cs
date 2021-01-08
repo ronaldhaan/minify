@@ -32,9 +32,13 @@ namespace Minify.WPF.View
 
         public StreamroomCreatedEventHandler StreamroomCreated;
 
-        public OverviewHitlistPage(Guid id)
+        public OverviewHitlistPage(Guid id, WpfMediaManager manager)
         {
+
+            _mediaManager = manager;
             InitializeComponent();
+            btnDeleteHitlist.Visibility = Visibility.Hidden;
+            btnCreateStreamroom.Visibility = Visibility.Hidden;
             // create instances of controllers and get the hitlist by id
             _hitlistController = ControllerManager.Get<HitlistController>();
             _streamroomController = ControllerManager.Get<StreamroomController>();
@@ -62,13 +66,13 @@ namespace Minify.WPF.View
                     // display create streamroom button when room doesn't exist yet
                     if (!_streamroomController.DoesRoomAlreadyExist(_hitlist.Id))
                     {
-                        CreateStreamroom.Visibility = Visibility.Visible;
+                        btnCreateStreamroom.Visibility = Visibility.Visible;
                     }
                 }
 
                 if (_hitlist.UserId == AppData.UserId && !_streamroomController.DoesRoomAlreadyExist(_hitlist.Id))
                 {
-                    DeleteHitlist.Visibility = Visibility.Visible;
+                    btnDeleteHitlist.Visibility = Visibility.Visible;
                 }
             }
         }

@@ -9,19 +9,17 @@ using System.Windows.Input;
 using Minify.WPF.Managers;
 using Minify.Core.Managers;
 using System.Threading;
+using MahApps.Metro.Controls;
 
 namespace Minify.WPF.View
 {
     /// <summary>
     /// Interaction logic for Overview.xaml
     /// </summary>
-    public partial class Overview : Window
+    public partial class Overview : MetroWindow
     {
         private TimeSpan _positionCache;
-        private OverviewSongsPage _overviewSongsPage;
-        private OverviewHitlistPage _hitlistPage;
-        private OverviewStreamroomPage _overviewStreamroomPage;
-        private AddHistlistPage _addHitlistPage;
+        private bool _autoScroll = true;
 
         private readonly HitlistController _hitlistController;
         private readonly StreamroomController _streamroomController;
@@ -29,10 +27,14 @@ namespace Minify.WPF.View
         private readonly SongController _songController;
         private readonly LoginController _loginController;
 
+        private readonly WpfMediaManager _mediaManager;
 
-        private WpfMediaManager _mediaManager;
+        private OverviewSongsPage _overviewSongsPage;
+        private OverviewHitlistPage _hitlistPage;
+        private OverviewStreamroomPage _overviewStreamroomPage;
+        private AddHistlistPage _addHitlistPage;
 
-        private OverviewStreamroomPage OverviewStreamroomPage
+        public OverviewStreamroomPage OverviewStreamroomPage
         {
             get { return _overviewStreamroomPage; }
             set
@@ -42,7 +44,7 @@ namespace Minify.WPF.View
             }
         }
 
-        private AddHistlistPage AddHitlistPage
+        public AddHistlistPage AddHitlistPage
         {
             get { return _addHitlistPage; }
             set
@@ -52,7 +54,7 @@ namespace Minify.WPF.View
             }
         }
 
-        private OverviewHitlistPage OverviewHitlistPage
+        public OverviewHitlistPage OverviewHitlistPage
         {
             get { return _hitlistPage; }
             set
@@ -69,6 +71,7 @@ namespace Minify.WPF.View
             _messageController = ControllerManager.Get<MessageController>();
             _streamroomController = ControllerManager.Get<StreamroomController>();
             _loginController = ControllerManager.Get<LoginController>();
+            _songController = ControllerManager.Get<SongController>();
 
             _mediaManager = new WpfMediaManager(null);
             _mediaManager.UpdateMediaplayer += UpdateMediaplayer;
@@ -77,6 +80,7 @@ namespace Minify.WPF.View
 
         }
 
+        #region Events
         public void RefreshHitListMenu(object sender, EventArgs e)
         {
             InitializeHitListMenu();
@@ -86,26 +90,13 @@ namespace Minify.WPF.View
             contentFrame.Content = overviewSongs;
         }
 
-        public void InitializeHitListMenu()
-        {
-            List<Hitlist> hitlists = _hitlistController.GetHitlistsByUserId(AppData.UserId);
-            HitlistMenu.ItemsSource = hitlists;
-        }
-
-
-        public void InitializeStreamroomMenu()
-        {
-            List<Streamroom> streamroom = _streamroomController.GetAll(true);
-            streamrooms.ItemsSource = streamroom;
-        }
-
         public void UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
         {
             InitializeHitListMenu();
             HitlistMenu.Items.Refresh();
 
             //display current hitlist
-            OverviewHitlistPage = new OverviewHitlistPage(e.Id);
+            OverviewHitlistPage = new OverviewHitlistPage(e.Id, _mediaManager);
 
             // set the new item as selected
             foreach (var item in HitlistMenu.Items)
@@ -140,7 +131,7 @@ namespace Minify.WPF.View
             {
                 Hitlist selected = (Hitlist)e.AddedItems[0];
                 HitlistMenu.SelectedItem = selected;
-                OverviewHitlistPage = new OverviewHitlistPage(selected.Id);
+                OverviewHitlistPage = new OverviewHitlistPage(selected.Id, _mediaManager);
                 contentFrame.Content = OverviewHitlistPage;
             }
         }
@@ -334,38 +325,6 @@ namespace Minify.WPF.View
             Dispatcher.BeginInvoke(new ThreadStart(() => LoadMessages(messages)));
         }
 
-        public void LoadMessages(List<Message> messages)
-        {
-            foreach (Message message in messages)
-            {
-                Chatmessage(message);
-            }
-        }
-
-        /// <summary>
-        /// Sends chat message into the chatbox
-        /// </summary>
-        /// <param name="message"></param>
-        public void Chatmessage(Message message)
-        {
-            StackPanel stackPanel = new StackPanel
-            {
-                HorizontalAlignment = HorizontalAlignment.Stretch
-            };
-
-            Label user = new Label();
-            Label lblmessage = new Label();
-            user.Content = $"{message.User.FirstName} {message.User.LastName} - {message.CreatedAt:t}";
-            user.FontWeight = FontWeights.Bold;
-            lblmessage.Content = message.Text;
-            stackPanel.Children.Add(user);
-            stackPanel.Children.Add(lblmessage);
-
-            scrollviewMessages.Children.Add(stackPanel);
-        }
-
-        private bool _autoScroll = true;
-
         private void ScrollViewer_ScrollChanged(object sender, System.Windows.Controls.ScrollChangedEventArgs e)
         {
             if (e.ExtentHeightChange == 0)
@@ -410,5 +369,52 @@ namespace Minify.WPF.View
                 contentFrame.Content = OverviewStreamroomPage;
             }
         }
+
+        #endregion Events
+        
+        public void LoadMessages(List<Message> messages)
+        {
+            foreach (Message message in messages)
+            {
+                Chatmessage(message);
+            }
+        }
+
+        /// <summary>
+        /// Sends chat message into the chatbox
+        /// </summary>
+        /// <param name="message"></param>
+        public void Chatmessage(Message message)
+        {
+            StackPanel stackPanel = new StackPanel
+            {
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+
+            Label user = new Label();
+            Label lblmessage = new Label();
+            user.Content = $"{message.User.FirstName} {message.User.LastName} - {message.CreatedAt:t}";
+            user.FontWeight = FontWeights.Bold;
+            lblmessage.Content = message.Text;
+            stackPanel.Children.Add(user);
+            stackPanel.Children.Add(lblmessage);
+
+            scrollviewMessages.Children.Add(stackPanel);
+        }
+
+        public void InitializeHitListMenu()
+        {
+            List<Hitlist> hitlists = _hitlistController.GetHitlistsByUserId(AppData.UserId);
+            HitlistMenu.ItemsSource = hitlists;
+        }
+
+
+        public void InitializeStreamroomMenu()
+        {
+            List<Streamroom> streamroom = _streamroomController.GetAll(true);
+            streamrooms.ItemsSource = streamroom;
+        }
+
+
     }
 }

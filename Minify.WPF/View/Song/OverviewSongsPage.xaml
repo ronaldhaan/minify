@@ -6,9 +6,8 @@
       xmlns:local="clr-namespace:Minify.WPF.View"
       mc:Ignorable="d"
       Title="OverviewSongsPage">
-
-    <Grid>
-        <ListView Name="Songs" Background="#FF881AD4" SelectionChanged="Songs_SelectionChanged" BorderBrush="#00000000" >
+    <Grid Background="White">
+        <ListView Style="{DynamicResource MahApps.Styles.ListView}" Name="Songs" SelectionChanged="Songs_SelectionChanged" BorderBrush="#00000000" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>

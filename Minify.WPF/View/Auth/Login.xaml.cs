@@ -1,4 +1,6 @@
-﻿using Minify.Core.Controllers;
+﻿using MahApps.Metro.Controls;
+
+using Minify.Core.Controllers;
 using Minify.Core.Managers;
 
 using System.Windows;
@@ -8,7 +10,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Login : MetroWindow
     {
         public Login()
         {
