@@ -18,6 +18,8 @@ namespace Minify.Core.Managers
         public List<Song> Songs { get; set; }
 
         public virtual event EventHandler<UpdateMediaplayerEventArgs> UpdateMediaplayer;
+        public virtual event EventHandler<UpdateMediaplayerEventArgs> OnPlay;
+        public virtual event EventHandler OnPause;
 
         /// <summary>
         /// Initialize the Songs variable
@@ -83,6 +85,16 @@ namespace Minify.Core.Managers
         {
             if (GetSource() == null && _currentSong != null)
                 Open(_currentSong);
+
+            OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong));
+        }
+
+        /// <summary>
+        /// Pauses a song in the mediaplayer
+        /// </summary>
+        public virtual void Pause()
+        {
+            OnPause?.Invoke(this, new EventArgs()); ;
         }
 
         /// <summary>
@@ -208,10 +220,6 @@ namespace Minify.Core.Managers
         /// <param name="currentSong"></param>
         protected abstract void InitializePlayer(Song currentSong, TimeSpan currentPosition = default);
 
-        /// <summary>
-        /// Pauses a song in the mediaplayer
-        /// </summary>
-        public abstract void Pause();
         /// <summary>
         /// Replays a song in the mediaplayer
         /// </summary>

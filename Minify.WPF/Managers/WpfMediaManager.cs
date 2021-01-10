@@ -11,9 +11,12 @@ namespace Minify.WPF.Managers
 {
     public class WpfMediaManager : MediaManager
     {
-        private readonly MediaPlayer _mediaPlayer = new MediaPlayer();
+        private readonly MediaPlayer _mediaPlayer;
 
         private DispatcherTimer _timer;
+
+        public double Volume { get => _mediaPlayer.Volume; set => _mediaPlayer.Volume = value; }
+        public TimeSpan Position { get => _mediaPlayer.Position; set => _mediaPlayer.Position = value; }
 
         /// <summary>
         /// Initialize the Songs variable
@@ -21,7 +24,11 @@ namespace Minify.WPF.Managers
         /// <param name="songs"></param>
         public WpfMediaManager(List<Song> songs) : base(songs)
         {
-            _mediaPlayer.Volume = 0;
+            _mediaPlayer = new MediaPlayer
+            {
+                Volume = 0
+                
+            };
         }
 
         /// <summary>
@@ -45,8 +52,10 @@ namespace Minify.WPF.Managers
         /// </summary>
         protected override void InitializeTimer()
         {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(1);
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(1)
+            };
             _timer.Tick += Update;
             _timer.Start();
         }
@@ -58,7 +67,6 @@ namespace Minify.WPF.Managers
         public override void Play()
         {
             base.Play();
-
             _mediaPlayer.Play();
         }
 
@@ -67,6 +75,7 @@ namespace Minify.WPF.Managers
         /// </summary>
         public override void Pause()
         {
+            base.Pause();
             _mediaPlayer.Pause();
         }
 

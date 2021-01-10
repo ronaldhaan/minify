@@ -19,25 +19,27 @@ namespace Minify.WPF.View
     {
         private readonly Guid _streamroomId;
         private Streamroom _streamroom;
-        private List<Song> _songs;
-        private StreamroomManager _streamroomManager;
-        private WpfMediaManager _mediaManager;
+        private readonly List<Song> _songs;
+        private readonly StreamroomManager _streamroomManager;
+        private readonly WpfMediaManager _mediaManager;
 
         public event StreamroomRefreshedEventHandler MessagesRefreshed;
-
-
+        
         public OverviewStreamroomPage(Guid streamroomId, WpfMediaManager manager)
         {
             _mediaManager = manager;
             _streamroomId = streamroomId;
             _streamroomManager = new StreamroomManager(streamroomId, manager);
             _streamroomManager.StreamroomRefreshed += UpdateLocalStreamroom;
-            InitializeComponent();
 
             var hitlistController = ControllerManager.Get<HitlistController>();
             var streamroomController = ControllerManager.Get<StreamroomController>();
 
             _streamroom = streamroomController.Get(streamroomId, true);
+
+            InitializeComponent();
+
+
 
             if (_streamroom.Hitlist != null)
             {
@@ -85,15 +87,18 @@ namespace Minify.WPF.View
         private void UpdateLocalStreamroom(object sender, LocalStreamroomUpdatedEventArgs e)
         {
             // Get data from the updates per second from the manager.
-            _streamroom = e.Streamroom;
-
-            if (_mediaManager.GetCurrentSong()?.Id != _streamroom.Song.Id)
+            if (_streamroomId == e.Streamroom.Id)
             {
-                _mediaManager.Close();
-            }
+                _streamroom = e.Streamroom;
 
-            //invoken naar overview
-            MessagesRefreshed?.Invoke(this, e);
+                if (_mediaManager.GetCurrentSong()?.Id != _streamroom.Song.Id)
+                {
+                    _mediaManager.Close();
+                }
+
+                //invoken naar overview
+                MessagesRefreshed?.Invoke(this, e);
+            }
         }
 
         public override void EndInit()
@@ -147,9 +152,9 @@ namespace Minify.WPF.View
             });
         }
 
-        public Guid GetStreamroomId()
+        public Streamroom GetStreamroom()
         {
-            return _streamroomId;
+            return _streamroom;
         }
     }
 }

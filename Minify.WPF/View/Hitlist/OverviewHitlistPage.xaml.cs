@@ -26,16 +26,20 @@ namespace Minify.WPF.View
         private readonly Hitlist _hitlist;
         private List<Song> _songs = new List<Song>();
 
-        private readonly WpfMediaManager _mediaManager;
+        public WpfMediaManager MediaManager { get; set; }
 
         public event RefreshHitlistOverview RefreshHitlistOverview;
 
         public StreamroomCreatedEventHandler StreamroomCreated;
 
-        public OverviewHitlistPage(Guid id, WpfMediaManager manager)
+        public OverviewHitlistPage(Guid id, WpfMediaManager manager) : this(id)
         {
+            MediaManager = manager;
 
-            _mediaManager = manager;
+        }
+
+        public OverviewHitlistPage(Guid id)
+        {
             InitializeComponent();
             btnDeleteHitlist.Visibility = Visibility.Hidden;
             btnCreateStreamroom.Visibility = Visibility.Hidden;
@@ -99,13 +103,13 @@ namespace Minify.WPF.View
                 Song selectedSong = (Song)e.AddedItems[0];
 
                 // Initialize songs
-                _mediaManager.Songs = _songs;
+                MediaManager.Songs = _songs;
 
                 // Open song
-                _mediaManager.Open(selectedSong);
+                MediaManager.Open(selectedSong);
 
                 // Play song
-                _mediaManager.Play();
+                MediaManager.Play();
             }
         }
 

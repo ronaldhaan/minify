@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Minify.DAL.Entities;
+
+using System;
 
 namespace Minify.Core.Models
 {
@@ -12,6 +14,8 @@ namespace Minify.Core.Models
         public UpdateMediaplayerEventArgs()
         {
         }
+
+        public UpdateMediaplayerEventArgs(Song song) : this(song.Name, song.Artist, TimeSpan.Zero, song.Duration) { }
 
         public UpdateMediaplayerEventArgs(string songName, string artist, TimeSpan position, TimeSpan duration)
         {

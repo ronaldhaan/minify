@@ -24,8 +24,31 @@ namespace Minify.WPF.View
             Close();
         }
 
-        private void Login_Button_Click(object sender, RoutedEventArgs e)
+        private void Login_Button_Click(object sender, RoutedEventArgs e) => TryLogin();
+
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e) => Close();
+
+        public void OnRegister()
         {
+            Messages.Visibility = Visibility.Visible;
+            RegisteredMessage.Visibility = Visibility.Visible;
+        }
+
+        private void Password_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == System.Windows.Input.Key.Enter)
+            {
+                TryLogin();
+            }
+        }
+
+        private void TryLogin()
+        {
+
+            // display error message
+            Messages.Visibility = Visibility.Collapsed;
+            LoginErrorMessage.Visibility = Visibility.Collapsed;
+
             // get username and password from page
             string username = Username.Text;
             string password = Password.Password;
@@ -44,17 +67,6 @@ namespace Minify.WPF.View
                 Messages.Visibility = Visibility.Visible;
                 LoginErrorMessage.Visibility = Visibility.Visible;
             }
-        }
-
-        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        public void OnRegister()
-        {
-            Messages.Visibility = Visibility.Visible;
-            RegisteredMessage.Visibility = Visibility.Visible;
         }
     }
 }

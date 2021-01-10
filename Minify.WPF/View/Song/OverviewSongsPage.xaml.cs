@@ -17,12 +17,17 @@ namespace Minify.WPF.View
     public partial class OverviewSongsPage : Page
     {
         private readonly List<Song> _songs;
-        private WpfMediaManager _mediaManager;
+        public WpfMediaManager MediaManager { get; set; }
         private readonly SongController _songController;
         private readonly HitlistController _hitlistController;
-        public OverviewSongsPage(WpfMediaManager manager)
+
+        public OverviewSongsPage(WpfMediaManager manager) : this()
         {
-            _mediaManager = manager;
+            MediaManager = manager;
+        }
+
+        public OverviewSongsPage()
+        {
             InitializeComponent();
             _songController = ControllerManager.Get<SongController>();
             _hitlistController = ControllerManager.Get<HitlistController>();
@@ -49,10 +54,10 @@ namespace Minify.WPF.View
                 Song selectedSong = (Song)e.AddedItems[0];
 
                 // Initialize songs
-                _mediaManager.Songs = _songs;
+                MediaManager.Songs = _songs;
 
                 // Open song
-                _mediaManager.Open(selectedSong);
+                MediaManager.Open(selectedSong);
             }
         }
 
