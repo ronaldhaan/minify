@@ -22,7 +22,7 @@ namespace Minify.Core.Managers
         private Streamroom _streamroom;
         private List<Message> _messages;
 
-        private readonly DateTime timeJoined;
+        private readonly DateTime _timeJoined;
         private readonly MediaManager _manager;
 
         private readonly StreamroomController _streamroomController;
@@ -40,7 +40,7 @@ namespace Minify.Core.Managers
             _timer = new Timer(INTERVAL);
             _messages = new List<Message>();
             _streamroomId = streamroomId;
-            timeJoined = DateTime.Now;
+            _timeJoined = DateTime.Now;
             LoadData();
 
             _timer.Enabled = true;
@@ -49,10 +49,11 @@ namespace Minify.Core.Managers
 
         public void OnTimedEvent(object obj, ElapsedEventArgs e)
         {
-            if (_streamroom.Hitlist.UserId == AppData.UserId)
+            if (Utility.BelongsEntityToUser(_streamroom.Hitlist.UserId))
             {
                 UpdateData();
             }
+
             LoadData();
             StreamroomRefreshed?.Invoke(this, new LocalStreamroomUpdatedEventArgs(_streamroom, _messages));
         }
@@ -69,7 +70,7 @@ namespace Minify.Core.Managers
 
         public void Pause()
         {
-            if (_streamroom.Id == null)
+            if (Utility.GuidIsNullOrEmpty(_streamroom.Id))
                 throw new ArgumentNullException("id");
 
             _streamroom.IsPaused = true;
@@ -78,7 +79,7 @@ namespace Minify.Core.Managers
 
         public void Play()
         {
-            if (_streamroom.Id == null)
+            if (Utility.GuidIsNullOrEmpty(_streamroom.Id))
                 throw new ArgumentNullException("id");
 
             _streamroom.IsPaused = false;
@@ -97,7 +98,7 @@ namespace Minify.Core.Managers
 
         private void UpdateData()
         {
-            if (_streamroom.Hitlist.UserId == AppData.UserId)
+            if (Utility.BelongsEntityToUser(_streamroom.Hitlist.UserId))
             {
                 _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
                 _streamroom.CurrentSongId = _manager.GetCurrentSong().Id;
@@ -111,7 +112,7 @@ namespace Minify.Core.Managers
             _messages = _messageController.GetMessages(_streamroom);
 
             _messages = _messages
-                .Where(m => m.CreatedAt > timeJoined)
+                .Where(m => m.CreatedAt > _timeJoined)
                 .Distinct()
                 .ToList();
 
