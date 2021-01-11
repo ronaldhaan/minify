@@ -1,4 +1,6 @@
-﻿using Minify.DAL.Managers;
+﻿using Minify.Core.Controllers;
+using Minify.Core.Managers;
+using Minify.DAL.Managers;
 
 using NUnit.Framework;
 
@@ -6,31 +8,34 @@ namespace Minify.Core.Test
 {
     public class UserControllerTest
     {
-        private readonly string testPassword = "Test!123";
-        private readonly string testPasswordHashed = "p+eUD89OFO/VOk+Ca1Qq+0w1pyp8A6maF/u/gQrH+Icp3GQp";
+        private UserController _controller;
 
-        [Test]
-        public void HashPassword_Return_NotNull()
+        [SetUp]
+        public void Setup()
         {
-            string hash = PasswordManager.HashPassword(testPassword);
-
-            Assert.NotNull(hash);
+            _controller = new UserController();
         }
 
         [Test]
-        public void ValidatePassword_Return_True()
+        public void IsUniqueUsername_Return_IsTrue()
         {
-            bool hash = PasswordManager.ValidatePassword(testPassword, testPasswordHashed);
+            // create username
+            string username = "uniqueunittestuser";
 
-            Assert.IsTrue(hash);
+            // validate username, outcome should be true
+            bool result = _controller.IsUniqueUsername(username);
+            Assert.IsTrue(result);
         }
 
         [Test]
-        public void ValidatePassword_Return_False()
+        public void IsUniqueUsername_Return_IsFalse()
         {
-            bool hash = PasswordManager.ValidatePassword("AnderWachtwoord:)", testPasswordHashed);
+            // create username
+            string username = "testuser";
 
-            Assert.IsFalse(hash);
+            // validate username, outcome should be false
+            bool result = _controller.IsUniqueUsername(username);
+            Assert.IsFalse(result);
         }
     }
 }

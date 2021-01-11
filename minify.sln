@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minify.Core", "Minify.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minify.DAL", "Minify.DAL\Minify.DAL.csproj", "{25EB45E6-FBFB-4138-B0C2-22DA79731889}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minify.Core.Test", "Minify.Core.Test\Minify.Core.Test.csproj", "{54FBCD86-51F0-4F05-A2FC-DFDD429F9506}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minify.Core.Test", "Minify.Core.Test\Minify.Core.Test.csproj", "{54FBCD86-51F0-4F05-A2FC-DFDD429F9506}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minify.DAL.Test", "Minify.DAL.Test\Minify.DAL.Test.csproj", "{B79E2301-B77C-4EF0-A2FB-559B47C489B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{54FBCD86-51F0-4F05-A2FC-DFDD429F9506}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54FBCD86-51F0-4F05-A2FC-DFDD429F9506}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54FBCD86-51F0-4F05-A2FC-DFDD429F9506}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B79E2301-B77C-4EF0-A2FB-559B47C489B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B79E2301-B77C-4EF0-A2FB-559B47C489B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B79E2301-B77C-4EF0-A2FB-559B47C489B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B79E2301-B77C-4EF0-A2FB-559B47C489B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

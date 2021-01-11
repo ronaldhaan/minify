@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Minify.DAL.Entities;
+using Minify.DAL.Managers;
 using Minify.DAL.Repositories;
 
 using System;
@@ -44,11 +45,38 @@ namespace Minify.Core.Controllers
             return new Repository<User>().GetAll().Where(x => x.Id == id).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Adds a user to the database
+        /// </summary>
+        /// <param name="user"></param>
+        public void Add(User user)
+        {
+            if (user.Id == null)
+                throw new ArgumentNullException("id");
+
+            user.PassWord = PasswordManager.HashPassword(user.PassWord);
+
+            var repo = new Repository<User>();
+            repo.Add(user);
+            repo.SaveChanges();
+        }
+
         public bool Update(User user)
         {
             var repo = new Repository<User>();
             repo.Update(user);
             return repo.SaveChanges() > 0;
+        }
+
+
+        /// <summary>
+        /// Check if username is unique
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns>Returns if given username is unique</returns>
+        public bool IsUniqueUsername(string username)
+        {
+            return !new Repository<User>().Any(u => u.UserName.Equals(username));
         }
     }
 }

@@ -37,7 +37,6 @@ namespace Minify.WPF
             ControllerManager.Initialize();
             ControllerManager.AddRange(
                 new LoginController(),
-                new RegisterController(),
                 new HitlistController(),
                 new MessageController(),
                 new SongController(),

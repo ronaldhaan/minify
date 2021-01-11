@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace Minify.DAL.Managers
 {
@@ -60,6 +61,26 @@ namespace Minify.DAL.Managers
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Check if password is valid
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns>Returns if given password is valid</returns>
+        public static bool IsValidPassword(string password)
+        {
+            // check if minimal lenght is 8
+            var hasLenght = new Regex(@".{8,}");
+
+            // check if password contains a number
+            var hasNumber = new Regex(@"(?=.*?[0-9])");
+
+            // check if password contains a special char
+            var hasSpecialChar = new Regex(@"(?=.*?[#?!@$%^&*-])");
+
+            // return true or false
+            return hasLenght.IsMatch(password) && hasNumber.IsMatch(password) && hasSpecialChar.IsMatch(password);
         }
     }
 }

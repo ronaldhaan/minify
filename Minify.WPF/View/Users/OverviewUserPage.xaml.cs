@@ -48,10 +48,9 @@ namespace Minify.WPF.View
             }
             else
             {
-                var registerController = ControllerManager.Get<RegisterController>();
 
-                if (!registerController.PasswordEqualsConfirmPassword(tbxPassword.Password, tbxConfirmPassword.Password)
-                    || !registerController.IsValidPassword(tbxPassword.Password))
+                if (tbxPassword.Password != tbxConfirmPassword.Password
+                    || !PasswordManager.IsValidPassword(tbxPassword.Password))
                 {
                     tbkErrorMatch.Visibility = Visibility.Visible;
                 }

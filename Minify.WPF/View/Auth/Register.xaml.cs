@@ -5,6 +5,7 @@ using MahApps.Metro.Controls;
 using Minify.Core.Controllers;
 using Minify.Core.Managers;
 using Minify.DAL.Entities;
+using Minify.DAL.Managers;
 
 using System.Windows;
 
@@ -15,12 +16,12 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class Register : MetroWindow
     {
-        private readonly RegisterController _controller;
+        private readonly UserController _userController;
 
         public Register()
         {
             InitializeComponent();
-            _controller = ControllerManager.Get<RegisterController>();
+            _userController = ControllerManager.Get<UserController>();
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)
@@ -51,28 +52,28 @@ namespace Minify.WPF.View
             }
 
             // check if username is not unique
-            if (!_controller.IsUniqueUsername(username))
+            if (!_userController.IsUniqueUsername(username))
             {
                 UsernameErrorMessage.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if email is not valid
-            if (!_controller.IsValidEmail(email))
+            if (!UserManager.IsValidEmail(email))
             {
                 EmailErrorMessage.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if password does not equals confirmPassword
-            if (!_controller.PasswordEqualsConfirmPassword(password, confirmPassword))
+            if (password != confirmPassword)
             {
                 PasswordEqualsErrorMessage.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if password is not valid
-            if (!_controller.IsValidPassword(password))
+            if (!PasswordManager.IsValidPassword(password))
             {
                 PasswordErrorMessage.Visibility = Visibility.Visible;
                 PasswordErrorMessage2.Visibility = Visibility.Visible;
@@ -82,7 +83,7 @@ namespace Minify.WPF.View
             // add a new user if there are no errors else show errors
             if (!errors)
             {
-                _controller.Add(
+                _userController.Add(
                      new User(username, email, firstName, lastName, password)
                 );
                 Login login = new Login();
