@@ -62,7 +62,7 @@ namespace Minify.WPF.View
                     if( _userController.Update(user))
                     {
                         // message succeeded
-                        MessageBox.Show("Password updated!");
+                        MessageBox.Show("Password updated! :)");
                     }
                 }
             }
