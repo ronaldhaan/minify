@@ -9,8 +9,8 @@
     <!--  Metadata  -->
     <system:String x:Key="Theme.Name">Dark.Accent1</system:String>
     <system:String x:Key="Theme.Origin">MahAppsMetroThemesSample</system:String>
-    <system:String x:Key="Theme.DisplayName">Accent1 (Dark)</system:String>
-    <system:String x:Key="Theme.BaseColorScheme">Dark</system:String>
+    <system:String x:Key="Theme.DisplayName">Accent1 (Light)</system:String>
+    <system:String x:Key="Theme.BaseColorScheme">Light</system:String>
     <system:String x:Key="Theme.ColorScheme">Accent1</system:String>
     <Color x:Key="Theme.PrimaryAccentColor">#FF821BB2</Color>
     <SolidColorBrush x:Key="Theme.ShowcaseBrush" Color="#FF821BB2" options:Freeze="True" />

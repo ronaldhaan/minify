@@ -113,6 +113,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="View\Styles\Dark.Accent1.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="View\Styles\Light.Accent1.xaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator></Generator>

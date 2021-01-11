@@ -25,11 +25,21 @@ namespace Minify.WPF
         }
 
         protected override void OnStartup(StartupEventArgs e)
-        {
+        { 
+            // Set the application theme to Dark.Green
+            Utility.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml"),
+                MahAppsLibraryThemeProvider.DefaultInstance));
+
+            Utility.LightTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Light.Accent1.xaml"),
+                MahAppsLibraryThemeProvider.DefaultInstance));
+
             base.OnStartup(e);
 
-            // Set the application theme to Dark.Green
-            //ThemeManager.Current.ChangeTheme(this, "Dark.Red");
+            ThemeManager.Current.ChangeTheme(this, Utility.LightTheme);
+
+
         }
 
         private void InitializeControllers()
