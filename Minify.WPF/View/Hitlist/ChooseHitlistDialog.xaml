@@ -6,20 +6,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Minify.WPF.View"
         mc:Ignorable="d"
-        Title="Add song to hitlist" Height="350" Width="500"
+        Title="Add song to hitlist" Height="200" Width="350"
         Closing="Window_Closing">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Style="{DynamicResource MahApps.Styles.Label}" Content="Choose a Hitlist"/>
-            <ComboBox Name="cbxHitlist"
-              IsEditable="True"
-              ItemsSource="{Binding Hitlists}"
-              DisplayMemberPath="Title"
-              SelectedValuePath="Id"
-              IsSynchronizedWithCurrentItem="True"
-              Width="250" />
+            <Label  Style="{DynamicResource MahApps.Styles.Label}" 
+                    Content="Choose a Hitlist"
+                    Margin="0 5"/>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox Name="cbxHitlist"
+                      IsEditable="True"
+                      Style="{DynamicResource MahApps.Styles.ComboBox}"
+                      ItemsSource="{Binding Hitlists}"
+                      DisplayMemberPath="Title"
+                      SelectedValuePath="Id"
+                      IsSynchronizedWithCurrentItem="True"
+                      Width="250" 
+                      Margin="0 5"/>
 
-            <Button Name="btnAddSong" Click="AddSongToHitlist">Add</Button>
+                <Button Name="btnAddSong" 
+                    Click="AddSongToHitlist" 
+                    Content="Add"
+                    Margin="0 5"
+                    Width="50"
+                    HorizontalAlignment="Left"
+                    Background="#FF821BB2" 
+                    Foreground="White"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

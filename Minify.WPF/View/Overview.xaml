@@ -5,15 +5,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:Minify.WPF.Controls"
         mc:Ignorable="d"
         Title="Minify" 
         Initialized="Window_Initialized"  
         Height="450" 
         Width="800"
+        MinHeight="500"
+        MinWidth="800"
         GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
         WindowTransitionsEnabled="False"
         WindowState="Maximized" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        KeyDown="MetroWindow_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
@@ -48,7 +52,6 @@
                 Style="{DynamicResource MahApps.Styles.TextBox.Search}"
                 Text="Search..." 
                 TextChanged="TbxSearchSongs_TextChanged" 
-                MouseEnter="Search_MouseEnter" 
                 MaxLength="30" 
                 Margin="5"  
                 Width="160" Height="30" 
@@ -125,19 +128,22 @@
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="ContentPanel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-            <!--placeholder for contentframe-->
-            <Frame Name="contentFrame" NavigationUIVisibility="Hidden"/>
-
+            <ScrollViewer>
+                <Frame ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                       ScrollViewer.CanContentScroll="True"
+                       Name="contentFrame" 
+                       NavigationUIVisibility="Hidden"/>
+            </ScrollViewer>
         </StackPanel>
         <StackPanel x:Name="SongPanel" Grid.Row="2" Grid.Column="0" >
             <!--placeholder for displaying songs and artist-->
             <Label x:Name="lblSongName"  
                 Style="{DynamicResource MahApps.Styles.Label}" 
-                Margin="10" 
+                Margin="5" 
                 FontSize="24" />
             <Label x:Name="lblArtist" 
                 Style="{DynamicResource MahApps.Styles.Label}" 
-                Margin="10" 
+                Margin="5" 
                 FontSize="24" />
         </StackPanel>
         <StackPanel x:Name="LogoutPanel" Grid.Row="0" Grid.Column="3">
@@ -146,22 +152,28 @@
                 Style="{DynamicResource MahApps.Styles.Label}" 
                 HorizontalContentAlignment="Center" 
                 Content="Some Username"/>
-            <Button 
+            <local:MiniButton
                 Style="{DynamicResource MahApps.Styles.Button}" 
                 Click="BtnLogout_Click" 
+                Width="60"
                 Content="Logout"/>
         </StackPanel>
-        <StackPanel x:Name="MediaPlayerPanel" Grid.Row="2" Grid.Column="1" >
+        <Separator Grid.ColumnSpan="3"
+                   Grid.Row="2"
+                   VerticalAlignment="Top"
+                   Margin="0"/>
+        <StackPanel x:Name="MediaPlayerPanel" 
+                    Grid.Row="2" 
+                    Grid.Column="1" 
+                    Margin="0 5 0 0">
             
            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
 
-                <Button Name="btnBack"
+                <local:MiniButton x:Name="btnBack"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
                         ToolTip="Previous"
-                        Background="#FF821BB2" 
-                        Foreground="White"
                         Width="50"
                         Height="50"
                         Style="{DynamicResource MahApps.Styles.Button.Circle}"
@@ -169,11 +181,9 @@
                         Click="BtnBack_Click"
                         MouseDoubleClick="BtnBack_MouseDoubleClick">
                     <iconPacks:PackIconFontAwesome Kind="ArrowLeftSolid"/>
-                </Button>
+                </local:MiniButton>
 
-                <Button Name="btnPlay"
-                        Background="#FF821BB2" 
-                        Foreground="White"
+                <local:MiniButton x:Name="btnPlay"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
@@ -184,16 +194,15 @@
                         Margin="5, 5, 5, 5"
                         Click="BtnPlay_Click">
                     <iconPacks:PackIconFontAwesome Kind="PlaySolid" />
-                </Button>
+                </local:MiniButton>
 
 
-                <Button Name="btnPause"
+
+                <local:MiniButton x:Name="btnPause"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
                         ToolTip="Pause"
-                        Background="#FF821BB2" 
-                        Foreground="White"
                         Visibility="Collapsed"
                         Width="50"
                         Height="50" 
@@ -201,22 +210,20 @@
                         Margin="5, 5, 5, 5"
                         Click="BtnPause_Click">
                     <iconPacks:PackIconFontAwesome Kind="PauseSolid" />
-                </Button>
+                </local:MiniButton>
 
-                <Button Name="btnNext"
+                <local:MiniButton x:Name="btnNext"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
                         ToolTip="Next"
-                        Background="#FF821BB2" 
-                        Foreground="White"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                         Margin="5, 5, 5, 5"
                         Click="BtnNext_Click">
                     <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid"/>
-                </Button>
+                </local:MiniButton>
 
 
                 <!--<Image Name="btn_Back" Source="/ImageResources\back.png" MouseDown="OnMouseDownBack" Height="50" Width="50" Margin="5, 0 , 5, 0" />
@@ -239,29 +246,26 @@
                     Minimum="0" 
                     Maximum="100" 
                     Value="0" 
-                    ValueChanged="Song_Progressbar_ValueChanged"
+                    ValueChanged="TimelineSlider_ValueChanged"
                     Foreground="#FF821BB2" />
                 <Label x:Name="lblDuration"
                        Style="{DynamicResource MahApps.Styles.Label}" 
                        VerticalAlignment="Center" Content="00:00"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel x:Name="VolumePanel" 
+        
+        <StackPanel x:Name="VolumePanel"                     
                     Grid.Column="2" 
                     Grid.Row="2" 
-                    VerticalAlignment="Bottom">
-            <Label Style="{DynamicResource MahApps.Styles.Label}"
-                    VerticalAlignment="Center" 
-                    Margin="5" 
-                   Content="Volume"
-                   HorizontalContentAlignment="Center"/>
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch">
+            
             <Slider Name="volumeSlider"  
                     ValueChanged="VolumeSlider_ValueChanged" 
                     Minimum="0" 
-                    Maximum="1" 
-                    Value="0.5" 
-                    Width="70"
-                    Margin="2"/>
+                    Maximum="3" 
+                    Value="1.5" 
+                    Margin="30 0 30 0"/>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>

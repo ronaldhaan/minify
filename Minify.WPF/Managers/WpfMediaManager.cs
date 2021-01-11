@@ -6,11 +6,14 @@ using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Minify.Core.Managers;
+using System.Timers;
+using System.Threading;
 
 namespace Minify.WPF.Managers
 {
     public class WpfMediaManager : MediaManager
     {
+        private const double INTERVAL = 1000;
         private readonly MediaPlayer _mediaPlayer;
 
         private DispatcherTimer _timer;
@@ -24,11 +27,7 @@ namespace Minify.WPF.Managers
         /// <param name="songs"></param>
         public WpfMediaManager(List<Song> songs) : base(songs)
         {
-            _mediaPlayer = new MediaPlayer
-            {
-                Volume = 0
-                
-            };
+            _mediaPlayer = new MediaPlayer();
         }
 
         /// <summary>
@@ -52,10 +51,7 @@ namespace Minify.WPF.Managers
         /// </summary>
         protected override void InitializeTimer()
         {
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(1)
-            };
+            _timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(INTERVAL) };
             _timer.Tick += Update;
             _timer.Start();
         }
@@ -67,7 +63,7 @@ namespace Minify.WPF.Managers
         public override void Play()
         {
             base.Play();
-            _mediaPlayer.Play();
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() => _mediaPlayer.Play()));
         }
 
         /// <summary>
@@ -76,7 +72,7 @@ namespace Minify.WPF.Managers
         public override void Pause()
         {
             base.Pause();
-            _mediaPlayer.Pause();
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() => _mediaPlayer.Pause()));
         }
 
         /// <summary>
@@ -84,8 +80,11 @@ namespace Minify.WPF.Managers
         /// </summary>
         public override void Replay()
         {
-            _mediaPlayer.Stop();
-            _mediaPlayer.Play();
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() =>
+            {
+                Stop();
+                Play();
+            }));
         }
 
         /// <summary>
@@ -93,7 +92,17 @@ namespace Minify.WPF.Managers
         /// </summary>
         public override void Close()
         {
-            _mediaPlayer.Close();
+            base.Close();
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(()=> _mediaPlayer.Close()));         
+        }
+
+        /// <summary>
+        /// Stops the mediaplayer
+        /// </summary>
+        public override void Stop()
+        {
+            base.Stop();
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() => _mediaPlayer.Stop()));
         }
 
         /// <summary>
@@ -137,7 +146,7 @@ namespace Minify.WPF.Managers
         /// </summary>
         protected override void UpdateMediaPlayerPosition()
         {
-            _currentSongPosition = _mediaPlayer.Position;
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() => _currentSongPosition = _mediaPlayer.Position));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Minify.DAL.Repositories
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {
         protected readonly DbContext Context;
-        private DbSet<T> DbSet;
+        private readonly DbSet<T> DbSet;
         protected IQueryable<T> DbSetNoTracking { get => DbSet.AsNoTracking(); }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Minify.Core.Models
         {
         }
 
-        public UpdateMediaplayerEventArgs(Song song) : this(song.Name, song.Artist, TimeSpan.Zero, song.Duration) { }
+        public UpdateMediaplayerEventArgs(Song song, TimeSpan currentSongPostion) : this(song.Name, song.Artist, currentSongPostion, song.Duration) { }
 
         public UpdateMediaplayerEventArgs(string songName, string artist, TimeSpan position, TimeSpan duration)
         {

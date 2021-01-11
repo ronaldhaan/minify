@@ -37,12 +37,12 @@ namespace Minify.Core.Managers
             _messageController = ControllerManager.Get<MessageController>();
             _manager = manager;
 
+            _timer = new Timer(INTERVAL);
             _messages = new List<Message>();
             _streamroomId = streamroomId;
             timeJoined = DateTime.Now;
             LoadData();
 
-            _timer = new Timer(INTERVAL);
             _timer.Enabled = true;
             _timer.Elapsed += OnTimedEvent;
         }
@@ -99,7 +99,7 @@ namespace Minify.Core.Managers
         {
             if (_streamroom.Hitlist.UserId == AppData.UserId)
             {
-                _streamroom.CurrentSongPosition = _manager.GetCurrentSongPosition();
+                _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
                 _streamroom.CurrentSongId = _manager.GetCurrentSong().Id;
                 Update();
             }

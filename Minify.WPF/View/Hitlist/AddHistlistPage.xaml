@@ -5,99 +5,71 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Minify.WPF.View"
       mc:Ignorable="d"
-      Title="AddHistlistPage" Height="321" Width="549">
-    <StackPanel>
-    <Label Style="{DynamicResource MahApps.Styles.Label}" 
-           FontSize="28" 
-           Content="Add Hitlist" />
-    <Grid Margin="0" Height="273">
+      Title="AddHistlistPage" 
+      Height="321" 
+      Width="549"
+      Background="White">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*" />
-            <ColumnDefinition />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
 
+        <Label Style="{DynamicResource MahApps.Styles.Label}" 
+               FontSize="28" 
+               Content="Add Hitlist"
+               Grid.Column="0"
+               Grid.ColumnSpan="3"/>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="1">
             <Label x:Name="lblTitle"
-                   Style="{DynamicResource MahApps.Styles.Label}"  
-                   Content="*Title" 
-                   HorizontalAlignment="Left" 
-                   Margin="95,108,0,0" 
-                   VerticalAlignment="Top" 
-                   RenderTransformOrigin="0.476,0.678" 
-                   Grid.ColumnSpan="2" />
+                    Style="{DynamicResource MahApps.Styles.Label}"  
+                    Content="*Title" />
             <TextBox x:Name="tbxTitle"  
-                     Style="{DynamicResource MahApps.Styles.TextBox}" 
-                     HorizontalAlignment="Left" 
-                     Margin="228,108,0,0" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="267" 
-                     Grid.ColumnSpan="2" />
+                    Style="{DynamicResource MahApps.Styles.TextBox}"/>
             <Label x:Name="lblDescription" 
-                   Style="{DynamicResource MahApps.Styles.Label}" 
-                   Content="Description (Max 140 ch)" 
-                   HorizontalAlignment="Left" 
-                   Margin="43,156,0,0" 
-                   VerticalAlignment="Top" 
-                   Grid.ColumnSpan="2" />
+                    Style="{DynamicResource MahApps.Styles.Label}" 
+                    Content="Description (Max 140 characters)" />
             <TextBox x:Name="tbxDescription" 
-                     Style="{DynamicResource MahApps.Styles.TextBox}" 
-                     MaxLength="140" 
-                     HorizontalAlignment="Left" 
-                     Margin="228,155,0,0" 
-                     TextWrapping="Wrap" 
-                     VerticalAlignment="Top" 
-                     Width="267" 
-                     Grid.ColumnSpan="2" />
-            <Button x:Name="Create_Button" 
+                         Style="{DynamicResource MahApps.Styles.TextBox}"
+                         MaxHeight="100"
+                         MaxLength="140"
+                         Height="100"/>
+        </StackPanel>
+        <DockPanel HorizontalAlignment="Stretch"
+                   Grid.Column="0"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="3">
+            <Button x:Name="Create_Button"
+                    DockPanel.Dock="Left"
                     Style="{DynamicResource MahApps.Styles.Button}" 
-                    Content="Create" 
+                    Content="Create"
+                    VerticalAlignment="Top"
+                    Height="20"
                     Background="#FF993FC3" 
                     Foreground="#DDFFFFFF" 
-                    HorizontalAlignment="Left" 
-                    Margin="43,225,0,0" 
-                    VerticalAlignment="Top" 
-                    RenderTransformOrigin="1.303,0.626" 
-                    Click="Create_Button_Click" 
-                    Grid.ColumnSpan="2" />
-
-            <TextBlock x:Name="TitleError" 
-                       HorizontalAlignment="Left" 
-                       Height="14" 
-                       Margin="230,246,0,0" 
-                       TextWrapping="Wrap" 
-                       VerticalAlignment="Top" 
-                       Width="251" 
-                       FontWeight="Bold" 
-                       FontStyle="Italic" 
-                       Visibility="Hidden" 
-                       Foreground="#FFFF0404" 
-                       Grid.ColumnSpan="2">
-            <TextBlock.Effect>
-                <DropShadowEffect />
-            </TextBlock.Effect>
-            <TextBlock.TextDecorations>
-                <TextDecoration />
-            </TextBlock.TextDecorations>
-            <Run Language="nl-nl" Text="Title Requierd" />
-        </TextBlock>
-        <TextBlock x:Name="DescriptionError" 
-                   HorizontalAlignment="Left" 
-                   Margin="228,255,0,0" 
-                   TextWrapping="Wrap" 
-                   VerticalAlignment="Top" 
-                   Height="15" 
-                   Width="267" 
-                   Foreground="#FFFF0404" 
-                   FontWeight="Bold" 
-                   FontStyle="Italic" 
-                   Visibility="Hidden" 
-                   Grid.ColumnSpan="2">
-            <TextBlock.Effect>
-                <DropShadowEffect />
-            </TextBlock.Effect>
-            <Run Text="Description" />
-            <Run Language="nl-nl" Text=" not langer than 140 characters" />
-        </TextBlock>
+                    Click="Create_Button_Click"/>
+            <StackPanel DockPanel.Dock="Right" 
+                        Width="350">
+                <TextBlock x:Name="TitleError" 
+                           HorizontalAlignment="Left" 
+                           FontWeight="Bold" 
+                           FontStyle="Italic" 
+                           Foreground="#FFFF0404" 
+                           Text="Title Requierd. " 
+                           Visibility="Hidden"/>
+                <TextBlock x:Name="DescriptionError" 
+                           Foreground="#FFFF0404" 
+                           FontWeight="Bold"
+                           FontStyle="Italic"
+                           Visibility="Hidden"
+                           Text="The maximum characters for the description is 140 characters" />
+            </StackPanel>
+        </DockPanel>
     </Grid>
-    </StackPanel>
 </Page>

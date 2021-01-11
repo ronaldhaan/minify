@@ -28,12 +28,13 @@ namespace Minify.Core.Controllers
         {
             if (Validation(username, password) && !AppData.LoggedIn)
             {
-                AppData.LoggedIn = true;
                 User user = new Repository<User>().FindOneBy(u => u.UserName == username);
-                AppData.UserId = user.Id;
-                AppData.UserName = user.UserName;
-
-                return true;
+                
+                if(user != null)
+                {
+                    AppData.SetSession(user);
+                    return true;
+                }
             }
 
             return false;
@@ -48,12 +49,10 @@ namespace Minify.Core.Controllers
         public bool Validation(string username, string password)
         {
             // check if username is null or empty
-            if (username.IsNullOrEmpty())
+            if (username.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
                 return false;
-
-            // check if password is null or empty
-            if (password.IsNullOrEmpty())
-                return false;
+            }
 
             // check if password is valid
             foreach (User user in new Repository<User>().GetAll())

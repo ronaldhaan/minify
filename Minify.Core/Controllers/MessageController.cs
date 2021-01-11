@@ -16,15 +16,7 @@ namespace Minify.Core.Controllers
         /// <summary>
         /// Initialize an instance of <see cref="MessageController"/> class.
         /// </summary>
-        public MessageController() : this(new AppDbContextFactory().CreateDbContext()) { }
-
-        /// <summary>
-        /// Initialize an instance of <see cref="MessageController"/> class with an <see cref="AppDbContext"/> instance.
-        /// </summary>
-        /// <param name="context">The <see cref="AppDbContext"/> instance this controller will work with</param>
-        public MessageController(AppDbContext context)
-        {
-        }
+        public MessageController() { }
 
         /// <summary>
         /// Gets all the messages
@@ -55,7 +47,7 @@ namespace Minify.Core.Controllers
                 return null;
             }
 
-            return BelongsEntityToUser(message.UserId) ? message : null;
+            return Utility.BelongsEntityToUser(message.UserId) ? message : null;
         }
 
         /// <summary>
@@ -65,7 +57,7 @@ namespace Minify.Core.Controllers
         /// <returns>True, when the message is created successfully, False otherwise</returns>
         public bool CreateMessage(Message message)
         {
-            if (!BelongsEntityToUser(message.UserId))
+            if (!Utility.BelongsEntityToUser(message.UserId))
             {
                 return false;
             }
@@ -100,7 +92,7 @@ namespace Minify.Core.Controllers
         /// <returns>True, when the message is deleted successfully, False otherwise</returns>
         public bool DeleteMessage(Message message)
         {
-            if (!BelongsEntityToUser(message.UserId))
+            if (!Utility.BelongsEntityToUser(message.UserId))
             {
                 return false;
             }
@@ -116,16 +108,6 @@ namespace Minify.Core.Controllers
                 Debug.WriteLine(ex);
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Checks if the Message belongs to the user that is signed in.
-        /// </summary>
-        /// <param name="userId">The userid of the message</param>
-        /// <returns>True, if the message belongs to the signed in user, false otherwise</returns>
-        private bool BelongsEntityToUser(Guid userId)
-        {
-            return userId != new Guid() && userId == AppData.UserId;
         }
     }
 }

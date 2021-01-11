@@ -18,13 +18,22 @@ namespace Minify.WPF.View
     public partial class OverviewStreamroomPage : Page
     {
         private readonly Guid _streamroomId;
-        private Streamroom _streamroom;
-        private readonly List<Song> _songs;
+
         private readonly StreamroomManager _streamroomManager;
         private readonly WpfMediaManager _mediaManager;
 
-        public event StreamroomRefreshedEventHandler MessagesRefreshed;
+        private readonly HitlistController _hitlistController;
+        private readonly MessageController _messageController;
         
+        private Streamroom _streamroom;
+        private List<Song> _songs;
+
+        public event StreamroomRefreshedEventHandler MessagesRefreshed;
+
+        public Guid StreamroomId { get => _streamroomId; }
+
+        public Guid? UserId { get => _streamroom?.Hitlist?.UserId; }
+
         public OverviewStreamroomPage(Guid streamroomId, WpfMediaManager manager)
         {
             _mediaManager = manager;
@@ -32,43 +41,46 @@ namespace Minify.WPF.View
             _streamroomManager = new StreamroomManager(streamroomId, manager);
             _streamroomManager.StreamroomRefreshed += UpdateLocalStreamroom;
 
-            var hitlistController = ControllerManager.Get<HitlistController>();
-            var streamroomController = ControllerManager.Get<StreamroomController>();
+            _hitlistController = ControllerManager.Get<HitlistController>();
+            _messageController = ControllerManager.Get<MessageController>();
 
-            _streamroom = streamroomController.Get(streamroomId, true);
+            _streamroom = ControllerManager.Get<StreamroomController>().Get(streamroomId, true);
 
             InitializeComponent();
 
-
-
             if (_streamroom.Hitlist != null)
             {
-                StreamroomTitle.Content = _streamroom.Hitlist.Title;
-                if (!string.IsNullOrEmpty(_streamroom.Hitlist.Description))
-                {
-                    StreamroomDescription.Content = _streamroom.Hitlist.Description;
-                    StreamroomDescription.Visibility = Visibility.Visible;
-                }
+                SetTextBlocks();
 
-                StreamroomInfo.Content = hitlistController.GetHitlistInfo(_streamroom.Hitlist);
-
-                if (_streamroom.Hitlist.Songs != null && _streamroom.Hitlist.Songs.Count > 0)
-                {
-                    _songs = hitlistController.GetSongs(_streamroom.Hitlist.Songs);
-                    _mediaManager.Open(_songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId)));
-                    _mediaManager.UpdatePosition(_streamroom.CurrentSongPosition);
-                    StreamroomSongs.ItemsSource = _songs;
-                    StreamroomSongs.Visibility = Visibility.Visible;
-                    Refresh(_songs.First());
-                }
+                PlaySong();
             }
 
-            new MessageController().CreateMessage(new Message
+            CreateMessage($"{AppData.UserName} neemt nu deel aan de stream!");
+        }
+
+        private void PlaySong()
+        {
+            if (_streamroom.Hitlist.Songs != null && _streamroom.Hitlist.Songs.Count > 0)
             {
-                StreamroomId = streamroomId,
-                Text = $"{AppData.UserName} neemt nu deel aan de stream!",
-                UserId = AppData.UserId
-            });
+                _songs = _hitlistController.GetSongs(_streamroom.Hitlist.Songs);
+                _mediaManager.Open(_songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId)));
+                _mediaManager.CurrentSongPosition = _streamroom.CurrentSongPosition;
+                StreamroomSongs.ItemsSource = _songs;
+                StreamroomSongs.Visibility = Visibility.Visible;
+                Refresh(_songs.First());
+            }
+        }
+
+        private void SetTextBlocks()
+        {
+            StreamroomTitle.Text = _streamroom.Hitlist.Title;
+            if (!string.IsNullOrEmpty(_streamroom.Hitlist.Description))
+            {
+                StreamroomDescription.Text = _streamroom.Hitlist.Description;
+                StreamroomDescription.Visibility = Visibility.Visible;
+            }
+
+            StreamroomInfo.Text = _hitlistController.GetHitlistInfo(_streamroom.Hitlist);
         }
 
         public void Refresh(Song song)
@@ -101,13 +113,6 @@ namespace Minify.WPF.View
             }
         }
 
-        public override void EndInit()
-        {
-            base.EndInit();
-            // start with reloading the data.
-            _streamroomManager.Start();
-        }
-
         private void StreamroomSongs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _mediaManager.Close();
@@ -126,35 +131,33 @@ namespace Minify.WPF.View
                 // Play song
                 _mediaManager.Play();
             }
-        }
+        }        
 
-        public void Play()
+        private void CreateMessage(string message)
         {
-            _streamroomManager.Play();
+            _messageController.CreateMessage(new Message
+            {
+                StreamroomId = _streamroomId,
+                Text = message,
+                UserId = AppData.UserId
+            });
         }
+        public void Play() => _streamroomManager.Play();
 
-        public void Pause()
-        {
-            _streamroomManager.Pause();
-        }
-
-
+        public void Pause() => _streamroomManager.Pause();
 
         public void Close()
         {
             _streamroomManager?.Close();
 
-            ControllerManager.Get<MessageController>().CreateMessage(new Message
-            {
-                StreamroomId = _streamroomId,
-                Text = $"{AppData.UserName} heeft de stream verlaten!",
-                UserId = AppData.UserId
-            });
+            CreateMessage($"{AppData.UserName} heeft de stream verlaten!");
         }
 
-        public Streamroom GetStreamroom()
+        public override void EndInit()
         {
-            return _streamroom;
+            base.EndInit();
+            // start with reloading the data.
+            _streamroomManager.Start();
         }
     }
 }

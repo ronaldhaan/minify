@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Minify.WPF.Managers;
 using Minify.Core.Managers;
+using Minify.Core.Models;
 
 namespace Minify.WPF.View
 {
@@ -17,14 +18,11 @@ namespace Minify.WPF.View
     public partial class OverviewSongsPage : Page
     {
         private readonly List<Song> _songs;
-        public WpfMediaManager MediaManager { get; set; }
         private readonly SongController _songController;
         private readonly HitlistController _hitlistController;
 
-        public OverviewSongsPage(WpfMediaManager manager) : this()
-        {
-            MediaManager = manager;
-        }
+        public event EventHandler<PlaySongEventArgs> SongSelected;
+
 
         public OverviewSongsPage()
         {
@@ -53,11 +51,7 @@ namespace Minify.WPF.View
                 // Get song
                 Song selectedSong = (Song)e.AddedItems[0];
 
-                // Initialize songs
-                MediaManager.Songs = _songs;
-
-                // Open song
-                MediaManager.Open(selectedSong);
+                SongSelected?.Invoke(this, new PlaySongEventArgs(selectedSong));
             }
         }
 

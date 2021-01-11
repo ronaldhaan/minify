@@ -26,7 +26,7 @@ namespace Minify.WPF.View
         private readonly Hitlist _hitlist;
         private List<Song> _songs = new List<Song>();
 
-        public WpfMediaManager MediaManager { get; set; }
+        public WpfMediaManager MediaManager;
 
         public event RefreshHitlistOverview RefreshHitlistOverview;
 
@@ -35,7 +35,6 @@ namespace Minify.WPF.View
         public OverviewHitlistPage(Guid id, WpfMediaManager manager) : this(id)
         {
             MediaManager = manager;
-
         }
 
         public OverviewHitlistPage(Guid id)

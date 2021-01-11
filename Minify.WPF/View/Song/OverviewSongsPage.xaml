@@ -4,10 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Minify.WPF.View"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d"
+      d:DesignHeight="450" 
+      d:DesignWidth="800"
+      Height="auto"
+      Width="auto"
       Title="OverviewSongsPage">
-    <Grid Background="White">
-        <ListView Style="{DynamicResource MahApps.Styles.ListView}" Name="Songs" SelectionChanged="Songs_SelectionChanged" BorderBrush="#00000000" >
+    <StackPanel>
+        <TextBlock Text="Songs"
+                   Style="{DynamicResource MahApps.Styles.TextBlock}"
+                   FontSize="20"/>
+        <ListView Name="Songs" 
+                  Style="{DynamicResource MahApps.Styles.ListView}" 
+                  SelectionChanged="Songs_SelectionChanged" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
@@ -17,18 +27,24 @@
                     <GridViewColumn Header="Add">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button
-                                Name="AddButton"
-                                Foreground="Green" 
-                                Content="+" 
-                                Margin="0" 
-                                Click="Button_Click"  
-                                CommandParameter="{Binding Id}"/>
+                                <Button Name="AddButton"
+                                        Style="{DynamicResource MahApps.Styles.Button.Circle}"
+                                        Background="#FF993FC3"
+                                        Foreground="White"
+                                        Height="25"
+                                        Width="25"
+                                        Margin="5"
+                                        Click="Button_Click"  
+                                        CommandParameter="{Binding Id}">
+                                    <Button.Content>
+                                        <iconPacks:PackIconFontAwesome Kind="PlusSolid" />
+                                    </Button.Content>
+                                </Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-    </Grid>
+    </StackPanel>
 </Page>

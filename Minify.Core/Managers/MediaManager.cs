@@ -14,12 +14,20 @@ namespace Minify.Core.Managers
     {
         protected Song _currentSong;
         protected TimeSpan _currentSongPosition;
+        private bool _paused;
 
         public List<Song> Songs { get; set; }
+
+        public bool Paused { get => _paused; private set => _paused = value; }
 
         public virtual event EventHandler<UpdateMediaplayerEventArgs> UpdateMediaplayer;
         public virtual event EventHandler<UpdateMediaplayerEventArgs> OnPlay;
         public virtual event EventHandler OnPause;
+
+        /// <summary>
+        /// Updates the current position variable
+        /// </summary>
+        public virtual TimeSpan CurrentSongPosition { get => _currentSongPosition; set => _currentSongPosition = value; }
 
         /// <summary>
         /// Initialize the Songs variable
@@ -28,6 +36,7 @@ namespace Minify.Core.Managers
         public MediaManager(List<Song> songs)
         {
             Songs = songs;
+            Paused = false;
         }
 
         /// <summary>
@@ -37,6 +46,8 @@ namespace Minify.Core.Managers
         /// <returns></returns>
         private bool MoveTo(bool up = true)
         {
+            Stop();
+
             if (Songs == null)
             {
                 return false;
@@ -46,14 +57,13 @@ namespace Minify.Core.Managers
 
             if (song == _currentSong)
             {
-                Close();
+                Stop();
                 return false;
             }
 
             int index = Songs.FindIndex(x => x == _currentSong);
             int newIndex = up ? index + 1 : index - 1;
             _currentSong = Songs[newIndex];
-            Open(_currentSong);
             Play();
 
             return true;
@@ -84,9 +94,11 @@ namespace Minify.Core.Managers
         public virtual void Play()
         {
             if (GetSource() == null && _currentSong != null)
+            {
                 Open(_currentSong);
-
-            OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong));
+                Paused = false;
+                OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong, CurrentSongPosition));
+            }
         }
 
         /// <summary>
@@ -94,7 +106,24 @@ namespace Minify.Core.Managers
         /// </summary>
         public virtual void Pause()
         {
-            OnPause?.Invoke(this, new EventArgs()); ;
+            Paused = true;
+            OnPause?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Stops the mediaplayer.
+        /// </summary>
+        public virtual void Stop()
+        {
+            Paused = false;
+        }
+
+        /// <summary>
+        /// Closes the underlying media
+        /// </summary>
+        public virtual void Close()
+        {
+            Paused = false;
         }
 
         /// <summary>
@@ -116,31 +145,12 @@ namespace Minify.Core.Managers
         }
 
         /// <summary>
-        /// Updates the current position variable
-        /// </summary>
-        /// <param name="currentSongPosition"></param>
-        public virtual void UpdatePosition(TimeSpan currentSongPosition)
-        {
-            _currentSongPosition = currentSongPosition;
-        }
-
-
-        /// <summary>
         /// Returns the mediaplayer's current song
         /// </summary>
         /// <returns>Mediaplayer's song</returns>
         public virtual Song GetCurrentSong()
         {
             return _currentSong;
-        }
-
-        /// <summary>
-        /// Returns the mediaplayer's current song's position
-        /// </summary>
-        /// <returns></returns>
-        public virtual TimeSpan GetCurrentSongPosition()
-        {
-            return _currentSongPosition;
         }
 
         /// <summary>
@@ -154,7 +164,7 @@ namespace Minify.Core.Managers
             {
                 _currentSongPosition = GetPlayerPosition();
 
-                UpdateMediaplayer?.Invoke(null,
+                UpdateMediaplayer?.Invoke(this,
                     new UpdateMediaplayerEventArgs(
                         _currentSong.Name,
                         _currentSong.Artist,
@@ -175,11 +185,11 @@ namespace Minify.Core.Managers
             if (NaturalDurationHasTimeSpan())
             {
                 UpdateMediaPlayerPosition();
-                UpdateMediaplayer?.Invoke(null,
+                UpdateMediaplayer?.Invoke(this,
                     new UpdateMediaplayerEventArgs(
                         _currentSong.Name,
                         _currentSong.Artist,
-                        GetCurrentSongPosition(),
+                        CurrentSongPosition,
                         GetNaturalDuration()
                     )
                 );
@@ -200,7 +210,7 @@ namespace Minify.Core.Managers
             else
                 _currentSong = Songs.First();
 
-            UpdateMediaplayer?.Invoke(null,
+            UpdateMediaplayer?.Invoke(this,
                 new UpdateMediaplayerEventArgs()
             );
         }
@@ -224,12 +234,7 @@ namespace Minify.Core.Managers
         /// Replays a song in the mediaplayer
         /// </summary>
         public abstract void Replay();
-
-        /// <summary>
-        /// Closes the underlying media
-        /// </summary>
-        public abstract void Close();
-
+        
         /// <summary>
         /// Returns the mediaplayer's current source
         /// </summary>

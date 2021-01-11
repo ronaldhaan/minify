@@ -5,14 +5,44 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Minify.WPF.View"
       mc:Ignorable="d"
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" 
+      d:DesignWidth="800"
+      Height="auto"
+      Width="auto"
       Title="OverviewStreamroomPage">
-    <Grid Background="White">
-        <Label Name="StreamroomTitle" Content="Playlist title" HorizontalAlignment="Left" Margin="80,65,0,0" VerticalAlignment="Top" />
-        <Label Name="StreamroomDescription" Content="Playlist descriptionn" HorizontalAlignment="Left" Margin="80,94,0,0" VerticalAlignment="Top" Visibility="Collapsed" />
-        <Label Name="StreamroomInfo" Content="Playlist info" HorizontalAlignment="Left" Margin="80,123,0,0" VerticalAlignment="Top" />
+    <StackPanel>
+        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+                   Text="Welcome to the streamroom!" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   FontSize="20"
+                   Margin="0 5 0 5"/>
+        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+                   Name="StreamroomTitle"
+                   Text="Playlist title" 
+                   FontSize="25"
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"
+                   Margin="0 5 0 5" />
+        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+                   Name="StreamroomDescription" 
+                   Text="Playlist description" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top" 
+                   Visibility="Collapsed"
+                   Margin="0 5 0 5" />
+        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+                   Name="StreamroomInfo" 
+                   Text="Playlist info" 
+                   HorizontalAlignment="Left" 
+                   VerticalAlignment="Top"
+                   Margin="0 5 0 5" />
 
-        <ListView Style="{DynamicResource MahApps.Styles.ListView.Virtualized}" Name="StreamroomSongs" Margin="80,142,80,48" Visibility="Visible" SelectionChanged="StreamroomSongs_SelectionChanged">
+        <ListView x:Name="StreamroomSongs" 
+                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}" 
+                  Visibility="Visible" 
+                  SelectionChanged="StreamroomSongs_SelectionChanged"
+                   Margin="0 5 0 0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
@@ -22,6 +52,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Welcome to the streamroom!" HorizontalAlignment="Left" Margin="80,10,0,0" VerticalAlignment="Top" FontSize="20" />
-    </Grid>
+        </StackPanel>
 </Page>

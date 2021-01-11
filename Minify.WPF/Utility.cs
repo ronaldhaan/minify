@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using System.Windows.Media;
 
 namespace Minify.WPF
 {
     public static class Utility
     {
-        public static bool GuidIsNullOrEmpty(Guid guid)
+        public static Brush GetColorFromString(string color)
         {
-            return guid == null || guid == Guid.Empty;
+            return (Brush)new BrushConverter().ConvertFrom(color);
         }
 
-        public static bool ListIsNullOrEmpty(IList list)
-        {
-            return list == null || list.Count == 0;
-        }
-        public static bool ListIsNullOrEmpty<T>(List<T> list) where T : class
-        {
-           return list == null || list.Count == 0;
-        }
     }
 }
