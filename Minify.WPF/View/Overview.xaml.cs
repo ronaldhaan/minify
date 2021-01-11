@@ -40,7 +40,8 @@ namespace Minify.WPF.View
             get { return _overviewStreamroomPage; }
             set
             {
-                value.MessagesRefreshed += OverviewStreamroom_MessagesRefreshed;
+                if(value != null)
+                    value.MessagesRefreshed += OverviewStreamroom_MessagesRefreshed;
                 _overviewStreamroomPage = value;
             }
         }
@@ -90,7 +91,7 @@ namespace Minify.WPF.View
             _songController = ControllerManager.Get<SongController>();
 
             _mediaManager = new WpfMediaManager(null);
-            _mediaManager.UpdateMediaplayer += UpdateMediaplayer;
+            _mediaManager.UpdateMediaplayer += MediaManager_UpdateMediaplayer;
             _mediaManager.OnPlay += MediaManager_OnPlay;
             _mediaManager.OnPause += MediaManager_OnPause;
 
@@ -156,13 +157,9 @@ namespace Minify.WPF.View
 
         
 
-        private void UpdateMediaplayer(object sender, UpdateMediaplayerEventArgs e)
+        private void MediaManager_UpdateMediaplayer(object sender, UpdateMediaplayerEventArgs e)
         {
-         //   DisplayPause();
-
-
             SetLabels(e);
-
         }
 
         private void PlaySong(object sender, PlaySongEventArgs e)
@@ -170,7 +167,6 @@ namespace Minify.WPF.View
             //DisplayPause(e.Position > _positionCache);
             _mediaManager.Open(e.Song);
             _mediaManager.Play();
-
         }
 
         private void DisplayPause(bool condition)
@@ -232,6 +228,8 @@ namespace Minify.WPF.View
         {
             Overview overview = new Overview();
             overview.Show();
+            CloseStreamRoom();
+            _mediaManager.Close();
             Close();
         }
 
@@ -245,10 +243,78 @@ namespace Minify.WPF.View
             contentFrame.Content = OverviewSongsPage;
         }
 
+        private void BtnUser_Click(object sender, RoutedEventArgs e)
+        {
+            // Reset selected items
+            InitializeHitListMenu();
+            InitializeStreamroomMenu();
+
+            contentFrame.Content = new OverviewUserPage();
+
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnPlay_Click(object sender, RoutedEventArgs e) => Play();
+
+        private void BtnPause_Click(object sender, RoutedEventArgs e) => Pause();
+
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayPause(_mediaManager.Next());
+
+            RefreshPages();
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            _mediaManager.Replay();
+            RefreshPages();
+        }
+
+        private void BtnBack_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DisplayPause(_mediaManager.Previous());
+            RefreshPages();
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            _mediaManager.Volume = (double)volumeSlider.Value;
+        }
+
+        private void TimelineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // Overloaded constructor takes the arguments days, hours, minutes, seconds, milliseconds.
+            // Create a TimeSpan with miliseconds equal to the slider value.
+            double minBetween = 2000;
+            if (e.OldValue - e.NewValue > minBetween || e.NewValue - e.OldValue > minBetween)
+            {
+                int SliderValue = (int)timelineSlider.Value;
+                _mediaManager.Position = new TimeSpan(0, 0, 0, 0, SliderValue);
+            }
+
+            var duration = _mediaManager.GetCurrentSong().Duration.ToString(@"mm\:ss");
+            if (lblDuration.Content != null && (string)lblDuration.Content != duration)
+            {
+                lblDuration.Content = duration;
+            }
+
+            var position = _mediaManager.Position.ToString(@"mm\:ss");
+            if (lblCurrentTime.Content != null && (string)lblCurrentTime.Content != position)
+            {
+                lblCurrentTime.Content = position;
+            }
+        }
+
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             _loginController.Logout();
             CloseStreamRoom();
+            _mediaManager.Close();
             Login login = new Login();
             login.Show();
             Close();
@@ -323,6 +389,16 @@ namespace Minify.WPF.View
             SetLabels(e);
         }
 
+        private void OverviewStreamroom_MessagesRefreshed(object sender, LocalStreamroomUpdatedEventArgs e)
+        {
+            // e.Messages to your beautiful chat view
+            Dispatcher.BeginInvoke(new ThreadStart(() =>
+            {
+                scrollviewMessages.Children.Clear(); 
+                LoadMessages(e.Messages);
+            }));
+        }
+
         private void OpenStreamroom(object sender, CreatedStreamRoomEventArgs e)
         {
             CloseStreamRoom();
@@ -335,86 +411,19 @@ namespace Minify.WPF.View
             timelineSlider.IsEnabled = AppData.UserId == OverviewStreamroomPage.UserId;
         }
 
-        private void OverviewStreamroom_MessagesRefreshed(object sender, LocalStreamroomUpdatedEventArgs e)
-        {
-            // e.Messages to your beautiful chat view
-            Dispatcher.BeginInvoke(new ThreadStart(() =>
-            {
-                scrollviewMessages.Children.Clear(); 
-                LoadMessages(e.Messages);
-            }));
-        }
-
         private void CloseStreamRoom()
         {
-            MessagePanel.Visibility = Visibility.Hidden;
-            OverviewStreamroomPage?.Close();
-            _mediaManager.Close();
-
-            timelineSlider.IsEnabled = true;
-        }
-        private void BtnUser_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnSettings_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnPlay_Click(object sender, RoutedEventArgs e) => Play();
-
-        private void BtnPause_Click(object sender, RoutedEventArgs e) => Pause();
-
-        private void BtnNext_Click(object sender, RoutedEventArgs e)
-        {
-            DisplayPause(_mediaManager.Next());
-
-            RefreshPages();
-        }
-
-        private void BtnBack_Click(object sender, RoutedEventArgs e)
-        {
-            _mediaManager.Replay();
-            RefreshPages();
-        }
-
-        private void BtnBack_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            DisplayPause(_mediaManager.Previous());
-            RefreshPages();
-        }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _mediaManager.Volume = (double)volumeSlider.Value;
-        }
-
-        private void TimelineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-            // Overloaded constructor takes the arguments days, hours, minutes, seconds, milliseconds.
-            // Create a TimeSpan with miliseconds equal to the slider value.
-            double minBetween = 2000;
-            if (e.OldValue - e.NewValue > minBetween || e.NewValue - e.OldValue > minBetween)
+            if (OverviewStreamroomPage != null)
             {
-                int SliderValue = (int)timelineSlider.Value;
-                _mediaManager.Position = new TimeSpan(0, 0, 0, 0, SliderValue);
-            }
+                MessagePanel.Visibility = Visibility.Hidden;
+                OverviewStreamroomPage?.Close();
+                OverviewStreamroomPage = null;
+                _mediaManager.Stop();
 
-            var duration = _mediaManager.GetCurrentSong().Duration.ToString(@"mm\:ss");
-            if (lblDuration.Content != null && (string)lblDuration.Content != duration)
-            {
-                lblDuration.Content = duration;
-            }
-
-            var position = _mediaManager.Position.ToString(@"mm\:ss");
-            if (lblCurrentTime.Content != null && (string)lblCurrentTime.Content != position)
-            {
-                lblCurrentTime.Content = position;
+                timelineSlider.IsEnabled = true;
             }
         }
+
         #endregion Events
 
         private void RefreshPages()
@@ -472,7 +481,6 @@ namespace Minify.WPF.View
             List<Hitlist> hitlists = _hitlistController.GetHitlistsByUserId(AppData.UserId);
             HitlistMenu.ItemsSource = hitlists;
         }
-
 
         public void InitializeStreamroomMenu()
         {

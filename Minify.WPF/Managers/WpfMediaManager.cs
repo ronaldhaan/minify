@@ -28,6 +28,8 @@ namespace Minify.WPF.Managers
         public WpfMediaManager(List<Song> songs) : base(songs)
         {
             _mediaPlayer = new MediaPlayer();
+            _mediaPlayer.MediaOpened += MediaOpened;
+            _mediaPlayer.MediaEnded += MediaEnded;
         }
 
         /// <summary>
@@ -41,9 +43,7 @@ namespace Minify.WPF.Managers
             _currentSongPosition = currentPosition;
             _mediaPlayer.Position = _currentSongPosition;
 
-            _mediaPlayer.MediaOpened += MediaOpened;
-            _mediaPlayer.MediaEnded += MediaEnded;
-            _mediaPlayer.Play();
+            Play();
         }
 
         /// <summary>

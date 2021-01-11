@@ -93,9 +93,8 @@ namespace Minify.Core.Managers
         /// <param name="song"></param>
         public virtual void Play()
         {
-            if (GetSource() == null && _currentSong != null)
-            {
-                Open(_currentSong);
+            if (_currentSong != null)
+            {                
                 Paused = false;
                 OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong, CurrentSongPosition));
             }

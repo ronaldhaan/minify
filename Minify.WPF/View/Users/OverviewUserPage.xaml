@@ -1,0 +1,122 @@
+﻿<Page x:Class="Minify.WPF.View.OverviewUserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Minify.WPF.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="OverviewUserPage"
+      DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
+        <TabItem Header="General">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Label Content="Username:"
+                        Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Column="1"
+                        Margin="0,0,0,10" 
+                        Content="{Binding Path=User.UserName}"
+                        Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Row="1" 
+                       Content="Email"
+                       Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Row="1" 
+                        Grid.Column="1" 
+                        Margin="0,0,0,10" 
+                        Content="{Binding Path=User.Email}"
+                        Style="{DynamicResource MahApps.Styles.Label}" />
+                <Label Grid.Row="2" 
+                       Content="First name:"
+                       Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Row="2" 
+                        Grid.Column="1" 
+                        Margin="0,0,0,10" 
+                        Content="{Binding Path=User.FirstName}"
+                        Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Row="3" 
+                        Content="Last name:"
+                        Style="{DynamicResource MahApps.Styles.Label}"/>
+                <Label Grid.Row="3" 
+                        Grid.Column="1"
+                        Margin="0,0,0,10"  
+                        Content="{Binding Path=User.LastName}"
+                        Style="{DynamicResource MahApps.Styles.Label}"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Security" >
+            <StackPanel>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Label Content="New Password:"
+                            Style="{DynamicResource MahApps.Styles.Label}"
+                           Margin="5"/>
+                    <PasswordBox x:Name="tbxPassword"
+                                Grid.Column="1"
+                                Style="{DynamicResource MahApps.Styles.PasswordBox}"
+                                 Margin="5"/>
+                    <Label Content="Confirm Password:"
+                           Grid.Row="1"
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Margin="5"/>
+                    <PasswordBox x:Name="tbxConfirmPassword"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Style="{DynamicResource MahApps.Styles.PasswordBox}"
+                                 Margin="5"/>
+
+                    <local:MiniButton 
+                        Style="{DynamicResource MahApps.Styles.Button}"
+                        Margin="5"
+                        Grid.Row="2"
+                        Content="Update"
+                        Click="MiniButton_Click"/>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1">
+                        <TextBlock Text="Passwords don't match" 
+                                   x:Name="tbkErrorCriteria"
+                                   Foreground="Red"
+                                   Visibility="Collapsed"
+                                   Style="{DynamicResource MahApps.Styles.TextBlock}"/>
+                        <TextBlock Text="Password does not match the criteria" 
+                                   x:Name="tbkErrorMatch"
+                                   Visibility="Collapsed"
+                                   Foreground="Red"
+                                   Style="{DynamicResource MahApps.Styles.TextBlock}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Margin="5">
+                        <TextBlock Text="The Password must have minimal 8 characters of which one" 
+                                   Foreground="Red"
+                                   Style="{DynamicResource MahApps.Styles.TextBlock}"/>
+                        <TextBlock Text="of them has to be a special char and one a number." 
+                                   Foreground="Red"
+                                   Style="{DynamicResource MahApps.Styles.TextBlock}"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem Header="Details" />
+    </TabControl>
+</Page>

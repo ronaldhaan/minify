@@ -41,7 +41,8 @@ namespace Minify.WPF
                 new HitlistController(),
                 new MessageController(),
                 new SongController(),
-                new StreamroomController());
+                new StreamroomController(),
+                new UserController());
         }
     }
 }
