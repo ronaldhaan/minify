@@ -12,18 +12,13 @@ namespace Minify.Core
         {
         }
 
-        public static bool GuidIsNullOrEmpty(Guid guid)
-        {
-            return guid == null || guid == Guid.Empty;
-        }
-        public static bool ListIsNullOrEmpty(IList list)
-        {
-            return list == null || list.Count == 0;
-        }
-        public static bool ListIsNullOrEmpty<T>(List<T> list) where T : class
-        {
-            return list == null || list.Count == 0;
-        }
+        public static bool GuidIsNullOrEmpty(Guid guid) => guid == null || guid == Guid.Empty;
+
+        public static bool ListIsNullOrEmpty(IList list) => list == null || list.Count == 0;
+
+        public static bool ListIsNullOrEmpty<T>(List<T> list) where T : class => list == null || list.Count == 0;
+
+        public static bool CollectionIsNullOrEmpty<T>(ICollection<T> collection) => collection == null || collection.Count == 0;
 
         public static T Serialize<T>(T obj, IConfigurationSection section) where T : IMinifySerializable
         {

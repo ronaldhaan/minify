@@ -24,7 +24,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for ChooseHitlistDialog.xaml
     /// </summary>
-    public partial class ChooseHitlistDialog : MetroWindow
+    public partial class DialogAddHitlist : MetroWindow
     {
         private readonly HitlistController _hitlistController;
         private readonly AppData appData;
@@ -39,7 +39,7 @@ namespace Minify.WPF.View
         ///
         /// </summary>
         /// <param name="songId"></param>
-        public ChooseHitlistDialog(Guid songId, OverviewSongsPage overviewSongsPage)
+        public DialogAddHitlist(Guid songId, OverviewSongsPage overviewSongsPage)
         {
             _page = overviewSongsPage;
             _hitlistController = AppManager.Get<HitlistController>();

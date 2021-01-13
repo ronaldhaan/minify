@@ -21,7 +21,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for OverviewHitlistPage.xaml
     /// </summary>
-    public partial class OverviewHitlistPage : Page
+    public partial class DetailHitlistPage : Page
     {
         private readonly HitlistController _hitlistController;
         private readonly StreamroomController _streamroomController;
@@ -35,12 +35,12 @@ namespace Minify.WPF.View
 
         public StreamroomCreatedEventHandler StreamroomCreated;
 
-        public OverviewHitlistPage(Guid id, WpfMediaManager manager) : this(id)
+        public DetailHitlistPage(Guid id, WpfMediaManager manager) : this(id)
         {
             MediaManager = manager;
         }
 
-        public OverviewHitlistPage(Guid id)
+        public DetailHitlistPage(Guid id)
         {
             InitializeComponent();
             btnDeleteHitlist.Visibility = Visibility.Hidden;
@@ -100,16 +100,13 @@ namespace Minify.WPF.View
 
         private void HitlistSongs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Song selected)
             {
-                // Get song
-                Song selectedSong = (Song)e.AddedItems[0];
-
                 // Initialize songs
                 MediaManager.Songs = _songs;
 
                 // Open song
-                MediaManager.Open(selectedSong);
+                MediaManager.Open(selected);
 
                 // Play song
                 MediaManager.Play();

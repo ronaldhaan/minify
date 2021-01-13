@@ -17,7 +17,7 @@ namespace Minify.WPF.View
     {
         private readonly HitlistController _controller;
 
-        private AppData _appData;
+        private readonly AppData _appData;
 
         public event HitlistAddedEventHandler HitlistAdded;
 

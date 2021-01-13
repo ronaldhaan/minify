@@ -95,37 +95,44 @@
             </StackPanel>
             <StackPanel>
                 <StackPanel Height="200">
+                    <Label Style="{DynamicResource MahApps.Styles.Label}" 
+                           Content="Hitlists" 
+                           MouseDown="Hitlist_MouseDown"/>
                     <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
                         VerticalScrollBarVisibility="auto" 
                         Height="200">
-                        <ListView Name="HitlistMenu"  
-                                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}"
-                                  SelectionChanged="HitlistMenu_SelectionChanged">                            
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn 
-                                        Header="Hitlists" 
-                                        DisplayMemberBinding="{Binding Title}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <ListBox Name="HitlistMenu"  
+                                  Style="{DynamicResource MahApps.Styles.ListBox.Virtualized}"
+                                  SelectionChanged="HitlistMenu_SelectionChanged">
+                            <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <TextBlock Text="{Binding Title}" />
+                                        </WrapPanel>                                        
+                                    </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </ScrollViewer>
                 </StackPanel>
+                <Separator Foreground="{StaticResource MahApps.Brushes.Accent}"/>
                 <StackPanel Height="200">
+                    <Label Style="{DynamicResource MahApps.Styles.Label}" 
+                           Content="Streamrooms" 
+                           MouseDown="Streamroom_MouseDown"/>
                     <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}" 
                                   VerticalScrollBarVisibility="auto" 
                                   Height="200">
-                        <ListView Name="streamrooms"  
-                                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}"
+                        <ListBox Name="streamrooms"  
+                                  Style="{DynamicResource MahApps.Styles.ListBox.Virtualized}"
                                   SelectionChanged="Streamroom_SelectionChanged">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn 
-                                        Header="Streamrooms" 
-                                        DisplayMemberBinding="{Binding Hitlist.Title}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding Hitlist.Title}" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </ScrollViewer>
                 </StackPanel>
             </StackPanel>

@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="Minify.WPF.View.ChooseHitlistDialog"
+﻿<mah:MetroWindow x:Class="Minify.WPF.View.DialogAddHitlist"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

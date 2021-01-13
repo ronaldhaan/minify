@@ -9,7 +9,8 @@ namespace Minify.DAL
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
             builder.UseSqlServer(Configuraion.GetConnectionString(), providerOptions => providerOptions.CommandTimeout(60))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .EnableSensitiveDataLogging();
 
             return new AppDbContext(builder.Options);
         }

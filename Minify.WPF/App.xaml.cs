@@ -24,18 +24,18 @@ namespace Minify.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             // Set the application theme to Dark.Green
-            Utility.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+            UtilityWpf.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
                 new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml"),
                 MahAppsLibraryThemeProvider.DefaultInstance));
 
-            Utility.LightTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+            UtilityWpf.LightTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
                 new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Light.Accent1.xaml"),
                 MahAppsLibraryThemeProvider.DefaultInstance));
 
             base.OnStartup(e);
-            Utility.Application = this;
+            UtilityWpf.Application = this;
 
-            Utility.SetLightTheme();
+            UtilityWpf.SetLightTheme();
 
 
         }
@@ -55,7 +55,6 @@ namespace Minify.WPF
                 appData.LoggedIn = true;
             }
 
-            appData.DefaultTheme = settings.DefaultTheme;
             appData.ExpireLogin = settings.ExpireLogin;
             appData.LoginDate = settings.LoginDate;
             appData.UserName = settings.UserName;
@@ -83,7 +82,6 @@ namespace Minify.WPF
             settings.UserId = data.UserId;
             settings.UserName = data.UserName;
             settings.LoginDate = data.LoginDate;
-            settings.DefaultTheme = data.DefaultTheme;
             settings.Upgrade();
             settings.Save();
         }

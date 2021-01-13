@@ -12,14 +12,14 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for OverviewUserPage.xaml
     /// </summary>
-    public partial class OverviewUserPage : Page
+    public partial class DetailUserPage : Page
     {
         public User User { get; set; }
 
         private readonly UserController _userController;
         private readonly AppData appData;
 
-        public OverviewUserPage()
+        public DetailUserPage()
         {
             _userController = AppManager.Get<UserController>();
             appData = AppManager.Get<AppData>();
@@ -29,7 +29,7 @@ namespace Minify.WPF.View
             InitializeComponent();
         }
 
-        private void MiniButton_Click(object sender, RoutedEventArgs e)
+        private void UpdatePassword_Click(object sender, RoutedEventArgs e)
         {
             tbkErrorCriteria.Visibility = Visibility.Collapsed;
             tbkErrorMatch.Visibility = Visibility.Collapsed;

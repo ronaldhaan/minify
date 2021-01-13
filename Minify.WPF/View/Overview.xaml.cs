@@ -27,17 +27,17 @@ namespace Minify.WPF.View
         private readonly StreamroomController _streamroomController;
         private readonly MessageController _messageController;
         private readonly SongController _songController;
-        private AppData appData;
+        private readonly AppData appData;
         private readonly LoginController _loginController;
 
         private readonly WpfMediaManager _mediaManager;
         #region Pages
         private OverviewSongsPage _overviewSongsPage;
-        private OverviewHitlistPage _hitlistPage;
-        private OverviewStreamroomPage _overviewStreamroomPage;
+        private DetailHitlistPage _hitlistPage;
+        private DetailStreamroomPage _overviewStreamroomPage;
         private AddHistlistPage _addHitlistPage;
 
-        public OverviewStreamroomPage OverviewStreamroomPage
+        public DetailStreamroomPage OverviewStreamroomPage
         {
             get { return _overviewStreamroomPage; }
             set
@@ -58,7 +58,7 @@ namespace Minify.WPF.View
             }
         }
 
-        public OverviewHitlistPage OverviewHitlistPage
+        public DetailHitlistPage OverviewHitlistPage
         {
             get { return _hitlistPage; }
             set
@@ -101,6 +101,14 @@ namespace Minify.WPF.View
             InitializeComponent();
 
             _mediaManager.Volume = (double)volumeSlider.Value;
+
+
+            var user = AppManager.Get<UserController>().Get(appData.UserId);
+
+            if (user.DefaultTheme == DAL.Models.DefaultTheme.Light)
+                UtilityWpf.SetLightTheme();
+            else
+                UtilityWpf.SetDarkTheme();
         }
 
         #region Events
@@ -118,9 +126,6 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             HitlistMenu.Items.Refresh();
 
-            //display current hitlist
-            OverviewHitlistPage = new OverviewHitlistPage(e.Id);
-
             // set the new item as selected
             foreach (var item in HitlistMenu.Items)
             {
@@ -131,6 +136,8 @@ namespace Minify.WPF.View
                 }
             }
 
+            //display current hitlist
+            OverviewHitlistPage = new DetailHitlistPage(e.Id);
             contentFrame.Navigate(OverviewHitlistPage); ;
         }
 
@@ -149,11 +156,10 @@ namespace Minify.WPF.View
             InitializeStreamroomMenu();
             CloseStreamRoom();
 
-            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems))
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Hitlist selected)
             {
-                Hitlist selected = (Hitlist)e.AddedItems[0];
                 HitlistMenu.SelectedItem = selected;
-                OverviewHitlistPage = new OverviewHitlistPage(selected.Id);
+                OverviewHitlistPage = new DetailHitlistPage(selected.Id);
                 contentFrame.Navigate(OverviewHitlistPage);
             }
         }
@@ -252,7 +258,7 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             InitializeStreamroomMenu();
 
-            contentFrame.Navigate(new OverviewUserPage());
+            contentFrame.Navigate(new DetailUserPage());
 
         }
 
@@ -373,11 +379,10 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             CloseStreamRoom();
 
-            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems))
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Streamroom selected)
             {
-                Streamroom selected = (Streamroom)e.AddedItems[0];
                 streamrooms.SelectedItem = selected;
-                OverviewStreamroomPage = new OverviewStreamroomPage(selected.Id, _mediaManager);
+                OverviewStreamroomPage = new DetailStreamroomPage(selected.Id, _mediaManager);
                 MessagePanel.Visibility = Visibility.Visible;
                 contentFrame.Navigate(OverviewStreamroomPage);
             }
@@ -411,7 +416,7 @@ namespace Minify.WPF.View
 
             MessagePanel.Visibility = Visibility.Visible;
 
-            OverviewStreamroomPage = new OverviewStreamroomPage(e.Streamroom.Id, _mediaManager);
+            OverviewStreamroomPage = new DetailStreamroomPage(e.Streamroom.Id, _mediaManager);
             contentFrame.Navigate(OverviewStreamroomPage);
 
             timelineSlider.IsEnabled = appData.UserId == OverviewStreamroomPage.UserId;
@@ -473,7 +478,7 @@ namespace Minify.WPF.View
             TextBlock lblmessage = new TextBlock();
 
             stackPanel.HorizontalAlignment = HorizontalAlignment.Stretch;
-            user.Text = $"{message.User.FirstName} {message.User.LastName} - {message.CreatedAt:t}";
+            user.Text = $"{message.User.Person.FirstName} {message.User.Person.LastName} - {message.CreatedAt:t}";
             user.FontWeight = FontWeights.Bold;
             lblmessage.Text = message.Text;
             stackPanel.Children.Add(user);
@@ -537,6 +542,16 @@ namespace Minify.WPF.View
                     Pause();
                 }
             }
+        }
+
+        private void Hitlist_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // open overview hitlists page
+        }
+
+        private void Streamroom_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // open overview streamrooms page
         }
     }
 }

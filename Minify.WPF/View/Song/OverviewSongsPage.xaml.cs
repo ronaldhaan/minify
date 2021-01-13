@@ -46,12 +46,10 @@ namespace Minify.WPF.View
 
         private void Songs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Song selected)
             {
-                // Get song
-                Song selectedSong = (Song)e.AddedItems[0];
 
-                SongSelected?.Invoke(this, new PlaySongEventArgs(selectedSong));
+                SongSelected?.Invoke(this, new PlaySongEventArgs(selected));
             }
         }
 
@@ -67,7 +65,7 @@ namespace Minify.WPF.View
             {
                 Button btn = (Button)sender;
                 Guid songId = (Guid)btn.CommandParameter;
-                ChooseHitlistDialog choose = new ChooseHitlistDialog(songId, this);
+                DialogAddHitlist choose = new DialogAddHitlist(songId, this);
                 choose.IdRetreived += IdRetreived;
                 choose.Show();
                 btn.Visibility = Visibility.Hidden;

@@ -16,7 +16,7 @@ namespace Minify.Core.Controllers
 {
     public class HitlistController : IMinifySerializable
     {
-        private AppData appData;
+        private readonly AppData appData;
 
         /// <summary>
         /// Create a hitlist repository with the context

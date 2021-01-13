@@ -10,7 +10,7 @@ namespace Minify.Core.Controllers
 {
     public class LoginController : IMinifySerializable
     {
-        private AppData appData;
+        private readonly AppData appData;
 
         /// <summary>
         /// Create a user repository with the context

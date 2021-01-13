@@ -16,6 +16,7 @@ namespace Minify.DAL
         public DbSet<Streamroom> Streamrooms { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<SongVote> SongVotes { get; set; }
+        public DbSet<Person> Person { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -29,6 +30,11 @@ namespace Minify.DAL
             builder.Entity<User>(user =>
             {
                 user.HasIndex(ts => ts.UserName).IsUnique();
+
+                user.HasOne(u => u.Person)
+                    .WithOne()
+                    .HasForeignKey<User>(u => u.PersonId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<HitlistSong>(hitlistsongs =>
@@ -66,7 +72,8 @@ namespace Minify.DAL
                 streamroom
                     .HasOne(r => r.Hitlist)
                     .WithOne()
-                    .HasForeignKey<Streamroom>(h => h.HitlistId);
+                    .HasForeignKey<Streamroom>(h => h.HitlistId)
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 // create a one to one relation from Streamroom.SongId to Song
                 streamroom
@@ -89,6 +96,12 @@ namespace Minify.DAL
 
             #region Seed
 
+            Person[] people = new Person[]
+            {
+                new Person() { Id = Guid.NewGuid(), FirstName = "R.", LastName = "Haan", Email = "s1140207@student.windesheim.nl",  },
+                new Person() { Id = Guid.NewGuid(), Email = "Test@user.com", FirstName = "test", LastName = "User" }
+            };
+
             Song[] songs = new Song[]
             {
                 new Song() { Id = new Guid("{aa5ab627-3b64-4c22-9cc3-cca5fd57c896}"), Artist = "G-Eazy & Halsey", Name = "Him & I", Duration = new TimeSpan(0, 0, 4, 40), Genre = "Rap", Path = "Music/G-Eazy & Halsey - Him & I.mp3" },
@@ -106,16 +119,15 @@ namespace Minify.DAL
 
             User[] users = new User[]
             {
-                new User() { Id = new Guid("{aa5ab627-3b64-5d22-8cc3-cca5fd57c896}"), Email = "s1140207@student.windesheim.nl", FirstName = "Ronald", LastName="Haan", PassWord=PasswordManager.HashPassword("Test123"), UserName="1140207" },
-                new User() { Id = new Guid("{aa5ab653-3b62-5e22-5cc3-cca5fd57c846}"), Email = "s1121300@student.windesheim.nl", FirstName = "Ali", LastName="Alkhalil", PassWord=PasswordManager.HashPassword("Password"), UserName="1121300" },
-                new User() { Id = Guid.NewGuid(), Email="Test@user.com", FirstName = "test", LastName = "User", PassWord = PasswordManager.HashPassword("Test123"), UserName = "testuser" }
+                new User() { Id = new Guid("{aa5ab627-3b64-5d22-8cc3-cca5fd57c896}"), PersonId = people[0].Id, PassWord=PasswordManager.HashPassword("Test123"), UserName="1140207" },
+                new User() { Id = new Guid("{aa5ab653-3b62-5e22-5cc3-cca5fd57c846}"), PassWord = PasswordManager.HashPassword("Test123"), UserName = "testuser", PersonId = people[1].Id }
             };
 
             Hitlist[] hitlists = new Hitlist[]
             {
                 new Hitlist() { Id = new Guid("{aa4cb653-3c62-5e22-5cc3-cca5fd57c846}"), Title = "Unieke playlist1", UserId = users[0].Id, Description = "Description"},
                 new Hitlist() { Id = new Guid("{aa3cb653-3c62-5e22-5cc3-cca5fd57c846}"), Title = "Unieke playlist2", UserId = users[0].Id,  Description = "Description" },
-                new Hitlist() { Id = new Guid("{aa4cb653-3c62-5522-5cc3-cca5fd57c846}"), Title = "HUH", UserId = users[2].Id, Description = "HUH"},
+                new Hitlist() { Id = new Guid("{aa4cb653-3c62-5522-5cc3-cca5fd57c846}"), Title = "HUH", UserId = users[1].Id, Description = "HUH"},
             };
 
             HitlistSong[] hitlistSongs = new HitlistSong[]
@@ -141,6 +153,7 @@ namespace Minify.DAL
                 new SongVote { Id = Guid.NewGuid(), StreamroomId = streamrooms[0].Id, SongId = songs[0].Id, Votes = 1 },
             };
 
+            builder.Entity<Person>().HasData(people);
             builder.Entity<Song>().HasData(songs);
             builder.Entity<User>().HasData(users);
             builder.Entity<Hitlist>().HasData(hitlists);

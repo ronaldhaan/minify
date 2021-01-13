@@ -12,7 +12,7 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class Login : MetroWindow
     {
-        private LoginController _controller;
+        private readonly LoginController _controller;
 
         public Login()
         {

@@ -15,7 +15,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for OverviewStreamroom.xaml
     /// </summary>
-    public partial class OverviewStreamroomPage : Page
+    public partial class DetailStreamroomPage : Page
     {
         private readonly Guid _streamroomId;
 
@@ -34,7 +34,7 @@ namespace Minify.WPF.View
 
         public Guid? UserId { get => _streamroom?.Hitlist?.UserId; }
 
-        public OverviewStreamroomPage(Guid streamroomId, WpfMediaManager manager)
+        public DetailStreamroomPage(Guid streamroomId, WpfMediaManager manager)
         {
             _mediaManager = manager;
             _streamroomId = streamroomId;
@@ -61,7 +61,7 @@ namespace Minify.WPF.View
 
         private void PlaySong()
         {
-            if (_streamroom.Hitlist.Songs != null && _streamroom.Hitlist.Songs.Count > 0)
+            if (!Core.Utility.CollectionIsNullOrEmpty(_streamroom.Hitlist.Songs))
             {
                 _songs = _hitlistController.GetSongs(_streamroom.Hitlist.Songs);
                 _mediaManager.Open(_songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId)));
@@ -118,30 +118,16 @@ namespace Minify.WPF.View
         {
             _mediaManager.Close();
 
-            if (e.AddedItems.Count > 0)
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Song selected)
             {
-                // Get song
-                Song selectedSong = (Song)e.AddedItems[0];
-
                 // Initialize songs
                 _mediaManager.Songs = _songs;
-
                 // Open song
-                _mediaManager.Open(selectedSong);
+                _mediaManager.Open(selected);
 
                 // Play song
                 _mediaManager.Play();
             }
-        }
-
-        private void CreateMessage(string message)
-        {
-            _messageController.CreateMessage(new Message
-            {
-                StreamroomId = _streamroomId,
-                Text = message,
-                UserId = appData.UserId
-            });
         }
         public void Play() => _streamroomManager.Play();
 
@@ -159,6 +145,15 @@ namespace Minify.WPF.View
             base.EndInit();
             // start with reloading the data.
             _streamroomManager.Start();
+        }
+        private void CreateMessage(string message)
+        {
+            _messageController.CreateMessage(new Message
+            {
+                StreamroomId = _streamroomId,
+                Text = message,
+                UserId = appData.UserId
+            });
         }
     }
 }

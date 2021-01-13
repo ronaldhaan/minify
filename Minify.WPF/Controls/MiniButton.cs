@@ -8,8 +8,8 @@ namespace Minify.WPF.Controls
     {
         public MiniButton()
         {
-            Background = Utility.GetColorFromString("#FF821BB2");
-            Foreground = Utility.GetColorFromString("#FFFFFF");
+            Background = UtilityWpf.GetColorFromString("#FF821BB2");
+            Foreground = UtilityWpf.GetColorFromString("#FFFFFF");
             Cursor = Cursors.Hand;
         }
     }

@@ -14,7 +14,7 @@ namespace Minify.Core.Controllers
 {
     public class MessageController : IMinifySerializable
     {
-        private AppData appData;
+        private readonly AppData appData;
 
         /// <summary>
         /// Initialize an instance of <see cref="MessageController"/> class.

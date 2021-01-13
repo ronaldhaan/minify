@@ -20,8 +20,6 @@ namespace Minify.Core.Models
 
         public string CompanyName { get; set; }
 
-        public string DefaultTheme { get; set; }
-
         public string DefaultThemeColor { get; set; }
 
         public string DefaultForegroundColor { get; set; }
@@ -40,12 +38,8 @@ namespace Minify.Core.Models
         public bool IsSessionActive()
         {
             DateTime dateTime = new DateTime(LoginDate.Ticks);
-            if (DateTime.Now < dateTime.AddMilliseconds(ExpireLogin))
-            {
-                return true;
-            }
 
-            return false;
+            return DateTime.Now < dateTime.AddMilliseconds(ExpireLogin);
         }
 
         public void SetSession(User user)

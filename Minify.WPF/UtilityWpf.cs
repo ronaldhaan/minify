@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Minify.WPF
 {
-    public class Utility
+    public class UtilityWpf
     {
         public static Theme LightTheme { get; set; }
 

@@ -1,5 +1,7 @@
-﻿using Minify.Core.Managers;
+﻿using Minify.Core.Controllers;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Models;
 
 using System.Windows.Controls;
 
@@ -10,40 +12,41 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class SettingsPage : Page
     {
-        private readonly AppData _data;
+        private readonly UserController controller;
+        private readonly AppData data;
+
 
         public SettingsPage()
         {
             InitializeComponent();
 
-            _data = AppManager.Get<AppData>();
+            controller = AppManager.Get<UserController>();
+            data = AppManager.Get<AppData>();
 
-            ThemeSetting.SelectedValue = _data.DefaultTheme == "Light" ? cbxLight : cbxDark;
+            var user = controller.Get(data.UserId);
+
+            ThemeSetting.SelectedValue = user.DefaultTheme == DefaultTheme.Light ? cbxLight : cbxDark;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems))
+            if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is ComboBoxItem item)
             {
-                ComboBoxItem item = (ComboBoxItem)e.AddedItems[0];
+                DefaultTheme theme;
                 if (item.Content.ToString() == "Light")
                 {
-                    Utility.SetLightTheme();
+                    UtilityWpf.SetLightTheme();
+                    theme = DefaultTheme.Light;
                 }
                 else
                 {
-                    Utility.SetDarkTheme();
+                    UtilityWpf.SetDarkTheme();
+                    theme = DefaultTheme.Dark;
                 }
 
-                string theme = item.Content.ToString();
-                if (_data.DefaultTheme != theme)
-                {
-                    _data.DefaultTheme = theme;
-                    var settings = Properties.Settings.Default;
-                    settings.DefaultTheme = _data.DefaultTheme;
-                    settings.Upgrade();
-                    settings.Save();
-                }
+                var user = controller.Get(data.UserId);
+                user.DefaultTheme = theme;
+                controller.Update(user);
             }
         }
     }
