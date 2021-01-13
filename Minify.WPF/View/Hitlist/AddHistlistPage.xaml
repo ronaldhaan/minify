@@ -7,8 +7,7 @@
       mc:Ignorable="d"
       Title="AddHistlistPage" 
       Height="321" 
-      Width="549"
-      Background="White">
+      Width="549">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />

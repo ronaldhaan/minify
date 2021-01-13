@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Minify.Core.Controllers
 {
-    public class UserController : IController
+    public class UserController : IMinifySerializable
     {
 
         public UserController()

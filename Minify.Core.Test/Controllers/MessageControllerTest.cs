@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 using System;
 using System.Collections.Generic;
+using Minify.Core.Managers;
 
 namespace Minify.Core.Test
 {
@@ -14,6 +15,8 @@ namespace Minify.Core.Test
         private MessageController messageController;
         private Guid streamRoomIdTest, userIdTest, messageIdTest;
         private Streamroom streamroomTest;
+        private AppData appData;
+
 
         [SetUp]
         public void SetUp()
@@ -24,9 +27,10 @@ namespace Minify.Core.Test
             messageIdTest = new Guid("{197a232b-4bb8-4961-9264-81349df9d785}");
 
             streamroomTest = new Streamroom { Id = streamRoomIdTest };
+            appData = new AppData { UserId = userIdTest };
 
-            AppData.Initialize();
-            AppData.UserId = userIdTest;
+            AppManager.Initialize();
+            AppManager.Add(appData);
         }
 
         [Test]

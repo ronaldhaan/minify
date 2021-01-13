@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Minify.Core.Controllers
 {
-    public class SongController : IController
+    public class SongController : IMinifySerializable
     {
         /// <summary>
         /// Create a sog repository with the context

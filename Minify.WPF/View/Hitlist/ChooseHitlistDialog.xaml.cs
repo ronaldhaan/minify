@@ -25,6 +25,7 @@ namespace Minify.WPF.View
     public partial class ChooseHitlistDialog : MetroWindow
     {
         private readonly HitlistController _hitlistController;
+        private readonly AppData appData;
         private Guid _songId;
 
         public List<Hitlist> Hitlists { get; set; }
@@ -39,12 +40,13 @@ namespace Minify.WPF.View
         public ChooseHitlistDialog(Guid songId, OverviewSongsPage overviewSongsPage)
         {
             _page = overviewSongsPage;
-            _hitlistController = ControllerManager.Get<HitlistController>();
+            _hitlistController = AppManager.Get<HitlistController>();
+            appData = AppManager.Get<AppData>();
 
             _songId = songId;
             InitializeComponent();
             DataContext = this;
-            var hitlists = _hitlistController.GetHitlistsByUserId(AppData.UserId, true);
+            var hitlists = _hitlistController.GetHitlistsByUserId(appData.UserId, true);
             Hitlists = new List<Hitlist>(hitlists);
 
             var removeHitlists = new List<Hitlist>();

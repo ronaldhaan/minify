@@ -1,11 +1,11 @@
-﻿<Controls:MetroWindow x:Class="Minify.WPF.View.Overview"
+﻿<md:MetroWindow x:Class="Minify.WPF.View.Overview"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:md="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:local="clr-namespace:Minify.WPF.Controls"
+        xmlns:controls="clr-namespace:Minify.WPF.Controls"
         mc:Ignorable="d"
         Title="Minify" 
         Initialized="Window_Initialized"  
@@ -127,11 +127,20 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel x:Name="ContentPanel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-            <ScrollViewer>
+        <StackPanel x:Name="ContentPanel" 
+                    Grid.Row="1" 
+                    Grid.Column="1" 
+                    HorizontalAlignment="Left"
+                    CanHorizontallyScroll="False"
+                    CanVerticallyScroll="true">
+            <ScrollViewer x:Name="FrameScrollViewer"
+                            VerticalScrollBarVisibility="auto"
+                            HorizontalScrollBarVisibility="Disabled"
+                            Height="auto">
                 <Frame ScrollViewer.VerticalScrollBarVisibility="Visible" 
-                       ScrollViewer.CanContentScroll="True"
-                       Name="contentFrame" 
+                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                       Height="auto"
+                       Name="contentFrame"
                        NavigationUIVisibility="Hidden"/>
             </ScrollViewer>
         </StackPanel>
@@ -152,7 +161,7 @@
                 Style="{DynamicResource MahApps.Styles.Label}" 
                 HorizontalContentAlignment="Center" 
                 Content="Some Username"/>
-            <local:MiniButton
+            <controls:MiniButton
                 Style="{DynamicResource MahApps.Styles.Button}" 
                 Click="BtnLogout_Click" 
                 Width="60"
@@ -169,7 +178,7 @@
             
            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
 
-                <local:MiniButton x:Name="btnBack"
+                <controls:MiniButton x:Name="btnBack"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
@@ -181,9 +190,9 @@
                         Click="BtnBack_Click"
                         MouseDoubleClick="BtnBack_MouseDoubleClick">
                     <iconPacks:PackIconFontAwesome Kind="ArrowLeftSolid"/>
-                </local:MiniButton>
+                </controls:MiniButton>
 
-                <local:MiniButton x:Name="btnPlay"
+                <controls:MiniButton x:Name="btnPlay"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
@@ -194,11 +203,11 @@
                         Margin="5, 5, 5, 5"
                         Click="BtnPlay_Click">
                     <iconPacks:PackIconFontAwesome Kind="PlaySolid" />
-                </local:MiniButton>
+                </controls:MiniButton>
 
 
 
-                <local:MiniButton x:Name="btnPause"
+                <controls:MiniButton x:Name="btnPause"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
@@ -210,9 +219,9 @@
                         Margin="5, 5, 5, 5"
                         Click="BtnPause_Click">
                     <iconPacks:PackIconFontAwesome Kind="PauseSolid" />
-                </local:MiniButton>
+                </controls:MiniButton>
 
-                <local:MiniButton x:Name="btnNext"
+                <controls:MiniButton x:Name="btnNext"
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
@@ -223,7 +232,7 @@
                         Margin="5, 5, 5, 5"
                         Click="BtnNext_Click">
                     <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid"/>
-                </local:MiniButton>
+                </controls:MiniButton>
 
 
                 <!--<Image Name="btn_Back" Source="/ImageResources\back.png" MouseDown="OnMouseDownBack" Height="50" Width="50" Margin="5, 0 , 5, 0" />
@@ -268,4 +277,4 @@
                     Margin="30 0 30 0"/>
         </StackPanel>
     </Grid>
-</Controls:MetroWindow>
+</md:MetroWindow>

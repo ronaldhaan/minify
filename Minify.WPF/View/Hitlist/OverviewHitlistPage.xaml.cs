@@ -24,6 +24,7 @@ namespace Minify.WPF.View
         private readonly HitlistController _hitlistController;
         private readonly StreamroomController _streamroomController;
         private readonly Hitlist _hitlist;
+        private readonly AppData _appData;
         private List<Song> _songs = new List<Song>();
 
         public WpfMediaManager MediaManager;
@@ -43,8 +44,9 @@ namespace Minify.WPF.View
             btnDeleteHitlist.Visibility = Visibility.Hidden;
             btnCreateStreamroom.Visibility = Visibility.Hidden;
             // create instances of controllers and get the hitlist by id
-            _hitlistController = ControllerManager.Get<HitlistController>();
-            _streamroomController = ControllerManager.Get<StreamroomController>();
+            _hitlistController = AppManager.Get<HitlistController>();
+            _streamroomController = AppManager.Get<StreamroomController>();
+            _appData = AppManager.Get<AppData>();
             _hitlist = _hitlistController.Get(id, true);
 
             // check if hitlist is not null
@@ -73,7 +75,7 @@ namespace Minify.WPF.View
                     }
                 }
 
-                if (_hitlist.UserId == AppData.UserId && !_streamroomController.DoesRoomAlreadyExist(_hitlist.Id))
+                if (_appData.BelongsEntityToUser(_hitlist.UserId) && !_streamroomController.DoesRoomAlreadyExist(_hitlist.Id))
                 {
                     btnDeleteHitlist.Visibility = Visibility.Visible;
                 }

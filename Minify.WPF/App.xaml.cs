@@ -7,6 +7,7 @@ using Minify.Core.Managers;
 using Minify.Core.Models;
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -20,7 +21,6 @@ namespace Minify.WPF
     {
         public App()
         {
-            AppData.Initialize();
             InitializeControllers();
         }
 
@@ -36,16 +36,36 @@ namespace Minify.WPF
                 MahAppsLibraryThemeProvider.DefaultInstance));
 
             base.OnStartup(e);
+            Utility.Application = this;
 
-            ThemeManager.Current.ChangeTheme(this, Utility.LightTheme);
+            Utility.SetLightTheme();
 
 
         }
 
         private void InitializeControllers()
         {
-            ControllerManager.Initialize();
-            ControllerManager.AddRange(
+            AppData appData = new AppData();
+            appData.SaveUserData += AppData_SaveUserData;
+
+            var settings = WPF.Properties.Settings.Default;
+            if (settings.LoginDate.AddMilliseconds(settings.ExpireLogin) < DateTime.Now)
+            {
+                appData.DestroySession();
+            }
+            else
+            {
+                appData.LoggedIn = true;
+            }
+
+            appData.ExpireLogin = settings.ExpireLogin;
+            appData.LoginDate = settings.LoginDate;
+            appData.UserId = settings.UserId;
+            appData.UserName = settings.UserName;
+
+            AppManager.Initialize();
+            AppManager.Add(appData);
+            AppManager.AddRange(
                 new LoginController(),
                 new HitlistController(),
                 new MessageController(),
@@ -53,5 +73,21 @@ namespace Minify.WPF
                 new StreamroomController(),
                 new UserController());
         }
+
+        private void SaveData(AppData appData = null)
+        {
+            if(appData == null)
+            {
+                appData = AppManager.Get<AppData>();
+            }
+
+            var settings = WPF.Properties.Settings.Default;
+            settings.UserName = appData.UserName;
+            settings.UserId = appData.UserId;
+            settings.LoginDate = appData.LoginDate;
+            settings.Save();
+        }
+
+        private void AppData_SaveUserData(object sender, EventArgs e) => SaveData((AppData)sender);
     }
 }

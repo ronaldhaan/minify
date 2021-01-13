@@ -5,18 +5,23 @@ using Minify.DAL.Repositories;
 using Minify.DAL.Managers;
 using Minify.Core.Models;
 using System;
+using Minify.Core.Managers;
 
 namespace Minify.Core.Controllers
 {
-    public class LoginController : IController
+    public class LoginController : IMinifySerializable
     {
+        private AppData appData;
 
         /// <summary>
         /// Create a user repository with the context
         /// </summary>
         public LoginController()
         {
+            appData = AppManager.Get<AppData>();
         }
+
+        public bool IsSessionActive() => appData.IsSessionActive();
 
         /// <summary>
         /// Tries to login in with the given credentials.
@@ -26,13 +31,13 @@ namespace Minify.Core.Controllers
         /// <returns>True, when the credentials are correct corresponding with the credentials in the database, False otherwise</returns>
         public bool TryLogin(string username, string password)
         {
-            if (Validation(username, password) && !AppData.LoggedIn)
+            if (Validation(username, password) && !appData.LoggedIn)
             {
                 User user = new Repository<User>().FindOneBy(u => u.UserName == username);
                 
                 if(user != null)
                 {
-                    AppData.SetSession(user);
+                    appData.SetSession(user);
                     return true;
                 }
             }
@@ -67,10 +72,6 @@ namespace Minify.Core.Controllers
         }
 
         //Logs out the current user
-        public void Logout()
-        {
-            AppData.LoggedIn = false;
-            AppData.UserId = Guid.Empty;
-        }
+        public void Logout() => appData.DestroySession();
     }
 }

@@ -27,14 +27,15 @@ namespace Minify.Core.Managers
 
         private readonly StreamroomController _streamroomController;
         private readonly MessageController _messageController;
-
+        private readonly AppData _appData;
         public StreamroomRefreshedEventHandler StreamroomRefreshed;
         public StreamroomIsPausedToggledEventHandler IsPausedToggled;
 
         public StreamroomManager(Guid streamroomId, MediaManager manager)
         {
-            _streamroomController = ControllerManager.Get<StreamroomController>();
-            _messageController = ControllerManager.Get<MessageController>();
+            _streamroomController = AppManager.Get<StreamroomController>();
+            _messageController = AppManager.Get<MessageController>();
+            _appData = AppManager.Get<AppData>();
             _manager = manager;
 
             _timer = new Timer(INTERVAL);
@@ -49,7 +50,7 @@ namespace Minify.Core.Managers
 
         public void OnTimedEvent(object obj, ElapsedEventArgs e)
         {
-            if (Utility.BelongsEntityToUser(_streamroom.Hitlist.UserId))
+            if (_appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
             {
                 UpdateData();
             }
@@ -98,7 +99,7 @@ namespace Minify.Core.Managers
 
         private void UpdateData()
         {
-            if (Utility.BelongsEntityToUser(_streamroom.Hitlist.UserId))
+            if (_appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
             {
                 _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
                 _streamroom.CurrentSongId = _manager.GetCurrentSong().Id;

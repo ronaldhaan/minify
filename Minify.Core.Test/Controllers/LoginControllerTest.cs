@@ -1,4 +1,5 @@
 ﻿using Minify.Core.Controllers;
+using Minify.Core.Managers;
 using Minify.Core.Models;
 using NUnit.Framework;
 using System;
@@ -12,6 +13,9 @@ namespace Minify.Core.Test
         [SetUp]
         public void SetUp()
         {
+            AppManager.Initialize();
+            AppManager.Add(new AppData());
+
             _controller = new LoginController();
         }
 
@@ -152,8 +156,9 @@ namespace Minify.Core.Test
             _controller.TryLogin(username, password);
 
             _controller.Logout();
-            Assert.IsFalse(AppData.LoggedIn);
-            Assert.AreEqual(AppData.UserId, Guid.Empty);
+            var appData = AppManager.Get<AppData>();
+            Assert.IsFalse(appData.LoggedIn);
+            Assert.AreEqual(appData.UserId, Guid.Empty);
         }
     }
 }

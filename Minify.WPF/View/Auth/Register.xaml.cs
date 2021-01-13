@@ -21,7 +21,7 @@ namespace Minify.WPF.View
         public Register()
         {
             InitializeComponent();
-            _userController = ControllerManager.Get<UserController>();
+            _userController = AppManager.Get<UserController>();
         }
 
         private void Register_Button_Click(object sender, RoutedEventArgs e)

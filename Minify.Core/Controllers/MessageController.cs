@@ -8,15 +8,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Minify.Core.Managers;
 
 namespace Minify.Core.Controllers
 {
-    public class MessageController : IController
+    public class MessageController : IMinifySerializable
     {
+        private AppData appData;
+
         /// <summary>
         /// Initialize an instance of <see cref="MessageController"/> class.
         /// </summary>
-        public MessageController() { }
+        public MessageController() 
+        {
+            appData = AppManager.Get<AppData>();
+        }
 
         /// <summary>
         /// Gets all the messages
@@ -47,7 +53,7 @@ namespace Minify.Core.Controllers
                 return null;
             }
 
-            return Utility.BelongsEntityToUser(message.UserId) ? message : null;
+            return appData.BelongsEntityToUser(message.UserId) ? message : null;
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace Minify.Core.Controllers
         /// <returns>True, when the message is created successfully, False otherwise</returns>
         public bool CreateMessage(Message message)
         {
-            if (!Utility.BelongsEntityToUser(message.UserId))
+            if (!appData.BelongsEntityToUser(message.UserId))
             {
                 return false;
             }
@@ -92,7 +98,7 @@ namespace Minify.Core.Controllers
         /// <returns>True, when the message is deleted successfully, False otherwise</returns>
         public bool DeleteMessage(Message message)
         {
-            if (!Utility.BelongsEntityToUser(message.UserId))
+            if (!appData.BelongsEntityToUser(message.UserId))
             {
                 return false;
             }

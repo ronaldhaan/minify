@@ -8,16 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Minify.Core.Managers;
 
 namespace Minify.Core.Controllers
 {
-    public class HitlistController : IController
+    public class HitlistController : IMinifySerializable
     {
+        private AppData appData;
+
         /// <summary>
         /// Create a hitlist repository with the context
         /// </summary>
         public HitlistController()
         {
+            appData = AppManager.Get<AppData>();
         }
 
         /// <summary>
@@ -185,7 +189,7 @@ namespace Minify.Core.Controllers
         {
             if (hitlist.Id == null)
                 throw new ArgumentNullException("id");
-            if (AppData.UserId == hitlist.UserId)
+            if (appData.BelongsEntityToUser(hitlist.Id))
             {
                 var hitlistRepository = new Repository<Hitlist>();
                 hitlistRepository.Remove(hitlist);

@@ -27,8 +27,8 @@ namespace Minify.WPF.View
         public OverviewSongsPage()
         {
             InitializeComponent();
-            _songController = ControllerManager.Get<SongController>();
-            _hitlistController = ControllerManager.Get<HitlistController>();
+            _songController = AppManager.Get<SongController>();
+            _hitlistController = AppManager.Get<HitlistController>();
             _songs = _songController.GetAll();
             Songs.ItemsSource = _songs;
         }

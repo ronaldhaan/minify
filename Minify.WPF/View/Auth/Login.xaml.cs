@@ -2,6 +2,7 @@
 
 using Minify.Core.Controllers;
 using Minify.Core.Managers;
+using Minify.Core.Models;
 
 using System.Windows;
 
@@ -12,8 +13,18 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class Login : MetroWindow
     {
+        private LoginController _controller;
+
         public Login()
         {
+            LoginController controller = AppManager.Get<LoginController>();
+            if (controller.IsSessionActive())
+            {
+                OpenOverview();
+            }
+
+            _controller = controller;
+
             InitializeComponent();
         }
 
@@ -53,13 +64,10 @@ namespace Minify.WPF.View
             string username = Username.Text;
             string password = Password.Password;
 
-            LoginController controller = ControllerManager.Get<LoginController>();
             // try to login with the values
-            if (controller.TryLogin(username, password))
+            if (_controller.TryLogin(username, password))
             {
-                Overview overview = new Overview();
-                overview.Show();
-                Close();
+                OpenOverview();
             }
             else
             {
@@ -67,6 +75,13 @@ namespace Minify.WPF.View
                 Messages.Visibility = Visibility.Visible;
                 LoginErrorMessage.Visibility = Visibility.Visible;
             }
+        }
+
+        private void OpenOverview()
+        {
+            Overview overview = new Overview();
+            overview.Show();
+            Close();
         }
     }
 }

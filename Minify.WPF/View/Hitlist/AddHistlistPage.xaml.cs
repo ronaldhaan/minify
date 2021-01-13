@@ -16,12 +16,15 @@ namespace Minify.WPF.View
     {
         private readonly HitlistController _controller;
 
+        private AppData _appData;
+
         public event HitlistAddedEventHandler HitlistAdded;
         
 
         public AddHistlistPage()
         {
-            _controller = ControllerManager.Get<HitlistController>();
+            _controller = AppManager.Get<HitlistController>();
+            _appData = AppManager.Get<AppData>();
             InitializeComponent();
         }
 
@@ -45,7 +48,7 @@ namespace Minify.WPF.View
 
             if(_controller.ValidateTitle(title) && _controller.ValidateDescription(description))
             {
-                Hitlist hitlist = new Hitlist(title, description, AppData.UserId);
+                Hitlist hitlist = new Hitlist(title, description, _appData.UserId);
                 hitlist = _controller.Add(hitlist);
                 HitlistAdded.Invoke(this, new UpdateHitlistMenuEventArgs(hitlist.Id));
 

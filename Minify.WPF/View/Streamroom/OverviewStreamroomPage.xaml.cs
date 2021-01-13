@@ -24,7 +24,7 @@ namespace Minify.WPF.View
 
         private readonly HitlistController _hitlistController;
         private readonly MessageController _messageController;
-        
+        private readonly AppData appData;
         private Streamroom _streamroom;
         private List<Song> _songs;
 
@@ -41,10 +41,11 @@ namespace Minify.WPF.View
             _streamroomManager = new StreamroomManager(streamroomId, manager);
             _streamroomManager.StreamroomRefreshed += UpdateLocalStreamroom;
 
-            _hitlistController = ControllerManager.Get<HitlistController>();
-            _messageController = ControllerManager.Get<MessageController>();
+            _hitlistController = AppManager.Get<HitlistController>();
+            _messageController = AppManager.Get<MessageController>();
+            appData = AppManager.Get<AppData>();
 
-            _streamroom = ControllerManager.Get<StreamroomController>().Get(streamroomId, true);
+            _streamroom = AppManager.Get<StreamroomController>().Get(streamroomId, true);
 
             InitializeComponent();
 
@@ -55,7 +56,7 @@ namespace Minify.WPF.View
                 PlaySong();
             }
 
-            CreateMessage($"{AppData.UserName} neemt nu deel aan de stream!");
+            CreateMessage($"{appData.UserName} neemt nu deel aan de stream!");
         }
 
         private void PlaySong()
@@ -139,7 +140,7 @@ namespace Minify.WPF.View
             {
                 StreamroomId = _streamroomId,
                 Text = message,
-                UserId = AppData.UserId
+                UserId = appData.UserId
             });
         }
         public void Play() => _streamroomManager.Play();
@@ -150,7 +151,7 @@ namespace Minify.WPF.View
         {
             _streamroomManager?.Close();
 
-            CreateMessage($"{AppData.UserName} heeft de stream verlaten!");
+            CreateMessage($"{appData.UserName} heeft de stream verlaten!");
         }
 
         public override void EndInit()

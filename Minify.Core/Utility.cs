@@ -1,4 +1,6 @@
-﻿using Minify.Core.Models;
+﻿using Microsoft.Extensions.Configuration;
+
+using Minify.Core.Models;
 
 using System;
 using System.Collections;
@@ -6,10 +8,12 @@ using System.Collections.Generic;
 
 namespace Minify.Core
 {
-    public static class Utility
+    public class Utility : DAL.Utility
     {
-        public const string DefaultColor = "#FF821BB2";
-        public const string DefaultForegroundColor = "#FFFFFF"; 
+        public void Initialize()
+        {
+        }
+
         public static bool GuidIsNullOrEmpty(Guid guid)
         {
             return guid == null || guid == Guid.Empty;
@@ -23,14 +27,15 @@ namespace Minify.Core
             return list == null || list.Count == 0;
         }
 
-        /// <summary>
-        /// Checks if the Message belongs to the user that is signed in.
-        /// </summary>
-        /// <param name="userId">The userid of the message</param>
-        /// <returns>True, if the message belongs to the signed in user, false otherwise</returns>
-        public static bool BelongsEntityToUser(Guid userId)
+        public static T Serialize<T>(T obj, IConfigurationSection section) where T : IMinifySerializable 
         {
-            return userId != new Guid() && userId == AppData.UserId;
+            foreach(var child in section.GetChildren())
+            {
+                var propInfo = typeof(T).GetProperty(child.Key);
+                propInfo.SetValue(obj, child.Value);
+            }
+
+            return obj;
         }
     }
 }

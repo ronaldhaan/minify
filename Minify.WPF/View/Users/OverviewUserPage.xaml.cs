@@ -27,11 +27,14 @@ namespace Minify.WPF.View
         public User User { get; set; }
 
         private readonly UserController _userController;
+        private readonly AppData appData;
+
         public OverviewUserPage()
         {
-            _userController = ControllerManager.Get<UserController>();
+            _userController = AppManager.Get<UserController>();
+            appData = AppManager.Get<AppData>();
 
-            User = _userController.Get(AppData.UserId);
+            User = _userController.Get(appData.UserId);
 
             InitializeComponent();
         }
@@ -56,7 +59,7 @@ namespace Minify.WPF.View
                 }
                 else
                 {
-                    User user = _userController.Get(AppData.UserId);
+                    User user = _userController.Get(appData.UserId);
                     user.PassWord = PasswordManager.HashPassword(tbxPassword.Password);
                     if( _userController.Update(user))
                     {

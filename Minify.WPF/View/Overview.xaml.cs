@@ -26,6 +26,7 @@ namespace Minify.WPF.View
         private readonly StreamroomController _streamroomController;
         private readonly MessageController _messageController;
         private readonly SongController _songController;
+        private AppData appData;
         private readonly LoginController _loginController;
 
         private readonly WpfMediaManager _mediaManager;
@@ -84,11 +85,12 @@ namespace Minify.WPF.View
 
         public Overview()
         { 
-            _hitlistController = ControllerManager.Get<HitlistController>();
-            _messageController = ControllerManager.Get<MessageController>();
-            _streamroomController = ControllerManager.Get<StreamroomController>();
-            _loginController = ControllerManager.Get<LoginController>();
-            _songController = ControllerManager.Get<SongController>();
+            _hitlistController = AppManager.Get<HitlistController>();
+            _messageController = AppManager.Get<MessageController>();
+            _streamroomController = AppManager.Get<StreamroomController>();
+            _loginController = AppManager.Get<LoginController>();
+            _songController = AppManager.Get<SongController>();
+            appData = AppManager.Get<AppData>();
 
             _mediaManager = new WpfMediaManager(null);
             _mediaManager.UpdateMediaplayer += MediaManager_UpdateMediaplayer;
@@ -106,8 +108,8 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             HitlistMenu.Items.Refresh();
 
-            OverviewSongsPage overviewSongs = new OverviewSongsPage();
-            contentFrame.Content = overviewSongs;
+            OverviewSongsPage = new OverviewSongsPage();
+            contentFrame.Navigate(OverviewSongsPage);
         }
 
         public void UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
@@ -128,7 +130,7 @@ namespace Minify.WPF.View
                 }
             }
 
-            contentFrame.Content = OverviewHitlistPage;
+            contentFrame.Navigate(OverviewHitlistPage); ;
         }
 
         private void Btn_Add_Hitlist(object sender, RoutedEventArgs e)
@@ -138,7 +140,7 @@ namespace Minify.WPF.View
             InitializeStreamroomMenu();
 
             AddHitlistPage = new AddHistlistPage();
-            contentFrame.Content = AddHitlistPage;
+            contentFrame.Navigate(AddHitlistPage);
         }
 
         private void HitlistMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -151,7 +153,7 @@ namespace Minify.WPF.View
                 Hitlist selected = (Hitlist)e.AddedItems[0];
                 HitlistMenu.SelectedItem = selected;
                 OverviewHitlistPage = new OverviewHitlistPage(selected.Id);
-                contentFrame.Content = OverviewHitlistPage;
+                contentFrame.Navigate(OverviewHitlistPage);
             }
         }
 
@@ -221,7 +223,7 @@ namespace Minify.WPF.View
         {
             InitializeHitListMenu();
             InitializeStreamroomMenu();
-            lblUserName.Content = AppData.UserName;
+            lblUserName.Content = appData.UserName;
         }
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
@@ -240,7 +242,7 @@ namespace Minify.WPF.View
             InitializeStreamroomMenu();
 
             OverviewSongsPage = new OverviewSongsPage();
-            contentFrame.Content = OverviewSongsPage;
+            contentFrame.Navigate(OverviewSongsPage);
         }
 
         private void BtnUser_Click(object sender, RoutedEventArgs e)
@@ -249,13 +251,17 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             InitializeStreamroomMenu();
 
-            contentFrame.Content = new OverviewUserPage();
+            contentFrame.Navigate(new OverviewUserPage());
 
         }
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e)
         {
+            // Reset selected items
+            InitializeHitListMenu();
+            InitializeStreamroomMenu();
 
+            contentFrame.Navigate(new SettingsPage());
         }
 
         private void BtnPlay_Click(object sender, RoutedEventArgs e) => Play();
@@ -327,16 +333,15 @@ namespace Minify.WPF.View
                 var songs = _songController.Search(tbxSearchSongs.Text);
                 if (!Core.Utility.ListIsNullOrEmpty(songs))
                 {
-                    OverviewSongsPage overviewSongs = new OverviewSongsPage(songs);
-                    contentFrame.Content = overviewSongs;
+                    OverviewSongsPage = new OverviewSongsPage(songs);
+                    contentFrame.Navigate(OverviewSongsPage);
                 }
                 else
                 {
-                    Label label = new Label
+                    contentFrame.Navigate(new Label
                     {
                         Content = "No songs could be found"
-                    };
-                    contentFrame.Content = label;
+                    });
                 }
             }
         }
@@ -373,7 +378,7 @@ namespace Minify.WPF.View
                 streamrooms.SelectedItem = selected;
                 OverviewStreamroomPage = new OverviewStreamroomPage(selected.Id, _mediaManager);
                 MessagePanel.Visibility = Visibility.Visible;
-                contentFrame.Content = OverviewStreamroomPage;
+                contentFrame.Navigate(OverviewStreamroomPage);
             }
         }
 
@@ -406,9 +411,9 @@ namespace Minify.WPF.View
             MessagePanel.Visibility = Visibility.Visible;
 
             OverviewStreamroomPage = new OverviewStreamroomPage(e.Streamroom.Id, _mediaManager);
-            contentFrame.Content = OverviewStreamroomPage;
+            contentFrame.Navigate(OverviewStreamroomPage);
 
-            timelineSlider.IsEnabled = AppData.UserId == OverviewStreamroomPage.UserId;
+            timelineSlider.IsEnabled = appData.UserId == OverviewStreamroomPage.UserId;
         }
 
         private void CloseStreamRoom()
@@ -478,7 +483,7 @@ namespace Minify.WPF.View
 
         public void InitializeHitListMenu()
         {
-            List<Hitlist> hitlists = _hitlistController.GetHitlistsByUserId(AppData.UserId);
+            List<Hitlist> hitlists = _hitlistController.GetHitlistsByUserId(appData.UserId);
             HitlistMenu.ItemsSource = hitlists;
         }
 
@@ -495,7 +500,7 @@ namespace Minify.WPF.View
                 Message message = new Message
                 {
                     Text = tbxMessage.Text,
-                    UserId = AppData.UserId,
+                    UserId = appData.UserId,
                     StreamroomId = OverviewStreamroomPage.StreamroomId
                 };
 

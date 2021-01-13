@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Minify.Core
+namespace Minify.Core.Models
 {
-    public interface IController
+    public enum Themes
     {
+        Light,
+        Dark
     }
 }

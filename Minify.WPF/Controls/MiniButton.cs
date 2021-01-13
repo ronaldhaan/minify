@@ -1,11 +1,8 @@
-﻿using Minify.Core;
+﻿using Minify.Core.Managers;
+using Minify.Core.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Minify.WPF.Controls
 {
@@ -13,8 +10,8 @@ namespace Minify.WPF.Controls
     {
         public MiniButton()
         {
-            Background = Utility.GetColorFromString(Core.Utility.DefaultColor);
-            Foreground = Utility.GetColorFromString(Core.Utility.DefaultForegroundColor);
+            Background = Utility.GetColorFromString("#FF821BB2");
+            Foreground = Utility.GetColorFromString("#FFFFFF");
             Cursor = Cursors.Hand;
         }
     }

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Minify.Core.Controllers
 {
-    public class StreamroomController : IController
+    public class StreamroomController : IMinifySerializable
     {
         /// <summary>
         /// Create a streamroom repository with the context

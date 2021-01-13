@@ -4,24 +4,76 @@ using System;
 
 namespace Minify.Core.Models
 {
-    public static class AppData
+    public class AppData : IMinifySerializable
     {
-        public static bool LoggedIn { get; set; }
-        public static Guid UserId { get; set; }
-        public static string UserName { get; set; }
+        public bool LoggedIn { get; set; }
 
-        public static void SetSession(User user)
+        public Guid UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public int ExpireLogin { get; set; }
+
+        public DateTime LoginDate { get; set; }
+
+        public string AppName { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string DefaultThemeColor { get; set; }
+
+        public string DefaultForegroundColor { get; set; }
+
+        public event EventHandler SaveUserData;
+
+        public AppData() 
+        {
+            Utility.Serialize(this, DAL.Utility.ConfigurationRoot.GetSection("AppSettings"));
+
+            LoggedIn = false;
+            UserId = Guid.Empty;
+            UserName = string.Empty;
+        }
+
+        public bool IsSessionActive()
+        {
+            DateTime dateTime = new DateTime(LoginDate.Ticks);
+            if(DateTime.Now < dateTime.AddMilliseconds(ExpireLogin))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetSession(User user)
         {
             LoggedIn = true;
             UserId = user.Id;
             UserName = user.UserName;
+            LoginDate = DateTime.UtcNow;
+
+            SaveUserData?.Invoke(this, new EventArgs());
         }
 
-        public static void Initialize()
+        public void DestroySession()
         {
             LoggedIn = false;
             UserId = Guid.Empty;
-            UserName = null;
+            UserName = string.Empty;
+            LoginDate = new DateTime(1, 1, 1);
+
+            SaveUserData?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Checks if the Message belongs to the user that is signed in.
+        /// </summary>
+        /// <param name="userId">The userid of the message</param>
+        /// <returns>True, if the message belongs to the signed in user, false otherwise</returns>
+        public bool BelongsEntityToUser(Guid userId)
+        {
+            return userId != new Guid() && userId == UserId;
         }
     }
 }

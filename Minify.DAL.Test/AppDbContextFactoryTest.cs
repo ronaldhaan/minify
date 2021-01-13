@@ -25,7 +25,7 @@ namespace Minify.DAL.Test
         [Test]
         public void GetConnectionString_Return_NotNullOrEmpty()
         {
-            Assert.IsFalse(string.IsNullOrEmpty(appDbContextFactory.GetConnectionString()));
+            Assert.IsFalse(string.IsNullOrEmpty(Utility.GetConnectionString()));
         }
     }
 }

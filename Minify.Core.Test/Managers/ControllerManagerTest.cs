@@ -14,175 +14,175 @@ namespace Minify.Core.Test
         [Test]
         public void Initialize_Successfull()
         {
-            ControllerManager.Initialize();
-            Assert.IsNotNull(ControllerManager.Controllers);
+            AppManager.Initialize();
+            Assert.IsNotNull(AppManager.Controllers);
         }
 
         [Test]
         public void Get_Without_Initialize_Return_Null()
         {
-            var a = ControllerManager.Get<HitlistController>();
+            var a = AppManager.Get<HitlistController>();
             Assert.IsNull(a);
-            ControllerManager.Terminate();
+            AppManager.Terminate();
         }
 
         [Test]
         public void Get_Return_Null()
         {
-            ControllerManager.Initialize();
-            var a = ControllerManager.Get<HitlistController>();
+            AppManager.Initialize();
+            var a = AppManager.Get<HitlistController>();
             Assert.IsNull(a);
-            ControllerManager.Terminate();
+            AppManager.Terminate();
         }
 
         [Test]
         public void Get_Return_Not_Null()
         {
-            ControllerManager.Initialize();
-            ControllerManager.Add(new HitlistController());
-            Assert.IsNotNull(ControllerManager.Get<HitlistController>());
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            AppManager.Add(new HitlistController());
+            Assert.IsNotNull(AppManager.Get<HitlistController>());
+            AppManager.Terminate();
         }
 
         [Test]
         public void Add_Without_Initialize_Return_False()
         {
-            var a = ControllerManager.Add(new HitlistController());
+            var a = AppManager.Add(new HitlistController());
             Assert.IsFalse(a);
-            ControllerManager.Terminate();
+            AppManager.Terminate();
         }
 
         [Test]
         public void Add_Null_Return_False()
         {
-            ControllerManager.Initialize();
-            var a = ControllerManager.Add(null);
+            AppManager.Initialize();
+            var a = AppManager.Add(null);
             Assert.IsFalse(a);
-            ControllerManager.Terminate();
+            AppManager.Terminate();
         }
 
         [Test]
         public void Add_Return_True()
         {
-            ControllerManager.Initialize();            
-            Assert.IsTrue(ControllerManager.Add(new HitlistController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();            
+            Assert.IsTrue(AppManager.Add(new HitlistController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void AddRange_Without_Initialize_Return_False()
         {
-            Assert.IsFalse(ControllerManager.AddRange(new HitlistController(), new StreamroomController()));
-            ControllerManager.Terminate();
+            Assert.IsFalse(AppManager.AddRange(new HitlistController(), new StreamroomController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void AddRange_Null_Return_False()
         {
-            ControllerManager.Initialize();
-            Assert.IsFalse(ControllerManager.AddRange(null, new StreamroomController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsFalse(AppManager.AddRange(null, new StreamroomController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void AddRange_Return_True()
         {
-            ControllerManager.Initialize();
-            Assert.IsTrue(ControllerManager.AddRange(new HitlistController(), new StreamroomController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsTrue(AppManager.AddRange(new HitlistController(), new StreamroomController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void Remove_Without_Initialize_Return_False()
         {
-            Assert.IsFalse(ControllerManager.Remove(new HitlistController()));
-            ControllerManager.Terminate();
+            Assert.IsFalse(AppManager.Remove(new HitlistController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void Remove_Return_False()
         {
-            ControllerManager.Initialize();
-            Assert.IsFalse(ControllerManager.Remove(new HitlistController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsFalse(AppManager.Remove(new HitlistController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void Remove_Null_Return_False()
         {
-            ControllerManager.Initialize();
-            Assert.IsFalse(ControllerManager.Remove(null));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsFalse(AppManager.Remove(null));
+            AppManager.Terminate();
         }
 
         [Test]
         public void RemoveRange_Without_Initialize_Return_False()
         {
-            Assert.IsFalse(ControllerManager.RemoveRange(new HitlistController(), new HitlistController()));
-            ControllerManager.Terminate();
+            Assert.IsFalse(AppManager.RemoveRange(new HitlistController(), new HitlistController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void RemoveRange_Return_False()
         {
-            ControllerManager.Initialize();
-            Assert.IsFalse(ControllerManager.RemoveRange(new HitlistController(), new StreamroomController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsFalse(AppManager.RemoveRange(new HitlistController(), new StreamroomController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void RemoveRange_Null_Return_False()
         {
-            ControllerManager.Initialize();
-            Assert.IsFalse(ControllerManager.RemoveRange(null));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            Assert.IsFalse(AppManager.RemoveRange(null));
+            AppManager.Terminate();
         }
 
         [Test]
         public void Remove_Return_True()
         {
-            ControllerManager.Initialize();
-            ControllerManager.Add(new HitlistController());
-            Assert.IsTrue(ControllerManager.Remove(new HitlistController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            AppManager.Add(new HitlistController());
+            Assert.IsTrue(AppManager.Remove(new HitlistController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void RemoveRange_Return_True()
         {
-            ControllerManager.Initialize();
-            ControllerManager.AddRange(new HitlistController(), new StreamroomController());
-            Assert.IsTrue(ControllerManager.RemoveRange(new HitlistController(), new StreamroomController()));
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            AppManager.AddRange(new HitlistController(), new StreamroomController());
+            Assert.IsTrue(AppManager.RemoveRange(new HitlistController(), new StreamroomController()));
+            AppManager.Terminate();
         }
 
         [Test]
         public void Clear_Without_Initialize_Fail()
         {
-            ControllerManager.Clear();
-            Assert.IsNull(ControllerManager.Controllers);
-            ControllerManager.Terminate();
+            AppManager.Clear();
+            Assert.IsNull(AppManager.Controllers);
+            AppManager.Terminate();
         }
 
 
         [Test]
         public void Clear_Success()
         {
-            ControllerManager.Initialize();
-            ControllerManager.AddRange(new HitlistController(), new StreamroomController());
-            ControllerManager.Clear();
-            Assert.AreEqual(0, ControllerManager.Controllers.Count);
-            ControllerManager.Terminate();
+            AppManager.Initialize();
+            AppManager.AddRange(new HitlistController(), new StreamroomController());
+            AppManager.Clear();
+            Assert.AreEqual(0, AppManager.Controllers.Count);
+            AppManager.Terminate();
         }
 
 
         [Test]
         public void Terminate_Success()
         {
-            ControllerManager.Initialize();
-            ControllerManager.AddRange(new HitlistController(), new StreamroomController());
-            ControllerManager.Terminate();
-            Assert.IsNull(ControllerManager.Controllers);
+            AppManager.Initialize();
+            AppManager.AddRange(new HitlistController(), new StreamroomController());
+            AppManager.Terminate();
+            Assert.IsNull(AppManager.Controllers);
         }
 
     }
