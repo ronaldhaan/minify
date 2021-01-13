@@ -353,6 +353,3 @@ MigrationBackup/
 */Minify.DAL/Migrations
 */DAL/Migrations
 */Migrations
-
-# Settings
-*/appsettings.json
