@@ -1,5 +1,6 @@
-﻿using Minify.DAL.Entities;
-using Minify.Core.Models;
+﻿using Minify.Core.Models;
+using Minify.DAL.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,7 +95,7 @@ namespace Minify.Core.Managers
         public virtual void Play()
         {
             if (_currentSong != null)
-            {                
+            {
                 Paused = false;
                 OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong, CurrentSongPosition));
             }
@@ -233,7 +234,7 @@ namespace Minify.Core.Managers
         /// Replays a song in the mediaplayer
         /// </summary>
         public abstract void Replay();
-        
+
         /// <summary>
         /// Returns the mediaplayer's current source
         /// </summary>

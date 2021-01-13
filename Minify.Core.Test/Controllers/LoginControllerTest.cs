@@ -1,7 +1,9 @@
 ﻿using Minify.Core.Controllers;
 using Minify.Core.Managers;
 using Minify.Core.Models;
+
 using NUnit.Framework;
+
 using System;
 
 namespace Minify.Core.Test

@@ -16,7 +16,7 @@
                    Style="{DynamicResource MahApps.Styles.Label}"
                    FontSize="20"/>
         <ListView Name="Songs" 
-                  Style="{DynamicResource MahApps.Styles.ListView}" 
+                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}" 
                   SelectionChanged="Songs_SelectionChanged" >
             <ListView.View>
                 <GridView>

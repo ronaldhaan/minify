@@ -1,8 +1,4 @@
-﻿using Minify.DAL;
-using Minify.DAL.Entities;
-using Minify.DAL.Repositories;
-using Minify.DAL.Managers;
-
+﻿
 using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -58,6 +54,6 @@ namespace Minify.Core.Managers
             {
                 return false;
             }
-        }        
+        }
     }
 }

@@ -4,9 +4,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Minify.WPF.View"
+        xmlns:controls="clr-namespace:Minify.WPF.Controls"
         mc:Ignorable="d"
-        Title="Add song to hitlist" Height="200" Width="350"
+        Title="Add song to hitlist" 
+        Height="200" 
+        Width="350"
         Closing="Window_Closing">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -24,14 +26,12 @@
                       Width="250" 
                       Margin="0 5"/>
 
-                <Button Name="btnAddSong" 
+                <controls:MiniButton x:Name="btnAddSong" 
                     Click="AddSongToHitlist" 
                     Content="Add"
                     Margin="0 5"
                     Width="50"
-                    HorizontalAlignment="Left"
-                    Background="#FF821BB2" 
-                    Foreground="White"/>
+                    HorizontalAlignment="Left"/>
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -3,27 +3,52 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                  
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:controls="clr-namespace:Minify.WPF.Controls"                 
         mc:Ignorable="d"
         Title="Register" 
-        Height="1000" 
-        Width="600" 
+        Height="700" 
+        Width="400" 
         WindowStartupLocation="CenterScreen" 
         ResizeMode="NoResize" 
         WindowStyle="None" 
         RenderTransformOrigin="0.5,0.5">
-    <Grid>
-        <StackPanel Margin="50">
-            <Image Source="\ImageResources\megascale_m.png" Width="100" Height="100" />
-            <Border  Margin="10 20" CornerRadius="10">
-                <StackPanel Margin="40">
+    <Grid Height="auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Left">
+            <controls:MiniButton Style="{DynamicResource MahApps.Styles.Button.Circle}"
+                                 Click="Cancel_Button_Click">
+                <controls:MiniButton.Content>
+                    <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleLeftRegular" />
+                </controls:MiniButton.Content>
+            </controls:MiniButton>
+
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Row="1">
+            <Image Source="\ImageResources\megascale_m.png"
+                   Width="100" 
+                   Height="100" />
+            <Border CornerRadius="5">
+                <StackPanel Margin="50 0" >
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                         HorizontalAlignment="Center" 
                         Margin="5" 
                         Content="First name*" />
+                    <Label Name="FirstNameErrorMessage" 
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="First name cannot be empty." />
                     <TextBox Name="tBox_First_name" 
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
+                    
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
@@ -31,27 +56,52 @@
                     <TextBox Name="tBox_Last_Name"
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
+                    
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
                            Content="Email*" />
+                    <Label Name="EmailErrorMessage"
+                           Style="{DynamicResource MahApps.Styles.Label}" 
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="Email address must be valid." />
                     <TextBox Name="tBox_Email"
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
+                    
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
                            Content="Username*" />
+                    <Label Name="UsernameErrorMessage" 
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="Username must be unique." />
                     <TextBox Name="tBox_Username" 
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
+                    
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
                            Content="Password*" />
+                    <Label Name="PasswordErrorMessage" 
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="Password must contain 8 characters with" />
                     <PasswordBox Name="tBox_Password" 
                             Style="{DynamicResource MahApps.Styles.PasswordBox}"
                             Margin="5" />
+                    
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
@@ -60,78 +110,33 @@
                            HorizontalAlignment="Center" 
                            Margin="5" 
                            Content="1 special character, 1 number and 8 characters long" />
+                    <Label Name="PasswordEqualsErrorMessage" 
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="Passwords do not match." />
+                    <Label Name="PasswordErrorMessage2" 
+                           Style="{DynamicResource MahApps.Styles.Label}"
+                           Visibility="Collapsed" 
+                           Foreground="Red" 
+                           HorizontalAlignment="Center" 
+                           Margin="5" 
+                           Content="1 special character and one number." />
                     <PasswordBox Name="tBox_Confirm_Password" 
                             Style="{DynamicResource MahApps.Styles.PasswordBox}" 
                             Margin="5" />
                 </StackPanel>
             </Border>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button 
-                    Style="{DynamicResource MahApps.Styles.Button}" 
-                    Margin="15 20" 
-                    HorizontalAlignment="Left" 
-                    Content="Register" 
-                    Background="#FF993FC3" 
-                    Foreground="#DDFFFFFF" 
-                    Click="Register_Button_Click"/>
-                <Button Style="{DynamicResource MahApps.Styles.Button}" 
-                        Margin="15 20" 
-                        HorizontalAlignment="Right" 
-                        Content="Cancel" 
-                        Background="#FF993FC3" 
-                        Foreground="#DDFFFFFF" 
-                        Click="Cancel_Button_Click"/>
-            </StackPanel>
-            <Border Name="Errors" 
-                    Background="#FDDD92FF" 
-                    Margin="10 20" 
-                    CornerRadius="10" 
-                    Visibility="Collapsed">
-                <StackPanel>
-                    <Label Name="UsernameErrorMessage" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="Username must be unique." />
-                    <Label Name="EmailErrorMessage"
-                           Style="{DynamicResource MahApps.Styles.Label}" 
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="Email address must be valid." />
-                    <Label Name="FirstNameErrorMessage" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="First name cannot be empty." />
-                    <Label Name="PasswordEqualsErrorMessage" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="Passwords do not match." />
-                    <Label Name="PasswordErrorMessage" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="Password must contain 8 characters with" />
-                    <Label Name="PasswordErrorMessage2" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Hidden" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="1 special character and one number." />
-                </StackPanel>
-            </Border>
+            <StackPanel Margin="0 20"
+                        Orientation="Horizontal" >
+                <controls:MiniButton  Style="{DynamicResource MahApps.Styles.Button}" 
+                        Margin="15 0" 
+                        HorizontalAlignment="Left" 
+                        Content="Register" 
+                        Click="Register_Button_Click"/>               
+            </StackPanel>            
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

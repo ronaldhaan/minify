@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-using Minify.Core.Models;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Minify.Core
 {
-    public class Utility : DAL.Utility
+    public class Utility : DAL.Configuraion
     {
         public void Initialize()
         {
@@ -27,12 +25,16 @@ namespace Minify.Core
             return list == null || list.Count == 0;
         }
 
-        public static T Serialize<T>(T obj, IConfigurationSection section) where T : IMinifySerializable 
+        public static T Serialize<T>(T obj, IConfigurationSection section) where T : IMinifySerializable
         {
-            foreach(var child in section.GetChildren())
+            foreach (var child in section.GetChildren())
             {
-                var propInfo = typeof(T).GetProperty(child.Key);
-                propInfo.SetValue(obj, child.Value);
+                try
+                {
+                    var propInfo = typeof(T).GetProperty(child.Key);
+                    propInfo.SetValue(obj, child.Value);
+                }
+                catch (Exception) { continue; }
             }
 
             return obj;

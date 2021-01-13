@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minify.DAL;
+
 using Minify.DAL.Entities;
 using Minify.DAL.Repositories;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,7 +105,7 @@ namespace Minify.Core.Controllers
         {
             if (streamroom.Id == null)
                 throw new ArgumentNullException("id");
-            
+
             var repo = new Repository<Streamroom>();
             repo.Add(streamroom);
             return repo.SaveChanges() > 0;

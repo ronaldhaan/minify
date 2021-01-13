@@ -1,14 +1,14 @@
 ﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
+using Minify.WPF.Managers;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Minify.WPF.Managers;
-using Minify.Core.Managers;
 
 namespace Minify.WPF.View
 {
@@ -132,7 +132,7 @@ namespace Minify.WPF.View
                 // Play song
                 _mediaManager.Play();
             }
-        }        
+        }
 
         private void CreateMessage(string message)
         {

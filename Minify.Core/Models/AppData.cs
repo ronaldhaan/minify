@@ -20,15 +20,17 @@ namespace Minify.Core.Models
 
         public string CompanyName { get; set; }
 
+        public string DefaultTheme { get; set; }
+
         public string DefaultThemeColor { get; set; }
 
         public string DefaultForegroundColor { get; set; }
 
         public event EventHandler SaveUserData;
 
-        public AppData() 
+        public AppData()
         {
-            Utility.Serialize(this, DAL.Utility.ConfigurationRoot.GetSection("AppSettings"));
+            Utility.Serialize(this, DAL.Configuraion.Root.GetSection("AppSettings"));
 
             LoggedIn = false;
             UserId = Guid.Empty;
@@ -38,7 +40,7 @@ namespace Minify.Core.Models
         public bool IsSessionActive()
         {
             DateTime dateTime = new DateTime(LoginDate.Ticks);
-            if(DateTime.Now < dateTime.AddMilliseconds(ExpireLogin))
+            if (DateTime.Now < dateTime.AddMilliseconds(ExpireLogin))
             {
                 return true;
             }

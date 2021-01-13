@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Minify.DAL;
+
 using Minify.DAL.Entities;
 using Minify.DAL.Repositories;
 

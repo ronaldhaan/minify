@@ -48,15 +48,14 @@
                         <controls:MiniButton Style="{DynamicResource MahApps.Styles.Button}"  
                                              Margin="15 20" 
                                              HorizontalAlignment="Right" 
-                                             Content="Cancel" 
-                                             Click="Cancel_Button_Click"/>
+                                             Content="Register" 
+                                             Click="Create_Account_Button_click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{DynamicResource MahApps.Styles.Label}"  
                                Content="Don't have an account?"/>
                         <Label Style="{DynamicResource MahApps.Styles.Label}"  
-                               Content="Register by clicking here" 
-                               MouseDown="Create_Account_Button_click"/>
+                               Content="Click on 'Register'" />
                     </StackPanel>
                 </StackPanel>
             </Border>

@@ -25,8 +25,8 @@
                           Grid.Column="1" 
                           Width="100"
                           SelectionChanged="ComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Light"/>
-                    <ComboBoxItem Content="Dark"/>
+                    <ComboBoxItem x:Name="cbxLight" Content="Light"/>
+                    <ComboBoxItem x:Name="cbxDark" Content="Dark"/>
                 </ComboBox>
             </Grid>
         </TabItem>

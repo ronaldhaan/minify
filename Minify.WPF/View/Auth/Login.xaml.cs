@@ -2,7 +2,6 @@
 
 using Minify.Core.Controllers;
 using Minify.Core.Managers;
-using Minify.Core.Models;
 
 using System.Windows;
 
@@ -47,7 +46,7 @@ namespace Minify.WPF.View
 
         private void Password_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
                 TryLogin();
             }

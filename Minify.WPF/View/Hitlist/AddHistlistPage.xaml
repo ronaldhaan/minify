@@ -3,11 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Minify.WPF.View"
+      xmlns:controls="clr-namespace:Minify.WPF.Controls"
       mc:Ignorable="d"
-      Title="AddHistlistPage" 
-      Height="321" 
-      Width="549">
+      Title="AddHistlistPage" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -44,18 +42,18 @@
                    Grid.Column="0"
                    Grid.Row="2"
                    Grid.ColumnSpan="3">
-            <Button x:Name="Create_Button"
+            <controls:MiniButton x:Name="Create_Button"
                     DockPanel.Dock="Left"
                     Style="{DynamicResource MahApps.Styles.Button}" 
                     Content="Create"
                     VerticalAlignment="Top"
                     Height="20"
-                    Background="#FF993FC3" 
-                    Foreground="#DDFFFFFF" 
+                    Margin="0 10"
                     Click="Create_Button_Click"/>
             <StackPanel DockPanel.Dock="Right" 
                         Width="350">
                 <TextBlock x:Name="TitleError" 
+                           Style="{DynamicResource MahApps.Styles.TextBlock}"
                            HorizontalAlignment="Left" 
                            FontWeight="Bold" 
                            FontStyle="Italic" 
@@ -63,6 +61,7 @@
                            Text="Title Requierd. " 
                            Visibility="Hidden"/>
                 <TextBlock x:Name="DescriptionError" 
+                           Style="{DynamicResource MahApps.Styles.TextBlock}"
                            Foreground="#FFFF0404" 
                            FontWeight="Bold"
                            FontStyle="Italic"

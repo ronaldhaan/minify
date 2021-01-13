@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Minify.DAL.Test
 {
     public class AppDbContextFactoryTest
@@ -25,7 +21,7 @@ namespace Minify.DAL.Test
         [Test]
         public void GetConnectionString_Return_NotNullOrEmpty()
         {
-            Assert.IsFalse(string.IsNullOrEmpty(Utility.GetConnectionString()));
+            Assert.IsFalse(string.IsNullOrEmpty(Configuraion.GetConnectionString()));
         }
     }
 }

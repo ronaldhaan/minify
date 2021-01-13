@@ -1,12 +1,12 @@
 ﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Timers;
 using System.Linq;
+using System.Timers;
 
 namespace Minify.Core.Managers
 {

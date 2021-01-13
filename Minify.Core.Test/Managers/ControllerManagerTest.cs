@@ -3,10 +3,6 @@ using Minify.Core.Managers;
 
 using NUnit.Framework;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Minify.Core.Test
 {
     public class ControllerManagerTest
@@ -64,7 +60,7 @@ namespace Minify.Core.Test
         [Test]
         public void Add_Return_True()
         {
-            AppManager.Initialize();            
+            AppManager.Initialize();
             Assert.IsTrue(AppManager.Add(new HitlistController()));
             AppManager.Terminate();
         }

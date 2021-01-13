@@ -1,7 +1,4 @@
-﻿using Minify.WPF.View;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 
 namespace Minify.WPF.Managers
@@ -10,7 +7,7 @@ namespace Minify.WPF.Managers
     {
         private Dictionary<string, Page> _dictionary;
 
-        public T Get<T>() where T : Page 
+        public T Get<T>() where T : Page
         {
             return (T)Get(typeof(T).Name);
         }

@@ -1,14 +1,14 @@
-﻿using Minify.DAL;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Minify.Core.Managers;
+using Minify.Core.Models;
 using Minify.DAL.Entities;
 using Minify.DAL.Repositories;
-using Minify.Core.Models;
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Minify.Core.Managers;
 
 namespace Minify.Core.Controllers
 {
@@ -19,7 +19,7 @@ namespace Minify.Core.Controllers
         /// <summary>
         /// Initialize an instance of <see cref="MessageController"/> class.
         /// </summary>
-        public MessageController() 
+        public MessageController()
         {
             appData = AppManager.Get<AppData>();
         }

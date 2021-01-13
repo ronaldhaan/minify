@@ -95,10 +95,12 @@
             </StackPanel>
             <StackPanel>
                 <StackPanel Height="200">
-                    <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
+                    <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
+                        VerticalScrollBarVisibility="auto" 
+                        Height="200">
                         <ListView Name="HitlistMenu"  
-                                  HorizontalAlignment="Stretch"  
-                                  SelectionChanged="HitlistMenu_SelectionChanged">
+                                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}"
+                                  SelectionChanged="HitlistMenu_SelectionChanged">                            
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn 
@@ -110,10 +112,11 @@
                     </ScrollViewer>
                 </StackPanel>
                 <StackPanel Height="200">
-                    <ScrollViewer VerticalScrollBarVisibility="auto" Height="200">
+                    <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}" 
+                                  VerticalScrollBarVisibility="auto" 
+                                  Height="200">
                         <ListView Name="streamrooms"  
-                                  HorizontalAlignment="Stretch" 
-                                  VerticalAlignment="Center" 
+                                  Style="{DynamicResource MahApps.Styles.ListView.Virtualized}"
                                   SelectionChanged="Streamroom_SelectionChanged">
                             <ListView.View>
                                 <GridView>
@@ -133,10 +136,11 @@
                     HorizontalAlignment="Left"
                     CanHorizontallyScroll="False"
                     CanVerticallyScroll="true">
-            <ScrollViewer x:Name="FrameScrollViewer"
-                            VerticalScrollBarVisibility="auto"
-                            HorizontalScrollBarVisibility="Disabled"
-                            Height="auto">
+            <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
+                          x:Name="FrameScrollViewer"
+                          VerticalScrollBarVisibility="auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Height="auto">
                 <Frame ScrollViewer.VerticalScrollBarVisibility="Visible" 
                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                        Height="auto"

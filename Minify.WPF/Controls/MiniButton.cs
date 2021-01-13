@@ -1,6 +1,4 @@
-﻿using Minify.Core.Managers;
-using Minify.Core.Models;
-
+﻿
 using System.Windows.Controls;
 using System.Windows.Input;
 

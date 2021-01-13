@@ -1,13 +1,11 @@
-﻿using Minify.DAL.Entities;
-using Minify.Core.Models;
+﻿using Minify.Core.Managers;
+using Minify.DAL.Entities;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Minify.Core.Managers;
-using System.Timers;
-using System.Threading;
 
 namespace Minify.WPF.Managers
 {
@@ -93,7 +91,7 @@ namespace Minify.WPF.Managers
         public override void Close()
         {
             base.Close();
-            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(()=> _mediaPlayer.Close()));         
+            _mediaPlayer.Dispatcher.Invoke(new ThreadStart(() => _mediaPlayer.Close()));
         }
 
         /// <summary>

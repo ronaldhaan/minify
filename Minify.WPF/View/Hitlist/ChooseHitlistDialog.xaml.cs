@@ -1,12 +1,14 @@
-﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
+﻿using MahApps.Metro.Controls;
+
+using Minify.Core.Controllers;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Minify.Core.Managers;
-using MahApps.Metro.Controls;
 
 namespace Minify.WPF.View
 

@@ -43,6 +43,12 @@ namespace Minify.WPF.View
 
             // errors standard false
             bool errors = false;
+            FirstNameErrorMessage.Visibility = Visibility.Collapsed;
+            UsernameErrorMessage.Visibility = Visibility.Collapsed;
+            EmailErrorMessage.Visibility = Visibility.Collapsed;
+            PasswordEqualsErrorMessage.Visibility = Visibility.Collapsed;
+            PasswordErrorMessage.Visibility = Visibility.Collapsed;
+            PasswordErrorMessage2.Visibility = Visibility.Collapsed;
 
             // check if firstName is null or empty
             if (firstName.IsNullOrEmpty())
@@ -93,7 +99,6 @@ namespace Minify.WPF.View
             }
             else
             {
-                Errors.Visibility = Visibility.Visible;
             }
         }
 

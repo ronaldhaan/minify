@@ -2,6 +2,7 @@
 using Minify.DAL.Entities;
 
 using NUnit.Framework;
+
 using System;
 using System.Collections.Generic;
 

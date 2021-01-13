@@ -47,12 +47,15 @@ namespace Minify.WPF.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Light")]
         public string DefaultTheme {
             get {
                 return ((string)(this["DefaultTheme"]));
+            }
+            set {
+                this["DefaultTheme"] = value;
             }
         }
         
@@ -80,15 +83,12 @@ namespace Minify.WPF.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3600")]
         public int ExpireLogin {
             get {
                 return ((int)(this["ExpireLogin"]));
-            }
-            set {
-                this["ExpireLogin"] = value;
             }
         }
     }

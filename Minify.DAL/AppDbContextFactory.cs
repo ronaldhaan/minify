@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 
 namespace Minify.DAL
 {
@@ -10,7 +8,7 @@ namespace Minify.DAL
         public AppDbContext CreateDbContext(string[] args = null)
         {
             var builder = new DbContextOptionsBuilder<AppDbContext>();
-            builder.UseSqlServer(Utility.GetConnectionString(), providerOptions => providerOptions.CommandTimeout(60))
+            builder.UseSqlServer(Configuraion.GetConnectionString(), providerOptions => providerOptions.CommandTimeout(60))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             return new AppDbContext(builder.Options);

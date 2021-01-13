@@ -1,6 +1,4 @@
 ﻿using Minify.Core.Controllers;
-using Minify.Core.Managers;
-using Minify.DAL.Managers;
 
 using NUnit.Framework;
 

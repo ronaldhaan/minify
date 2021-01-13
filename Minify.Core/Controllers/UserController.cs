@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿
 using Minify.DAL.Entities;
 using Minify.DAL.Managers;
 using Minify.DAL.Repositories;
@@ -7,7 +6,6 @@ using Minify.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Minify.Core.Controllers
 {
@@ -41,7 +39,7 @@ namespace Minify.Core.Controllers
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            
+
             return new Repository<User>().GetAll().Where(x => x.Id == id).FirstOrDefault();
         }
 

@@ -1,9 +1,10 @@
 ﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
+
 using System.Windows;
 using System.Windows.Controls;
-using Minify.Core.Managers;
 
 namespace Minify.WPF.View
 {
@@ -19,7 +20,7 @@ namespace Minify.WPF.View
         private AppData _appData;
 
         public event HitlistAddedEventHandler HitlistAdded;
-        
+
 
         public AddHistlistPage()
         {
@@ -39,14 +40,14 @@ namespace Minify.WPF.View
                 // display error message for title
                 TitleError.Visibility = Visibility.Visible;
             }
-            
+
             if (!_controller.ValidateDescription(description))
             {
                 // display error message for description
                 DescriptionError.Visibility = Visibility.Visible;
             }
 
-            if(_controller.ValidateTitle(title) && _controller.ValidateDescription(description))
+            if (_controller.ValidateTitle(title) && _controller.ValidateDescription(description))
             {
                 Hitlist hitlist = new Hitlist(title, description, _appData.UserId);
                 hitlist = _controller.Add(hitlist);

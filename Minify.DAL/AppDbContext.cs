@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using Minify.DAL.Entities;
 using Minify.DAL.Managers;
 

@@ -1,14 +1,16 @@
 ﻿using Castle.Core.Internal;
+
 using Microsoft.EntityFrameworkCore;
-using Minify.DAL;
+
+using Minify.Core.Managers;
+using Minify.Core.Models;
 using Minify.DAL.Entities;
 using Minify.DAL.Repositories;
-using Minify.Core.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Minify.Core.Managers;
 
 namespace Minify.Core.Controllers
 {

@@ -1,11 +1,10 @@
 ﻿using Castle.Core.Internal;
-using Minify.DAL;
-using Minify.DAL.Entities;
-using Minify.DAL.Repositories;
-using Minify.DAL.Managers;
-using Minify.Core.Models;
-using System;
+
 using Minify.Core.Managers;
+using Minify.Core.Models;
+using Minify.DAL.Entities;
+using Minify.DAL.Managers;
+using Minify.DAL.Repositories;
 
 namespace Minify.Core.Controllers
 {
@@ -34,8 +33,8 @@ namespace Minify.Core.Controllers
             if (Validation(username, password) && !appData.LoggedIn)
             {
                 User user = new Repository<User>().FindOneBy(u => u.UserName == username);
-                
-                if(user != null)
+
+                if (user != null)
                 {
                     appData.SetSession(user);
                     return true;

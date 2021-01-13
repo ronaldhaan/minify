@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Minify.Core.Managers
 {
@@ -21,7 +19,7 @@ namespace Minify.Core.Managers
 
         public static IMinifySerializable Get(string controllerName)
         {
-            if(Controllers != null && Controllers.TryGetValue(controllerName, out IMinifySerializable c))
+            if (Controllers != null && Controllers.TryGetValue(controllerName, out IMinifySerializable c))
             {
                 return c ?? null;
             }
@@ -37,7 +35,7 @@ namespace Minify.Core.Managers
 
             foreach (IMinifySerializable c in controllers)
             {
-                if(Add(c) == false)
+                if (Add(c) == false)
                 {
                     success = false;
                 }
@@ -61,12 +59,12 @@ namespace Minify.Core.Managers
 
             foreach (IMinifySerializable c in controllers)
             {
-                if(Remove(c) == false)
+                if (Remove(c) == false)
                 {
                     success = false;
                 }
             }
-            
+
             return success;
         }
 

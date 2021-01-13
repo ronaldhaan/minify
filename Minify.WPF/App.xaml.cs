@@ -7,10 +7,7 @@ using Minify.Core.Managers;
 using Minify.Core.Models;
 
 using System;
-using System.Globalization;
-using System.IO;
 using System.Windows;
-using System.Windows.Media;
 
 namespace Minify.WPF
 {
@@ -25,7 +22,7 @@ namespace Minify.WPF
         }
 
         protected override void OnStartup(StartupEventArgs e)
-        { 
+        {
             // Set the application theme to Dark.Green
             Utility.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
                 new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml"),
@@ -58,10 +55,11 @@ namespace Minify.WPF
                 appData.LoggedIn = true;
             }
 
+            appData.DefaultTheme = settings.DefaultTheme;
             appData.ExpireLogin = settings.ExpireLogin;
             appData.LoginDate = settings.LoginDate;
-            appData.UserId = settings.UserId;
             appData.UserName = settings.UserName;
+            appData.UserId = settings.UserId;
 
             AppManager.Initialize();
             AppManager.Add(appData);
@@ -74,17 +72,19 @@ namespace Minify.WPF
                 new UserController());
         }
 
-        private void SaveData(AppData appData = null)
+        private void SaveData(AppData data = null)
         {
-            if(appData == null)
+            if (data == null)
             {
-                appData = AppManager.Get<AppData>();
+                data = AppManager.Get<AppData>();
             }
 
             var settings = WPF.Properties.Settings.Default;
-            settings.UserName = appData.UserName;
-            settings.UserId = appData.UserId;
-            settings.LoginDate = appData.LoginDate;
+            settings.UserId = data.UserId;
+            settings.UserName = data.UserName;
+            settings.LoginDate = data.LoginDate;
+            settings.DefaultTheme = data.DefaultTheme;
+            settings.Upgrade();
             settings.Save();
         }
 

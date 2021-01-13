@@ -1,16 +1,17 @@
-﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
+﻿using MahApps.Metro.Controls;
+
+using Minify.Core.Controllers;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
+using Minify.WPF.Managers;
+
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Minify.WPF.Managers;
-using Minify.Core.Managers;
-using System.Threading;
-using MahApps.Metro.Controls;
-using Minify.Core;
 
 namespace Minify.WPF.View
 {
@@ -41,7 +42,7 @@ namespace Minify.WPF.View
             get { return _overviewStreamroomPage; }
             set
             {
-                if(value != null)
+                if (value != null)
                     value.MessagesRefreshed += OverviewStreamroom_MessagesRefreshed;
                 _overviewStreamroomPage = value;
             }
@@ -84,7 +85,7 @@ namespace Minify.WPF.View
         #endregion Pages
 
         public Overview()
-        { 
+        {
             _hitlistController = AppManager.Get<HitlistController>();
             _messageController = AppManager.Get<MessageController>();
             _streamroomController = AppManager.Get<StreamroomController>();
@@ -157,7 +158,7 @@ namespace Minify.WPF.View
             }
         }
 
-        
+
 
         private void MediaManager_UpdateMediaplayer(object sender, UpdateMediaplayerEventArgs e)
         {
@@ -184,7 +185,7 @@ namespace Minify.WPF.View
         }
 
         private void SetLabels(UpdateMediaplayerEventArgs e)
-        {            
+        {
             if ((string)lblSongName.Content != e.SongName)
             {
                 lblSongName.Content = e.SongName;
@@ -218,7 +219,7 @@ namespace Minify.WPF.View
         }
 
         #region Controls
-        
+
         private void Window_Initialized(object sender, EventArgs e)
         {
             InitializeHitListMenu();
@@ -399,7 +400,7 @@ namespace Minify.WPF.View
             // e.Messages to your beautiful chat view
             Dispatcher.BeginInvoke(new ThreadStart(() =>
             {
-                scrollviewMessages.Children.Clear(); 
+                scrollviewMessages.Children.Clear();
                 LoadMessages(e.Messages);
             }));
         }
@@ -527,7 +528,7 @@ namespace Minify.WPF.View
         {
             if (e.Key == Key.Space)
             {
-                if(_mediaManager.Paused)
+                if (_mediaManager.Paused)
                 {
                     Play();
                 }

@@ -1,12 +1,12 @@
 ﻿using Minify.Core.Controllers;
-using Minify.DAL.Entities;
+using Minify.Core.Managers;
 using Minify.Core.Models;
+using Minify.DAL.Entities;
 
 using NUnit.Framework;
 
 using System;
 using System.Collections.Generic;
-using Minify.Core.Managers;
 
 namespace Minify.Core.Test
 {

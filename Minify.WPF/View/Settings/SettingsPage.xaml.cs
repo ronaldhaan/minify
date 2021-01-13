@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using Minify.Core.Managers;
+using Minify.Core.Models;
+
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Minify.WPF.View
 {
@@ -18,10 +10,15 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class SettingsPage : Page
     {
+        private readonly AppData _data;
+
         public SettingsPage()
         {
             InitializeComponent();
-            ThemeSetting.SelectedValue = Utility.ThemeActive;
+
+            _data = AppManager.Get<AppData>();
+
+            ThemeSetting.SelectedValue = _data.DefaultTheme == "Light" ? cbxLight : cbxDark;
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -29,13 +26,23 @@ namespace Minify.WPF.View
             if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems))
             {
                 ComboBoxItem item = (ComboBoxItem)e.AddedItems[0];
-                if(item.Content.ToString() == "Light")
+                if (item.Content.ToString() == "Light")
                 {
                     Utility.SetLightTheme();
                 }
                 else
                 {
                     Utility.SetDarkTheme();
+                }
+
+                string theme = item.Content.ToString();
+                if (_data.DefaultTheme != theme)
+                {
+                    _data.DefaultTheme = theme;
+                    var settings = Properties.Settings.Default;
+                    settings.DefaultTheme = _data.DefaultTheme;
+                    settings.Upgrade();
+                    settings.Save();
                 }
             }
         }

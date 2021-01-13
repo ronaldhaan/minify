@@ -3,6 +3,7 @@ using Minify.DAL.Entities;
 using Minify.WPF.Managers;
 
 using NUnit.Framework;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,7 +111,7 @@ namespace Minify.WPF.Test
             List<Song> songs = _hitlistController.GetSongs(_hitlist.Songs);
             WpfMediaManager manager = new WpfMediaManager(songs);
             manager.Open(songs.First());
-            manager.Play(); 
+            manager.Play();
             Assert.IsNotNull(manager.GetCurrentSong());
         }
 

@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using Minify.Core.Controllers;
+﻿using Minify.Core.Controllers;
 using Minify.Core.Managers;
 using Minify.Core.Models;
 using Minify.DAL.Entities;
 using Minify.DAL.Managers;
+
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Minify.WPF.View
 {
@@ -61,7 +51,7 @@ namespace Minify.WPF.View
                 {
                     User user = _userController.Get(appData.UserId);
                     user.PassWord = PasswordManager.HashPassword(tbxPassword.Password);
-                    if( _userController.Update(user))
+                    if (_userController.Update(user))
                     {
                         // message succeeded
                         MessageBox.Show("Password updated! :)");

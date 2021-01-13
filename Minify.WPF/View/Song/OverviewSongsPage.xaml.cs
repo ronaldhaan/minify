@@ -1,14 +1,14 @@
 ﻿using Minify.Core.Controllers;
+using Minify.Core.Managers;
+using Minify.Core.Models;
 using Minify.DAL.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Minify.WPF.Managers;
-using Minify.Core.Managers;
-using Minify.Core.Models;
 
 namespace Minify.WPF.View
 {
