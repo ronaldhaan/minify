@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
+
 using Minify.DAL.Entities;
 using Minify.DAL.Managers;
 using Minify.DAL.Repositories;
@@ -24,7 +26,9 @@ namespace Minify.Core.Controllers
         /// <returns>A list with all the hitlists</returns>
         public List<User> GetAll()
         {
-            return new Repository<User>().GetAll().ToList();
+            return new Repository<User>().GetAll()
+                .Include(u => u.Person)
+                .ToList();
         }
 
         /// <summary>
@@ -40,7 +44,10 @@ namespace Minify.Core.Controllers
                 throw new ArgumentNullException(nameof(id));
             }
 
-            return new Repository<User>().GetAll().Where(x => x.Id == id).FirstOrDefault();
+            return new Repository<User>().GetAll()
+                .Where(x => x.Id == id)
+                .Include(u => u.Person)
+                .FirstOrDefault();
         }
 
         /// <summary>

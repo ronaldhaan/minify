@@ -15,5 +15,14 @@ namespace Minify.DAL.Entities
         public string Text { get; set; }
 
         public User User { get; set; }
+
+        public Message() { }
+
+        public Message(string text, Guid userId, Guid streamroomId)
+        {
+            Text = text;
+            UserId = userId;
+            StreamroomId = streamroomId;
+        }
     }
 }

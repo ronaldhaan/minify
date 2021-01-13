@@ -18,7 +18,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for Overview.xaml
     /// </summary>
-    public partial class Overview : MetroWindow
+    public partial class MainWindow : MetroWindow
     {
         private bool _autoScroll = true;
         private const string SEARCH_STANDARD_VAL = "Search...";
@@ -30,61 +30,13 @@ namespace Minify.WPF.View
         private readonly AppData appData;
         private readonly LoginController _loginController;
 
+        private readonly Navigation _navigation;
+
         private readonly WpfMediaManager _mediaManager;
-        #region Pages
-        private OverviewSongsPage _overviewSongsPage;
-        private DetailHitlistPage _hitlistPage;
-        private DetailStreamroomPage _overviewStreamroomPage;
-        private AddHistlistPage _addHitlistPage;
 
-        public DetailStreamroomPage OverviewStreamroomPage
-        {
-            get { return _overviewStreamroomPage; }
-            set
-            {
-                if (value != null)
-                    value.MessagesRefreshed += OverviewStreamroom_MessagesRefreshed;
-                _overviewStreamroomPage = value;
-            }
-        }
+        public WpfMediaManager MediaManager { get => _mediaManager;  }
 
-        public AddHistlistPage AddHitlistPage
-        {
-            get { return _addHitlistPage; }
-            set
-            {
-                value.HitlistAdded += UpdateHitlistMenu;
-                _addHitlistPage = value;
-            }
-        }
-
-        public DetailHitlistPage OverviewHitlistPage
-        {
-            get { return _hitlistPage; }
-            set
-            {
-                value.MediaManager = _mediaManager;
-                value.StreamroomCreated += OpenStreamroom;
-                value.RefreshHitlistOverview += RefreshHitListMenu;
-                _hitlistPage = value;
-            }
-        }
-
-        public OverviewSongsPage OverviewSongsPage
-        {
-            get
-            {
-                return _overviewSongsPage;
-            }
-            set
-            {
-                _overviewSongsPage = value;
-                _overviewSongsPage.SongSelected += PlaySong;
-            }
-        }
-        #endregion Pages
-
-        public Overview()
+        public MainWindow()
         {
             _hitlistController = AppManager.Get<HitlistController>();
             _messageController = AppManager.Get<MessageController>();
@@ -92,6 +44,8 @@ namespace Minify.WPF.View
             _loginController = AppManager.Get<LoginController>();
             _songController = AppManager.Get<SongController>();
             appData = AppManager.Get<AppData>();
+
+            _navigation = new Navigation(this);
 
             _mediaManager = new WpfMediaManager(null);
             _mediaManager.UpdateMediaplayer += MediaManager_UpdateMediaplayer;
@@ -117,8 +71,7 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             HitlistMenu.Items.Refresh();
 
-            OverviewSongsPage = new OverviewSongsPage();
-            contentFrame.Navigate(OverviewSongsPage);
+            contentFrame.Navigate(_navigation.CreateOverviewSongsPage()); ;
         }
 
         public void UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
@@ -130,15 +83,14 @@ namespace Minify.WPF.View
             foreach (var item in HitlistMenu.Items)
             {
                 // cast ListViewItem to Hitlist and check if the id equals the eventargs id
-                if (((Hitlist)item).Id.Equals(e.Id))
+                if (item is Hitlist hitlist && hitlist.Id.Equals(e.Id))
                 {
                     HitlistMenu.SelectedItem = item;
                 }
             }
 
             //display current hitlist
-            OverviewHitlistPage = new DetailHitlistPage(e.Id);
-            contentFrame.Navigate(OverviewHitlistPage); ;
+            contentFrame.Navigate(_navigation.CreateDetailHitlistPage(e.Id));
         }
 
         private void Btn_Add_Hitlist(object sender, RoutedEventArgs e)
@@ -147,8 +99,7 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             InitializeStreamroomMenu();
 
-            AddHitlistPage = new AddHistlistPage();
-            contentFrame.Navigate(AddHitlistPage);
+            contentFrame.Navigate(_navigation.CreateAddHilistPage());
         }
 
         private void HitlistMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,8 +110,7 @@ namespace Minify.WPF.View
             if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Hitlist selected)
             {
                 HitlistMenu.SelectedItem = selected;
-                OverviewHitlistPage = new DetailHitlistPage(selected.Id);
-                contentFrame.Navigate(OverviewHitlistPage);
+                contentFrame.Navigate(_navigation.CreateDetailHitlistPage(selected.Id));
             }
         }
 
@@ -171,7 +121,7 @@ namespace Minify.WPF.View
             SetLabels(e);
         }
 
-        private void PlaySong(object sender, PlaySongEventArgs e)
+        public void PlaySong(object sender, PlaySongEventArgs e)
         {
             //DisplayPause(e.Position > _positionCache);
             _mediaManager.Open(e.Song);
@@ -235,7 +185,7 @@ namespace Minify.WPF.View
 
         private void BtnHome_Click(object sender, RoutedEventArgs e)
         {
-            Overview overview = new Overview();
+            MainWindow overview = new MainWindow();
             overview.Show();
             CloseStreamRoom();
             _mediaManager.Close();
@@ -248,8 +198,7 @@ namespace Minify.WPF.View
             InitializeHitListMenu();
             InitializeStreamroomMenu();
 
-            OverviewSongsPage = new OverviewSongsPage();
-            contentFrame.Navigate(OverviewSongsPage);
+            contentFrame.Navigate(_navigation.CreateOverviewSongsPage());
         }
 
         private void BtnUser_Click(object sender, RoutedEventArgs e)
@@ -340,8 +289,7 @@ namespace Minify.WPF.View
                 var songs = _songController.Search(tbxSearchSongs.Text);
                 if (!Core.Utility.ListIsNullOrEmpty(songs))
                 {
-                    OverviewSongsPage = new OverviewSongsPage(songs);
-                    contentFrame.Navigate(OverviewSongsPage);
+                    contentFrame.Navigate(_navigation.CreateOverviewSongsPage(songs));
                 }
                 else
                 {
@@ -382,9 +330,8 @@ namespace Minify.WPF.View
             if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Streamroom selected)
             {
                 streamrooms.SelectedItem = selected;
-                OverviewStreamroomPage = new DetailStreamroomPage(selected.Id, _mediaManager);
                 MessagePanel.Visibility = Visibility.Visible;
-                contentFrame.Navigate(OverviewStreamroomPage);
+                contentFrame.Navigate(_navigation.CreateDetailStreamroomPage(selected.Id, _mediaManager));
             }
         }
 
@@ -400,7 +347,7 @@ namespace Minify.WPF.View
             SetLabels(e);
         }
 
-        private void OverviewStreamroom_MessagesRefreshed(object sender, LocalStreamroomUpdatedEventArgs e)
+        public void OverviewStreamroom_MessagesRefreshed(object sender, LocalStreamroomUpdatedEventArgs e)
         {
             // e.Messages to your beautiful chat view
             Dispatcher.BeginInvoke(new ThreadStart(() =>
@@ -410,25 +357,24 @@ namespace Minify.WPF.View
             }));
         }
 
-        private void OpenStreamroom(object sender, CreatedStreamRoomEventArgs e)
+        public void OpenStreamroom(object sender, CreatedStreamRoomEventArgs e)
         {
             CloseStreamRoom();
 
             MessagePanel.Visibility = Visibility.Visible;
 
-            OverviewStreamroomPage = new DetailStreamroomPage(e.Streamroom.Id, _mediaManager);
-            contentFrame.Navigate(OverviewStreamroomPage);
+            contentFrame.Navigate(_navigation.CreateDetailStreamroomPage(e.Streamroom.Id, _mediaManager));
 
-            timelineSlider.IsEnabled = appData.UserId == OverviewStreamroomPage.UserId;
+            timelineSlider.IsEnabled = _navigation.DetailStreamroomPage.UserId is Guid id  && appData.BelongsEntityToUser(id);
         }
 
         private void CloseStreamRoom()
         {
-            if (OverviewStreamroomPage != null)
+            if (_navigation.DetailStreamroomPage != null)
             {
                 MessagePanel.Visibility = Visibility.Hidden;
-                OverviewStreamroomPage?.Close();
-                OverviewStreamroomPage = null;
+                _navigation.DetailStreamroomPage?.Close();
+                _navigation.DetailStreamroomPage = null;
                 _mediaManager.Stop();
 
                 timelineSlider.IsEnabled = true;
@@ -437,14 +383,7 @@ namespace Minify.WPF.View
 
         #endregion Events
 
-        private void RefreshPages()
-        {
-            OverviewHitlistPage?.Refresh(_mediaManager.GetCurrentSong());
-
-            OverviewSongsPage?.Refresh(_mediaManager.GetCurrentSong());
-
-            OverviewStreamroomPage?.Refresh(_mediaManager.GetCurrentSong());
-        }
+        private void RefreshPages() => _navigation.Refresh(_mediaManager.GetCurrentSong());
 
         private void DisplayPlay()
         {
@@ -501,32 +440,23 @@ namespace Minify.WPF.View
 
         private void CreateMessage()
         {
-            if (OverviewStreamroomPage != null && !string.IsNullOrEmpty(tbxMessage.Text))
+            if (_navigation.DetailStreamroomPage != null && !string.IsNullOrEmpty(tbxMessage.Text))
             {
-                Message message = new Message
-                {
-                    Text = tbxMessage.Text,
-                    UserId = appData.UserId,
-                    StreamroomId = OverviewStreamroomPage.StreamroomId
-                };
-
-                _messageController.CreateMessage(message);
+                _messageController.CreateMessage(tbxMessage.Text, appData.UserId, _navigation.DetailStreamroomPage.StreamroomId);
                 tbxMessage.Text = string.Empty;
             }
         }
 
         private void Play()
         {
-            OverviewStreamroomPage?.Play();
+            _navigation.DetailStreamroomPage?.Play();
             _mediaManager.Play();
-            DisplayPause();
         }
 
         private void Pause()
         {
-            OverviewStreamroomPage?.Pause();
+            _navigation.DetailStreamroomPage?.Pause();
             _mediaManager.Pause();
-            DisplayPlay();
         }
 
         private void MetroWindow_KeyDown(object sender, KeyEventArgs e)

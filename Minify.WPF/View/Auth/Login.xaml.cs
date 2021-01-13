@@ -78,7 +78,7 @@ namespace Minify.WPF.View
 
         private void OpenOverview()
         {
-            Overview overview = new Overview();
+            MainWindow overview = new MainWindow();
             overview.Show();
             Close();
         }

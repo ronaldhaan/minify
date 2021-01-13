@@ -56,6 +56,8 @@ namespace Minify.Core.Controllers
             return appData.BelongsEntityToUser(message.UserId) ? message : null;
         }
 
+        public bool CreateMessage(string text, Guid userId, Guid streamroomId) => CreateMessage(new Message(text, userId, streamroomId));
+
         /// <summary>
         /// Creates a message.
         /// </summary>

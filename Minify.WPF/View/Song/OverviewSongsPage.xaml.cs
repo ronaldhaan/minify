@@ -23,13 +23,18 @@ namespace Minify.WPF.View
 
         public event EventHandler<PlaySongEventArgs> SongSelected;
 
-
-        public OverviewSongsPage()
+        public OverviewSongsPage(List<Song> songs = null)
         {
-            InitializeComponent();
             _songController = AppManager.Get<SongController>();
             _hitlistController = AppManager.Get<HitlistController>();
-            _songs = _songController.GetAll();
+            InitializeComponent();
+
+            if(songs == null)
+            {
+                songs = _songController.GetAll();
+                _songs = songs;
+            }
+
             Songs.ItemsSource = _songs;
         }
 
@@ -102,10 +107,5 @@ namespace Minify.WPF.View
             }
         }
 
-        public OverviewSongsPage(List<Song> songs)
-        {
-            InitializeComponent();
-            Songs.ItemsSource = songs;
-        }
     }
 }

@@ -13,7 +13,7 @@ namespace Minify.WPF.View
     /// <summary>
     /// Interaction logic for AddHistlistPage.xaml
     /// </summary>
-    public partial class AddHistlistPage : Page
+    public partial class AddHitlistPage : Page
     {
         private readonly HitlistController _controller;
 
@@ -22,7 +22,7 @@ namespace Minify.WPF.View
         public event HitlistAddedEventHandler HitlistAdded;
 
 
-        public AddHistlistPage()
+        public AddHitlistPage()
         {
             _controller = AppManager.Get<HitlistController>();
             _appData = AppManager.Get<AppData>();
