@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="Minify.WPF.View.ControlHitlistPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Minify.WPF.View.ControlStreamroomList"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -9,18 +9,17 @@
              DataContext="">
     <StackPanel >
         <Label Style="{DynamicResource MahApps.Styles.Label}" 
-                Content="Hitlists" 
+                Content="Streamrooms" 
                 MouseDown="Label_MouseDown"/>
         <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
                     VerticalScrollBarVisibility="auto">
-            <ListBox Name="HitlistMenu"  
+            <ListBox Name="menu"  
                     Style="{DynamicResource MahApps.Styles.ListBox.Virtualized}"
-                    SelectionChanged="HitlistMenu_SelectionChanged"
-                    ItemsSource="{Binding Hitlists}">
+                    SelectionChanged="Menu_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <TextBlock Text="{Binding Title}" />
+                            <TextBlock Text="{Binding Hitlist.Title}" />
                         </WrapPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

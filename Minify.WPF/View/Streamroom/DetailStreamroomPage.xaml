@@ -11,38 +11,43 @@
       Width="auto"
       Title="OverviewStreamroomPage">
     <StackPanel>
-        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
-                   Text="Welcome to the streamroom!" 
+        <Label Style="{DynamicResource MahApps.Styles.Label}"
+                   Content="Welcome to the streamroom!" 
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Top" 
                    FontSize="20"
                    Margin="0 5 0 5"/>
-        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+        <Label Style="{DynamicResource MahApps.Styles.Label}"
                    Name="StreamroomTitle"
-                   Text="Playlist title" 
+                   Content="Playlist title" 
                    FontSize="25"
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Top"
                    Margin="0 5 0 5" />
-        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+        <Label Style="{DynamicResource MahApps.Styles.Label}"
                    Name="StreamroomDescription" 
-                   Text="Playlist description" 
+                   Content="Playlist description" 
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Top" 
                    Visibility="Collapsed"
                    Margin="0 5 0 5" />
-        <TextBlock Style="{DynamicResource MahApps.Styles.TextBlock}"
+        <Label Style="{DynamicResource MahApps.Styles.Label}"
                    Name="StreamroomInfo" 
-                   Text="Playlist info" 
+                   Content="Playlist info" 
                    HorizontalAlignment="Left" 
                    VerticalAlignment="Top"
                    Margin="0 5 0 5" />
 
-        <ListView x:Name="StreamroomSongs" 
+        <ListView x:Name="streamroomSongs" 
                   Style="{DynamicResource MahApps.Styles.ListView.Virtualized}" 
                   Visibility="Visible" 
                   SelectionChanged="StreamroomSongs_SelectionChanged"
                    Margin="0 5 0 0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
@@ -52,5 +57,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        </StackPanel>
+
+        <ItemsControl x:Name="streamroomSongsView" 
+                  Visibility="Visible" 
+                   Margin="0 5 0 0">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                   
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
 </Page>

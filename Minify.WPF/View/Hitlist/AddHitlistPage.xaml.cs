@@ -51,7 +51,7 @@ namespace Minify.WPF.View
             {
                 Hitlist hitlist = new Hitlist(title, description, _appData.UserId);
                 hitlist = _controller.Add(hitlist);
-                HitlistAdded.Invoke(this, new UpdateHitlistMenuEventArgs(hitlist.Id));
+                HitlistAdded?.Invoke(this, new UpdateHitlistMenuEventArgs(hitlist.Id));
 
                 tbxTitle.Text = string.Empty;
                 tbxDescription.Text = string.Empty;

@@ -58,13 +58,13 @@ namespace Minify.Core.Managers
 
             if (song == _currentSong)
             {
-                Stop();
                 return false;
             }
 
-            int index = Songs.FindIndex(x => x == _currentSong);
+            int index = Songs.FindIndex(x => x.Id.Equals(_currentSong.Id));
             int newIndex = up ? index + 1 : index - 1;
             _currentSong = Songs[newIndex];
+            Open(_currentSong);
             Play();
 
             return true;
@@ -130,19 +130,13 @@ namespace Minify.Core.Managers
         /// Starts playing the next song in the mediaplayer
         /// </summary>
         /// <returns>Returns true if there is a next song and false if there is no next song</returns>
-        public virtual bool Next()
-        {
-            return MoveTo();
-        }
+        public virtual bool Next() => MoveTo(true);
 
         /// <summary>
         /// Starts playing the previous song in the mediaplayer
         /// </summary>
         /// <returns>Returns true if there is a previous song and false if there is no previous song</returns>
-        public virtual bool Previous()
-        {
-            return MoveTo(false);
-        }
+        public virtual bool Previous() => MoveTo(false);
 
         /// <summary>
         /// Returns the mediaplayer's current song

@@ -34,6 +34,7 @@ namespace Minify.Core.Controllers
             return new Repository<Message>()
                             .GetAll()
                                 .Include(m => m.User)
+                                    .ThenInclude(u => u.Person)
                                 .OrderBy(m => m.CreatedAt)
                                 .Where(message => message.StreamroomId == streamroom.Id)
                                 .ToList();

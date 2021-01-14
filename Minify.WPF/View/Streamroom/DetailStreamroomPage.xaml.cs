@@ -49,6 +49,13 @@ namespace Minify.WPF.View
 
             InitializeComponent();
 
+            if(!appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
+            {
+                var style = new Style(typeof(ListView));
+                //style.Setters.Add(new Setter(IsEnabledProperty, false));
+                streamroomSongs.ItemContainerStyle.Setters.Add(new Setter(IsEnabledProperty, false));
+            }
+
             if (_streamroom.Hitlist != null)
             {
                 SetTextBlocks();
@@ -64,37 +71,46 @@ namespace Minify.WPF.View
             if (!Core.Utility.CollectionIsNullOrEmpty(_streamroom.Hitlist.Songs))
             {
                 _songs = _hitlistController.GetSongs(_streamroom.Hitlist.Songs);
+
                 _mediaManager.Open(_songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId)));
                 _mediaManager.CurrentSongPosition = _streamroom.CurrentSongPosition;
-                StreamroomSongs.ItemsSource = _songs;
-                StreamroomSongs.Visibility = Visibility.Visible;
-                Refresh(_songs.First());
+                streamroomSongs.ItemsSource = _songs;
+                streamroomSongs.Visibility = Visibility.Visible;
             }
         }
 
         private void SetTextBlocks()
         {
-            StreamroomTitle.Text = _streamroom.Hitlist.Title;
+            StreamroomTitle.Content = _streamroom.Hitlist.Title;
             if (!string.IsNullOrEmpty(_streamroom.Hitlist.Description))
             {
-                StreamroomDescription.Text = _streamroom.Hitlist.Description;
+                StreamroomDescription.Content = _streamroom.Hitlist.Description;
                 StreamroomDescription.Visibility = Visibility.Visible;
             }
 
-            StreamroomInfo.Text = _hitlistController.GetHitlistInfo(_streamroom.Hitlist);
+            StreamroomInfo.Content = _hitlistController.GetHitlistInfo(_streamroom.Hitlist);
         }
 
-        public void Refresh(Song song)
+        public bool Refresh(Song song)
         {
-            StreamroomSongs.ItemsSource = _songs;
+            if (!appData.BelongsEntityToUser(_streamroom.Hitlist.UserId)) return false;
 
-            foreach (var item in StreamroomSongs.Items)
+            Play(song);
+
+            return true;
+        }
+
+        private void Play(Song song)
+        {
+            streamroomSongs.ItemsSource = _songs;
+
+            foreach (var item in streamroomSongs.Items)
             {
-                if (((Song)item).Equals(song))
-                    StreamroomSongs.SelectedItem = item;
+                if (item is Song s && s.Equals(song))
+                    streamroomSongs.SelectedItem = item;
             }
 
-            StreamroomSongs.Visibility = Visibility.Visible;
+            streamroomSongs.Visibility = Visibility.Visible;
         }
 
         private void UpdateLocalStreamroom(object sender, LocalStreamroomUpdatedEventArgs e)

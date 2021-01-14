@@ -36,10 +36,11 @@ namespace Minify.WPF.Managers
         /// <param name="currentSong"></param>
         protected override void InitializePlayer(Song currentSong, TimeSpan currentPosition = default)
         {
-            _mediaPlayer.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
-
             _currentSongPosition = currentPosition;
             _mediaPlayer.Position = _currentSongPosition;
+
+            _mediaPlayer.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
+
 
             Play();
         }

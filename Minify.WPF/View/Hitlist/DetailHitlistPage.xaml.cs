@@ -14,9 +14,10 @@ using System.Windows.Controls;
 
 namespace Minify.WPF.View
 {
-    public delegate void StreamroomCreatedEventHandler(object sender, CreatedStreamRoomEventArgs e);
-
-    public delegate void RefreshHitlistOverview(object sender, EventArgs e);
+    public class HitlistSelectionChangedEventArgs : EventArgs
+    {
+        public Song Song { get; set; }
+    }
 
     /// <summary>
     /// Interaction logic for OverviewHitlistPage.xaml
@@ -27,18 +28,13 @@ namespace Minify.WPF.View
         private readonly StreamroomController _streamroomController;
         private readonly Hitlist _hitlist;
         private readonly AppData _appData;
-        private List<Song> _songs = new List<Song>();
+        private List<Song> _songs;
 
-        public WpfMediaManager MediaManager;
+        public event EventHandler RefreshHitlistOverview;
 
-        public event RefreshHitlistOverview RefreshHitlistOverview;
+        public event EventHandler<PlaySongEventArgs> HitlistSongsSelectionChanged;
 
-        public StreamroomCreatedEventHandler StreamroomCreated;
-
-        public DetailHitlistPage(Guid id, WpfMediaManager manager) : this(id)
-        {
-            MediaManager = manager;
-        }
+        public EventHandler<CreatedStreamRoomEventArgs> StreamroomCreated;
 
         public DetailHitlistPage(Guid id)
         {
@@ -91,7 +87,7 @@ namespace Minify.WPF.View
 
             foreach (var item in HitlistSongs.Items)
             {
-                if (((Song)item).Equals(song))
+                if (item is Song s && s.Id.Equals(song.Id))
                     HitlistSongs.SelectedItem = item;
             }
 
@@ -102,14 +98,7 @@ namespace Minify.WPF.View
         {
             if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Song selected)
             {
-                // Initialize songs
-                MediaManager.Songs = _songs;
-
-                // Open song
-                MediaManager.Open(selected);
-
-                // Play song
-                MediaManager.Play();
+                HitlistSongsSelectionChanged?.Invoke(this, new PlaySongEventArgs(selected, _songs));
             }
         }
 

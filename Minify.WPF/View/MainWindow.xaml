@@ -35,16 +35,7 @@
                     Grid.Row="1" 
                     Grid.Column="2" 
                     Visibility="Hidden">
-            <TextBox x:Name="tbxMessage"
-                    Style="{DynamicResource MahApps.Styles.TextBox}" 
-                    KeyDown="TbxMessage_KeyDown" />
-            <ScrollViewer x:Name="ScrollViewer" 
-                    Style="{DynamicResource MahApps.Styles.ScrollViewer}"
-                    ScrollChanged="ScrollViewer_ScrollChanged" 
-                    VerticalScrollBarVisibility="auto"
-                    Height="500" >
-                <StackPanel Name="scrollviewMessages"/>
-            </ScrollViewer>
+            <local:ChatControl x:Name="chatControl" Visibility="Collapsed"/>
         </StackPanel>
         <StackPanel x:Name="SearchPanel"
             Grid.Row="0" 
@@ -95,46 +86,14 @@
                 </Button>
             </StackPanel>
             <StackPanel>
-                <StackPanel >
-                    <Label Style="{DynamicResource MahApps.Styles.Label}" 
-                            Content="Hitlists" 
-                            MouseDown="Hitlist_MouseDown"/>
-                    <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
-                    VerticalScrollBarVisibility="auto">
-                        <ListBox Name="HitlistMenu"  
-                            Style="{DynamicResource MahApps.Styles.ListBox.Virtualized}"
-                            SelectionChanged="HitlistMenu_SelectionChanged">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <WrapPanel>
-                                        <TextBlock Text="{Binding Title}" />
-                                    </WrapPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </ScrollViewer>
-                </StackPanel>
-                <Separator Foreground="{StaticResource MahApps.Brushes.Accent}"/>
-                <StackPanel Height="200">
-                    <Label Style="{DynamicResource MahApps.Styles.Label}" 
-                           Content="Streamrooms" 
-                           MouseDown="Streamroom_MouseDown"/>
-                    <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}" 
-                                  VerticalScrollBarVisibility="auto" 
-                                  Height="200">
-                        <ListBox Name="streamrooms"  
-                                  Style="{DynamicResource MahApps.Styles.ListBox.Virtualized}"
-                                  SelectionChanged="Streamroom_SelectionChanged">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <WrapPanel>
-                                        <TextBlock Text="{Binding Hitlist.Title}" />
-                                    </WrapPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </ScrollViewer>
-                </StackPanel>
+                <StackPanel.Children>
+                    <local:ControlHitlistList x:Name="HitlistMenu"
+                                              SelectionChanged="HitlistMenu_SelectionChanged"/>
+
+                    <Separator Foreground="{StaticResource MahApps.Brushes.Accent}"/>
+                    <local:ControlStreamroomList x:Name="streamroomMenu" 
+                                                 SelectionChanged="Streamroom_SelectionChanged"/>
+                </StackPanel.Children>
             </StackPanel>
         </StackPanel>
         <StackPanel x:Name="ContentPanel" 

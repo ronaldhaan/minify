@@ -43,7 +43,7 @@ namespace Minify.WPF
             get { return _hitlistPage; }
             set
             {
-                value.MediaManager = _mainWindow.MediaManager;
+                value.HitlistSongsSelectionChanged += _mainWindow.PlaySong;
                 value.StreamroomCreated += _mainWindow.OpenStreamroom;
                 value.RefreshHitlistOverview += _mainWindow.RefreshHitListMenu;
                 _hitlistPage = value;
@@ -74,10 +74,10 @@ namespace Minify.WPF
             return OverviewSongsPage;
         }
 
-        public OverviewSongsPage CreateDetailHitlistPage(Guid id)
+        public DetailHitlistPage CreateDetailHitlistPage(Guid id)
         {
             DetailHitlistPage = new DetailHitlistPage(id);
-            return OverviewSongsPage;
+            return DetailHitlistPage;
         }
 
         public AddHitlistPage CreateAddHilistPage()
@@ -92,13 +92,16 @@ namespace Minify.WPF
             return DetailStreamroomPage;
         }
 
-        internal void Refresh(Song song)
+        internal bool Refresh(Song song)
         {
             DetailHitlistPage?.Refresh(song);
 
             OverviewSongsPage?.Refresh(song);
 
-            DetailStreamroomPage?.Refresh(song);
+            if(DetailStreamroomPage != null)
+                return DetailStreamroomPage.Refresh(song);
+
+            return true;
         }
     }
 }
