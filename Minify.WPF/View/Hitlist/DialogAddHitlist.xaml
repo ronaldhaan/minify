@@ -6,20 +6,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Minify.WPF.Controls"
         mc:Ignorable="d"
-        Title="Add song to hitlist" 
+        Title="{DynamicResource Translation.Hitlist.Song.Add}" 
         Height="200" 
         Width="350"
         Closing="Window_Closing">
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <Label  Style="{DynamicResource MahApps.Styles.Label}" 
-                    Content="Choose a Hitlist"
+                    Content="{DynamicResource Hitlist.Choose}"
                     Margin="0 5"/>
             <StackPanel Orientation="Horizontal">
                 <ComboBox Name="cbxHitlist"
                       IsEditable="True"
                       Style="{DynamicResource MahApps.Styles.ComboBox}"
-                      ItemsSource="{Binding Hitlists}"
+                      ItemsSource="{Binding Translation.Hitlists}"
                       DisplayMemberPath="Title"
                       SelectedValuePath="Id"
                       IsSynchronizedWithCurrentItem="True"
@@ -28,7 +28,7 @@
 
                 <controls:MiniButton x:Name="btnAddSong" 
                     Click="AddSongToHitlist" 
-                    Content="Add"
+                    Content="{DynamicResource Translation.Actions.Add}"
                     Margin="0 5"
                     Width="50"
                     HorizontalAlignment="Left"/>

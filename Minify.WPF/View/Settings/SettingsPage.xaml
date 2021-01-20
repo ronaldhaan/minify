@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsPage">
     <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
-        <TabItem Header="General">
+        <TabItem Header="{DynamicResource Translation.General}">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -20,7 +20,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Label Content="Theme"/>
+                <Label Content="{DynamicResource Translation.Theme}"/>
                 <ComboBox x:Name="ThemeSetting"
                           Grid.Column="1" 
                           Width="100"
@@ -30,9 +30,9 @@
                 </ComboBox>
             </Grid>
         </TabItem>
-        <TabItem Header="Security">
+        <TabItem Header="{DynamicResource Translation.Security}">
         </TabItem>
 
-        <TabItem Header="Details" />
+        <TabItem Header="{DynamicResource Translation.Details}" />
     </TabControl>
 </Page>

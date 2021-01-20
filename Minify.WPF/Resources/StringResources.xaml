@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- Auth -->
+    <system:String x:Key="Translation.Auth.Close">Close</system:String>
+    <system:String x:Key="Translation.Auth.Login">Login</system:String>
+    <system:String x:Key="Translation.Auth.Logout">Logout</system:String>
+    <system:String x:Key="Translation.Auth.Login.Message.Error">Invalid credentials</system:String>
+    <system:String x:Key="Translation.Auth.Register">Register</system:String>
+    <system:String x:Key="Translation.Auth.Register.Message.Success">Successfully registered</system:String>
+    <system:String x:Key="Translation.Auth.Register.Message.NoAccount">Don't have an account? Click on 'Register'</system:String>
+        <!-- User -->
+    <system:String x:Key="Translation.Auth.User">User</system:String>
+    <system:String x:Key="Translation.Auth.Users">Users</system:String>
+    <system:String x:Key="Translation.Auth.User.Username">Username</system:String>
+    <system:String x:Key="Translation.Auth.User.Username.Message.Unique">Username must be unique.</system:String>
+    <system:String x:Key="Translation.Auth.User.Password">Password</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.New">New password</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm">Confirm password</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm.Message.NoMatch">Passwords do not match.</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm.Message.NoMatch.Creteria">Password does not match the criteria</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Message.Requirements">Password must contain 8 characters with at least one number and one special character</system:String>
+    <system:String x:Key="Translation.Auth.User.Theme">Theme</system:String>
+    <system:String x:Key="Translation.Auth.User.General">General</system:String>
+    <system:String x:Key="Translation.Auth.User.Details">Details</system:String>
+    <system:String x:Key="Translation.Auth.User.Security">Security</system:String>
+    <!-- User -->   
+    <system:String x:Key="Translation.Auth.Person.Firstname">Firstname</system:String>
+    <system:String x:Key="Translation.Auth.Person.Lastname">Lastname</system:String>
+    <system:String x:Key="Translation.Auth.Person.Firstname.Message.Empty">Firstname cannot be empty.</system:String>
+    <system:String x:Key="Translation.Auth.Person.Email">Email</system:String>
+    <system:String x:Key="Translation.Auth.Person.Email.Message.Error">Email address must be valid.</system:String> 
+    <!-- End Auth -->
+
+    <!-- Htilist -->
+    <system:String x:Key="Translation.Hitlist">Hitlist</system:String>
+    <system:String x:Key="Translation.Hitlists">Hitlists</system:String>
+    <system:String x:Key="Translation.Hitlist.Title">Title</system:String>
+    <system:String x:Key="Translation.Hitlist.Title.Message.Requierd">Title required</system:String>
+    <system:String x:Key="Translation.Hitlist.Description">Description</system:String>
+    <system:String x:Key="Translation.Hitlist.Description.Info">Description (Max 140 characters)</system:String>
+    <system:String x:Key="Translation.Hitlist.Description.Message.Error">The maximum characters for the description is 140 characters</system:String>
+    <system:String x:Key="Translation.Hitlist.Add">Add Hitlist</system:String>
+    <system:String x:Key="Translation.Hitlist.Delete">Delete Hitlist</system:String>
+    <system:String x:Key="Translation.Hitlist.Create">Create Hitlist</system:String>
+    <system:String x:Key="Translation.Hitlist.Choose">Choose a Hitlist</system:String>
+    <system:String x:Key="Translation.Hitlist.Song.Add">Add song to hitlist</system:String>
+    <!-- End Hitlist -->
+    
+    <!-- Song -->
+    <system:String x:Key="Translation.Song">Song</system:String>
+    <system:String x:Key="Translation.Songs">Songs</system:String>
+    <system:String x:Key="Translation.Song.Name">Name</system:String>
+    <system:String x:Key="Translation.Song.Genre">Genre</system:String>
+    <system:String x:Key="Translation.Song.Artist">Artist</system:String>
+    <system:String x:Key="Translation.Song.Duration">Duration</system:String>
+    <system:String x:Key="Translation.Song.Search">Search</system:String>
+    <!-- End Song-->
+
+    <!-- Streamroom-->
+    <system:String x:Key="Translation.Streamroom">Streamroom</system:String>
+    <system:String x:Key="Translation.Streamrooms">Streamrooms</system:String>
+    <system:String x:Key="Translation.Streamroom.Create">Create Streamroom</system:String>
+    <system:String x:Key="Translation.Streamroom.Message.Welcome">Welcome to the streamroom!</system:String>
+    <!-- End Streamroom-->
+    
+    <!-- Actions -->
+    <system:String x:Key="Translation.Actions.Add">Add</system:String>
+    <system:String x:Key="Translation.Actions.Create">Create</system:String>
+    <system:String x:Key="Translation.Actions.Remove">Remove</system:String>
+    <system:String x:Key="Translation.Actions.Delete">Delete</system:String>
+    <system:String x:Key="Translation.Actions.Update">Update</system:String>
+    <!-- End Actions -->
+
+    <!-- Actions -->
+    <system:String x:Key="Translation.Media.Previous">Previous</system:String>
+    <system:String x:Key="Translation.Media.Play">Play</system:String>
+    <system:String x:Key="Translation.Media.Pause">Pause</system:String>
+    <system:String x:Key="Translation.Media.Next">Next</system:String>
+    <!-- End Actions -->
+</ResourceDictionary>

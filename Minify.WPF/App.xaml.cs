@@ -7,6 +7,7 @@ using Minify.Core.Managers;
 using Minify.Core.Models;
 
 using System;
+using System.Threading;
 using System.Windows;
 
 namespace Minify.WPF
@@ -23,21 +24,11 @@ namespace Minify.WPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            // Set the application theme to Dark.Green
-            UtilityWpf.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
-                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml"),
-                MahAppsLibraryThemeProvider.DefaultInstance));
-
-            UtilityWpf.LightTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
-                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Light.Accent1.xaml"),
-                MahAppsLibraryThemeProvider.DefaultInstance));
+            SetLanguageDictionary();           
 
             base.OnStartup(e);
-            UtilityWpf.Application = this;
 
-            UtilityWpf.SetLightTheme();
-
-
+            SetTheme();
         }
 
         private void InitializeControllers()
@@ -87,5 +78,33 @@ namespace Minify.WPF
         }
 
         private void AppData_SaveUserData(object sender, EventArgs e) => SaveData((AppData)sender);
+
+        private void SetLanguageDictionary()
+        {
+            Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = (Thread.CurrentThread.CurrentCulture.ToString()) switch
+                {
+                    "en-US" => new Uri(".\\Resources\\StringResources.xaml", UriKind.Relative),
+                    "nl-NL" => new Uri(".\\Resources\\StringResources.nl-NL.xaml", UriKind.Relative),
+                    _ => new Uri(".\\Resources\\StringResources.xaml", UriKind.Relative),
+                }
+            });
+        }
+
+        private void SetTheme()
+        {
+            UtilityWpf.DarkTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml"),
+                MahAppsLibraryThemeProvider.DefaultInstance));
+
+            UtilityWpf.LightTheme = ThemeManager.Current.AddLibraryTheme(new LibraryTheme(
+                new Uri("pack://application:,,,/Minify.WPF;component/View/Styles/Light.Accent1.xaml"),
+                MahAppsLibraryThemeProvider.DefaultInstance));
+
+            UtilityWpf.Application = this;
+
+            UtilityWpf.SetLightTheme();
+        }
     }
 }

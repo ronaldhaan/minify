@@ -24,65 +24,63 @@ namespace Minify.WPF.View
             _userController = AppManager.Get<UserController>();
         }
 
-        private void Register_Button_Click(object sender, RoutedEventArgs e)
+        private void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
             //set error messages on hidden
-            UsernameErrorMessage.Visibility = Visibility.Collapsed;
-            EmailErrorMessage.Visibility = Visibility.Collapsed;
-            FirstNameErrorMessage.Visibility = Visibility.Collapsed;
-            PasswordEqualsErrorMessage.Visibility = Visibility.Collapsed;
-            PasswordErrorMessage.Visibility = Visibility.Collapsed;
+            errorUserName.Visibility = Visibility.Collapsed;
+            errorEmail.Visibility = Visibility.Collapsed;
+            errorFirstname.Visibility = Visibility.Collapsed;
+            errorPasswordMatch.Visibility = Visibility.Collapsed;
+            errorPassword.Visibility = Visibility.Collapsed;
 
             // get values from register form
-            string username = tBox_Username.Text;
-            string email = tBox_Email.Text;
-            string firstName = tBox_First_name.Text;
-            string lastName = tBox_Last_Name.Text;
-            string password = tBox_Password.Password;
-            string confirmPassword = tBox_Confirm_Password.Password;
+            string username = tbxUsername.Text;
+            string email = tbxEMail.Text;
+            string firstName = tbxFirstname.Text;
+            string lastName = tbxLastname.Text;
+            string password = tbxPassword.Password;
+            string confirmPassword = tbxConfirmPassword.Password;
 
             // errors standard false
             bool errors = false;
-            FirstNameErrorMessage.Visibility = Visibility.Collapsed;
-            UsernameErrorMessage.Visibility = Visibility.Collapsed;
-            EmailErrorMessage.Visibility = Visibility.Collapsed;
-            PasswordEqualsErrorMessage.Visibility = Visibility.Collapsed;
-            PasswordErrorMessage.Visibility = Visibility.Collapsed;
-            PasswordErrorMessage2.Visibility = Visibility.Collapsed;
+            errorFirstname.Visibility = Visibility.Collapsed;
+            errorUserName.Visibility = Visibility.Collapsed;
+            errorEmail.Visibility = Visibility.Collapsed;
+            errorPasswordMatch.Visibility = Visibility.Collapsed;
+            errorPassword.Visibility = Visibility.Collapsed;
 
             // check if firstName is null or empty
             if (firstName.IsNullOrEmpty())
             {
-                FirstNameErrorMessage.Visibility = Visibility.Visible;
+                errorFirstname.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if username is not unique
             if (!_userController.IsUniqueUsername(username))
             {
-                UsernameErrorMessage.Visibility = Visibility.Visible;
+                errorUserName.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if email is not valid
             if (!UserManager.IsValidEmail(email))
             {
-                EmailErrorMessage.Visibility = Visibility.Visible;
+                errorEmail.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if password does not equals confirmPassword
             if (password != confirmPassword)
             {
-                PasswordEqualsErrorMessage.Visibility = Visibility.Visible;
+                errorPasswordMatch.Visibility = Visibility.Visible;
                 errors = true;
             }
 
             // check if password is not valid
             if (!PasswordManager.IsValidPassword(password))
             {
-                PasswordErrorMessage.Visibility = Visibility.Visible;
-                PasswordErrorMessage2.Visibility = Visibility.Visible;
+                errorPassword.Visibility = Visibility.Visible;
                 errors = true;
             }
 
@@ -102,7 +100,7 @@ namespace Minify.WPF.View
             }
         }
 
-        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             Login login = new Login();
             login.Show();

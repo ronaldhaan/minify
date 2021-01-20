@@ -7,7 +7,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:controls="clr-namespace:Minify.WPF.Controls"                 
         mc:Ignorable="d"
-        Title="Register" 
+        Title="{DynamicResource Translation.Auth.Register}" 
         Height="700" 
         Width="400" 
         WindowStartupLocation="CenterScreen" 
@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Left">
             <controls:MiniButton Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                                 Click="Cancel_Button_Click">
+                                 Click="BtnCancel_Click">
                 <controls:MiniButton.Content>
                     <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleLeftRegular" />
                 </controls:MiniButton.Content>
@@ -37,94 +37,83 @@
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                         HorizontalAlignment="Center" 
                         Margin="5" 
-                        Content="First name*" />
-                    <Label Name="FirstNameErrorMessage" 
+                        Content="{DynamicResource Translation.Auth.Person.Firstname}" />
+                    <Label Name="errorFirstname" 
                            Style="{DynamicResource MahApps.Styles.Label}"
                            Visibility="Collapsed" 
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="First name cannot be empty." />
-                    <TextBox Name="tBox_First_name" 
+                           Content="{DynamicResource Translation.Auth.Person.Firstname.Message.Empty}" />
+                    <TextBox Name="tbxFirstname" 
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
                     
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Last name" />
-                    <TextBox Name="tBox_Last_Name"
+                           Content="{DynamicResource Translation.Auth.Person.Lastname}" />
+                    <TextBox Name="tbxLastname"
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
                     
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Email*" />
-                    <Label Name="EmailErrorMessage"
+                           Content="{DynamicResource Translation.Auth.Person.Email}" />
+                    <Label Name="errorEmail"
                            Style="{DynamicResource MahApps.Styles.Label}" 
                            Visibility="Collapsed" 
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Email address must be valid." />
-                    <TextBox Name="tBox_Email"
+                           Content="{DynamicResource Translation.Auth.Person.Email.Message.Error}" />
+                    <TextBox Name="tbxEMail"
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
                     
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Username*" />
-                    <Label Name="UsernameErrorMessage" 
+                           Content="{DynamicResource Translation.Auth.User.Username}" />
+                    <Label Name="errorUserName" 
                            Style="{DynamicResource MahApps.Styles.Label}"
                            Visibility="Collapsed" 
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Username must be unique." />
-                    <TextBox Name="tBox_Username" 
+                           Content="{DynamicResource Translation.Auth.User.Username.Message.Unique}" />
+                    <TextBox Name="tbxUsername" 
                              Style="{DynamicResource MahApps.Styles.TextBox}"
                              Margin="5"/>
                     
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Password*" />
-                    <Label Name="PasswordErrorMessage" 
+                           Content="{DynamicResource Translation.Auth.User.Password}" />
+                    <Label Name="errorPassword" 
                            Style="{DynamicResource MahApps.Styles.Label}"
                            Visibility="Collapsed" 
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Password must contain 8 characters with" />
-                    <PasswordBox Name="tBox_Password" 
+                           Content="{DynamicResource Translation.Auth.User.Password.Message.Requirements}" />
+                    <PasswordBox Name="tbxPassword" 
                             Style="{DynamicResource MahApps.Styles.PasswordBox}"
                             Margin="5" />
-                    
+
                     <Label Style="{DynamicResource MahApps.Styles.Label}"
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Confirm password*" />
-                    <Label Style="{DynamicResource MahApps.Styles.Label}"
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="1 special character, 1 number and 8 characters long" />
-                    <Label Name="PasswordEqualsErrorMessage" 
+                           Content="{DynamicResource Translation.Auth.User.Password.Confirm}" />
+                    <Label Name="errorPasswordMatch" 
                            Style="{DynamicResource MahApps.Styles.Label}"
                            Visibility="Collapsed" 
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Passwords do not match." />
-                    <Label Name="PasswordErrorMessage2" 
-                           Style="{DynamicResource MahApps.Styles.Label}"
-                           Visibility="Collapsed" 
-                           Foreground="Red" 
-                           HorizontalAlignment="Center" 
-                           Margin="5" 
-                           Content="1 special character and one number." />
-                    <PasswordBox Name="tBox_Confirm_Password" 
+                           Content="{DynamicResource Translation.Auth.User.Password.Confirm.Message.NoMatch}" />
+                    <PasswordBox Name="tbxConfirmPassword" 
                             Style="{DynamicResource MahApps.Styles.PasswordBox}" 
                             Margin="5" />
                 </StackPanel>
@@ -134,8 +123,8 @@
                 <controls:MiniButton  Style="{DynamicResource MahApps.Styles.Button}" 
                         Margin="15 0" 
                         HorizontalAlignment="Left" 
-                        Content="Register" 
-                        Click="Register_Button_Click"/>               
+                        Content="{DynamicResource Translation.Auth.Register}" 
+                        Click="BtnRegister_Click"/>               
             </StackPanel>            
         </StackPanel>
     </Grid>

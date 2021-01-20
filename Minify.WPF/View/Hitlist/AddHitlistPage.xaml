@@ -4,8 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:Minify.WPF.Controls"
-      mc:Ignorable="d"
-      Title="AddHistlistPage" >
+      mc:Ignorable="d" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
@@ -19,19 +18,19 @@
 
         <Label Style="{DynamicResource MahApps.Styles.Label}" 
                FontSize="28" 
-               Content="Add Hitlist"
+               Content="{DynamicResource Translation.Hitlist.Add}"
                Grid.Column="0"
                Grid.ColumnSpan="3"/>
         <StackPanel Grid.Column="0"
                     Grid.Row="1">
             <Label x:Name="lblTitle"
                     Style="{DynamicResource MahApps.Styles.Label}"  
-                    Content="*Title" />
+                    Content="{DynamicResource Translation.Hitlist.Title}" />
             <TextBox x:Name="tbxTitle"  
                     Style="{DynamicResource MahApps.Styles.TextBox}"/>
             <Label x:Name="lblDescription" 
                     Style="{DynamicResource MahApps.Styles.Label}" 
-                    Content="Description (Max 140 characters)" />
+                    Content="{DynamicResource Translation.Hitlist.Description.Info}" />
             <TextBox x:Name="tbxDescription" 
                          Style="{DynamicResource MahApps.Styles.TextBox}"
                          MaxHeight="100"
@@ -45,7 +44,7 @@
             <controls:MiniButton x:Name="Create_Button"
                     DockPanel.Dock="Left"
                     Style="{DynamicResource MahApps.Styles.Button}" 
-                    Content="Create"
+                    Content="{DynamicResource Translation.Actions.Create}"
                     VerticalAlignment="Top"
                     Height="20"
                     Margin="0 10"
@@ -58,7 +57,7 @@
                            FontWeight="Bold" 
                            FontStyle="Italic" 
                            Foreground="#FFFF0404" 
-                           Text="Title Requierd. " 
+                           Text="{DynamicResource Translation.Hitlist.Title.Message.Required}" 
                            Visibility="Hidden"/>
                 <TextBlock x:Name="DescriptionError" 
                            Style="{DynamicResource MahApps.Styles.TextBlock}"
@@ -66,7 +65,7 @@
                            FontWeight="Bold"
                            FontStyle="Italic"
                            Visibility="Hidden"
-                           Text="The maximum characters for the description is 140 characters" />
+                           Text="{DynamicResource Translation.Hitlist.Description.Message.Error}" />
             </StackPanel>
         </DockPanel>
     </Grid>

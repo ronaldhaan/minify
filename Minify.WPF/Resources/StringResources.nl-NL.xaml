@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- Auth -->
+    <system:String x:Key="Translation.Auth.Close">Sluiten</system:String>
+    <system:String x:Key="Translation.Auth.Login">Inloggen</system:String>
+    <system:String x:Key="Translation.Auth.Logout">Uitloggen</system:String>
+    <system:String x:Key="Translation.Auth.Login.Message.Error">Ongeldige gegevens</system:String>
+    <system:String x:Key="Translation.Auth.Register">Registreren</system:String>
+    <system:String x:Key="Translation.Auth.Register.Message.Success">Succesvol geregistreerd</system:String>
+    <system:String x:Key="Translation.Auth.Register.Message.NoAccount">Nog geen account? Klik dan op 'Registreren'</system:String>
+    <!-- User -->
+    <system:String x:Key="Translation.Auth.User">Gebruiker</system:String>
+    <system:String x:Key="Translation.Auth.Users">Gebruikers</system:String>
+    <system:String x:Key="Translation.Auth.User.Username">Gebruikersnaam</system:String>
+    <system:String x:Key="Translation.Auth.User.Username.Message.Unique">Gebruikersnaam moet uniek zijn.</system:String>
+    <system:String x:Key="Translation.Auth.User.Password">Wachtwoord</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.New">Nieuw wachtwoord</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm">Bevestig wachtwoord</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm.Message.NoMatch">De wachtwoorden komen niet overeen</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Confirm.Message.NoMatch.Creteria">De wachtwoorden voldoen niet aan de criteria.</system:String>
+    <system:String x:Key="Translation.Auth.User.Password.Message.Requirements">Het wachtwoord moet minimaal 8 karakters hebben en tenminste 1 cijfer en 1 speciaal karakter</system:String>
+    <!-- User -->
+    <system:String x:Key="Translation.Auth.Person.Firstname">Voornaam</system:String>
+    <system:String x:Key="Translation.Auth.Person.Lastname">Achternaam</system:String>
+    <system:String x:Key="Translation.Auth.Person.Firstname.Message.Empty">Voornaam mag niet leeg zijn.</system:String>
+    <system:String x:Key="Translation.Auth.Person.Email">Email</system:String>
+    <system:String x:Key="Translation.Auth.Person.Email.Message.Error">Het ingevulde email adres is niet geldig.</system:String>    
+    <!-- End Auth -->
+
+    <system:String x:Key="Translation.General">Algemeen</system:String>
+    <system:String x:Key="Translation.Details">Details</system:String>
+    <system:String x:Key="Translation.Security">Veiligheid</system:String>
+    <system:String x:Key="Translation.Theme">Thema</system:String>
+
+    <!-- Htilist -->
+    <system:String x:Key="Translation.Hitlist">Hitlijst</system:String>
+    <system:String x:Key="Translation.Hitlists">Hitlijsten</system:String>
+    <system:String x:Key="Translation.Hitlist.Title">Titel</system:String>
+    <system:String x:Key="Translation.Hitlist.Title.Message.Requierd">Title is een verplicht veld</system:String>
+    <system:String x:Key="Translation.Hitlist.Description">Beschrijving</system:String>
+    <system:String x:Key="Translation.Hitlist.Description.Info">Beschrijving (Max 140 karakters)</system:String>
+    <system:String x:Key="Translation.Hitlist.Description.Message.Error">Het maximale aantal karakter is overschreden</system:String>
+    <system:String x:Key="Translation.Hitlist.Add">Hitlijst toevoegen</system:String>
+    <system:String x:Key="Translation.Hitlist.Delete">Hitlijst verwijderen</system:String>
+    <system:String x:Key="Translation.Hitlist.Create">Hitlijst aanmaken</system:String>
+    <system:String x:Key="Translation.Hitlist.Choose">Kies een hitlijst</system:String>
+    <system:String x:Key="Translation.Hitlist.Song.Add">Voeg nummer toe aan hitlijst</system:String>
+    <!-- End Hitlist -->
+
+    <!-- Song -->
+    <system:String x:Key="Translation.Song">Nummer</system:String>
+    <system:String x:Key="Translation.Songs">Nummers</system:String>
+    <system:String x:Key="Translation.Song.Name">Naam</system:String>
+    <system:String x:Key="Translation.Song.Genre">Genre</system:String>
+    <system:String x:Key="Translation.Song.Artist">Artiest</system:String>
+    <system:String x:Key="Translation.Song.Duration">Duur</system:String>
+    <system:String x:Key="Translation.Song.Search">Zoeken</system:String>
+    <!-- End Song-->
+
+    <!-- Streamroom-->
+    <system:String x:Key="Translation.Streamroom">Stream ruimte</system:String>
+    <system:String x:Key="Translation.Streamrooms">Stream ruimtes</system:String>
+    <system:String x:Key="Translation.Streamroom.Create">Stream ruimte aanmaken</system:String>
+    <system:String x:Key="Translation.Streamroom.Message.Welcome">Welkom in deze stream ruimte!</system:String>
+    <!-- End Streamroom-->
+
+    <!-- Actions -->
+    <system:String x:Key="Translation.Actions.Add">Toevoegen</system:String>
+    <system:String x:Key="Translation.Actions.Create">Aanmaken</system:String>
+    <system:String x:Key="Translation.Actions.Remove">Verwijderne</system:String>
+    <system:String x:Key="Translation.Actions.Delete">Verwijderen</system:String>
+    <system:String x:Key="Translation.Actions.Update">Bijwerken</system:String>
+    <!-- End Actions -->
+
+    <!-- Actions -->
+    <system:String x:Key="Translation.Media.Previous">Vorige</system:String>
+    <system:String x:Key="Translation.Media.Play">Afspelen</system:String>
+    <system:String x:Key="Translation.Media.Pause">Pauzeren</system:String>
+    <system:String x:Key="Translation.Media.Next">Volgende</system:String>
+    <!-- End Actions -->
+</ResourceDictionary>

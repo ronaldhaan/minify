@@ -6,7 +6,7 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d"
                  xmlns:controls="clr-namespace:Minify.WPF.Controls"
-                 Title="Login" 
+                 Title="{DynamicResource Translation.Auth.Login}" 
                  Height="500" 
                  Width="400" 
                  ResizeMode="CanResize" 
@@ -25,14 +25,14 @@
                     <Label Style="{DynamicResource MahApps.Styles.Label}"  
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Username" />
+                           Content="{DynamicResource Translation.Auth.User.Username}" />
                     <TextBox Style="{DynamicResource MahApps.Styles.TextBox}" 
                              x:Name="Username" 
                              Margin="5" />
                     <Label Style="{DynamicResource MahApps.Styles.Label}" 
                            HorizontalAlignment="Center" 
                            Margin="5"
-                           Content="Password"/>
+                           Content="{DynamicResource Translation.Auth.User.Password}"/>
                     <PasswordBox Style="{DynamicResource MahApps.Styles.PasswordBox}" 
                                  x:Name="Password" 
                                  Margin="5"
@@ -43,19 +43,17 @@
                         <controls:MiniButton Style="{DynamicResource MahApps.Styles.Button}"  
                                              Margin="15 20" 
                                              HorizontalAlignment="Left" 
-                                             Content="Login" 
+                                             Content="{DynamicResource Translation.Auth.Login}" 
                                              Click="Login_Button_Click"/>
                         <controls:MiniButton Style="{DynamicResource MahApps.Styles.Button}"  
                                              Margin="15 20" 
                                              HorizontalAlignment="Right" 
-                                             Content="Register" 
+                                             Content="{DynamicResource Translation.Auth.Register}" 
                                              Click="Create_Account_Button_click"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{DynamicResource MahApps.Styles.Label}"  
-                               Content="Don't have an account?"/>
-                        <Label Style="{DynamicResource MahApps.Styles.Label}"  
-                               Content="Click on 'Register'" />
+                               Content="{DynamicResource Translation.Auth.Register.Message.NoAccount}" />
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -70,14 +68,14 @@
                            Foreground="Red" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Invalid credentials" />
+                           Content="{DynamicResource Translation.Auth.Login.Message.Error}" />
                     <Label Style="{DynamicResource MahApps.Styles.Label}"  
                            Name="RegisteredMessage" 
                            Visibility="Hidden" 
                            Foreground="Green" 
                            HorizontalAlignment="Center" 
                            Margin="5" 
-                           Content="Successfully registered" />
+                           Content="{DynamicResource Translation.Auth.Register.Message.Success}" />
                 </StackPanel>
             </Border>
         </StackPanel>

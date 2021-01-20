@@ -9,7 +9,7 @@
       Title="OverviewUserPage"
       DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <TabControl Style="{DynamicResource MahApps.Styles.TabControl.Animated}">
-        <TabItem Header="General">
+        <TabItem Header="{DynamicResource Translation.General}">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -23,39 +23,39 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Label Content="Username:"
+                <Label Content="{DynamicResource Translation.Auth.User.Username}"
                         Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Column="1"
                         Margin="0,0,0,10" 
                         Content="{Binding Path=User.UserName}"
                         Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Row="1" 
-                       Content="Email"
+                       Content="{DynamicResource Translation.Auth.Person.Email}"
                        Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Row="1" 
                         Grid.Column="1" 
                         Margin="0,0,0,10" 
-                        Content="{Binding Path=User.Email}"
+                        Content="{Binding Path=User.Person.Email}"
                         Style="{DynamicResource MahApps.Styles.Label}" />
                 <Label Grid.Row="2" 
-                       Content="First name:"
+                       Content="{DynamicResource Translation.Auth.Person.Firstname}"
                        Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Row="2" 
                         Grid.Column="1" 
                         Margin="0,0,0,10" 
-                        Content="{Binding Path=User.FirstName}"
+                        Content="{Binding Path=User.Person.FirstName}"
                         Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Row="3" 
-                        Content="Last name:"
+                        Content="{DynamicResource Translation.Auth.Person.Lastname}"
                         Style="{DynamicResource MahApps.Styles.Label}"/>
                 <Label Grid.Row="3" 
                         Grid.Column="1"
                         Margin="0,0,0,10"  
-                        Content="{Binding Path=User.LastName}"
+                        Content="{Binding Path=User.Person.LastName}"
                         Style="{DynamicResource MahApps.Styles.Label}"/>
             </Grid>
         </TabItem>
-        <TabItem Header="Security" >
+        <TabItem Header="{DynamicResource Translation.Security}" >
             <StackPanel>
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
@@ -69,14 +69,14 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="New Password:"
+                    <Label Content="{DynamicResource Translation.Auth.User.Password.New}"
                             Style="{DynamicResource MahApps.Styles.Label}"
                            Margin="5"/>
                     <PasswordBox x:Name="tbxPassword"
                                 Grid.Column="1"
                                 Style="{DynamicResource MahApps.Styles.PasswordBox}"
                                  Margin="5"/>
-                    <Label Content="Confirm Password:"
+                    <Label Content="{DynamicResource Translation.Auth.User.Password.Confirm}"
                            Grid.Row="1"
                            Style="{DynamicResource MahApps.Styles.Label}"
                            Margin="5"/>
@@ -91,25 +91,22 @@
                         Margin="5"
                         Grid.Row="2"
                         Content="Update"
-                        Click="MiniButton_Click"/>
+                        Click="UpdatePassword_Click"/>
 
                     <StackPanel Grid.Row="2" Grid.Column="1">
-                        <TextBlock Text="Passwords don't match" 
+                        <TextBlock Text="{DynamicResource Translation.Auth.User.Password.Confirm.Message.NoMatch}" 
                                    x:Name="tbkErrorCriteria"
                                    Foreground="Red"
                                    Visibility="Collapsed"
                                    Style="{DynamicResource MahApps.Styles.TextBlock}"/>
-                        <TextBlock Text="Password does not match the criteria" 
+                        <TextBlock Text="{DynamicResource Translation.Auth.User.Password.Confirm.Message.NoMatch.Creteria}" 
                                    x:Name="tbkErrorMatch"
                                    Visibility="Collapsed"
                                    Foreground="Red"
                                    Style="{DynamicResource MahApps.Styles.TextBlock}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Margin="5">
-                        <TextBlock Text="The Password must have minimal 8 characters of which one" 
-                                   Foreground="Red"
-                                   Style="{DynamicResource MahApps.Styles.TextBlock}"/>
-                        <TextBlock Text="of them has to be a special char and one a number." 
+                        <TextBlock Text="{DynamicResource Translation.Auth.User.Password.Message.Requirements}" 
                                    Foreground="Red"
                                    Style="{DynamicResource MahApps.Styles.TextBlock}"/>
                     </StackPanel>
@@ -117,6 +114,6 @@
             </StackPanel>
         </TabItem>
 
-        <TabItem Header="Details" />
+        <TabItem Header="{DynamicResource Translation.Details}" />
     </TabControl>
 </Page>

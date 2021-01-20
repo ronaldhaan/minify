@@ -50,7 +50,6 @@ namespace Minify.WPF.View
 
             _mediaManager.Volume = (double)volumeSlider.Value;
 
-
             var user = AppManager.Get<UserController>().Get(appData.UserId);
 
             if (user.DefaultTheme == DAL.Models.DefaultTheme.Light)
@@ -358,7 +357,7 @@ namespace Minify.WPF.View
             });
         }
 
-        private void Navigate(object obj) => contentFrame.Navigate(obj);
+        private void Navigate(object obj) => contentFrame?.Navigate(obj);
 
         public void ResetSelectedStreamroom()
         {

@@ -9,7 +9,7 @@
              DataContext="">
     <StackPanel >
         <Label Style="{DynamicResource MahApps.Styles.Label}" 
-                Content="Streamrooms" 
+                Content="{DynamicResource Translation.Streamrooms}" 
                 MouseDown="Label_MouseDown"/>
         <ScrollViewer Style="{DynamicResource MahApps.Styles.ScrollViewer}"
                     VerticalScrollBarVisibility="auto">

@@ -3,9 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Minify.WPF.View"
+      xmlns:controls="clr-namespace:Minify.WPF.Controls"
       mc:Ignorable="d"
-      Title="OverviewHitlistPage"
       d:DesignHeight="450" 
       d:DesignWidth="800"
       Height="auto"
@@ -35,19 +34,15 @@
                         DockPanel.Dock="Right"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top">
-                <Button x:Name="btnDeleteHitlist" 
+                <controls:MiniButton x:Name="btnDeleteHitlist" 
                         Style="{DynamicResource MahApps.Styles.Button}"
-                        Content="Delete Hitlist" 
-                        Background="#FF993FC3" 
-                        Foreground="#DDFFFFFF"
+                        Content="{DynamicResource Translation.Hitlist.Delete}" 
                         Margin="10"
                         Command="{Binding DataContext.RemoveSubjectCommand}"
                         Click="Btn_delete_click" />
-                <Button x:Name="btnCreateStreamroom" 
+                <controls:MiniButton x:Name="btnCreateStreamroom" 
                         Style="{DynamicResource MahApps.Styles.Button}"
-                        Content="Create Streamroom" 
-                        Background="#FF993FC3" 
-                        Foreground="#DDFFFFFF"
+                        Content="{DynamicResource Translation.Streamroom.Create}" 
                         Margin="10"
                         Click="CreateStreamroom_Click"/>
             </StackPanel>
@@ -57,10 +52,10 @@
                   SelectionChanged="HitlistSongs_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Artist" Width="200" DisplayMemberBinding="{Binding Artist}" />
-                    <GridViewColumn Header="Genre" Width="200" DisplayMemberBinding="{Binding Genre}" />
-                    <GridViewColumn Header="Duration" Width="200" DisplayMemberBinding="{Binding Duration, StringFormat=mm\\:ss}" />
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Name}" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Artist}" Width="200" DisplayMemberBinding="{Binding Artist}" />
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Genre}" Width="200" DisplayMemberBinding="{Binding Genre}" />
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Duration}" Width="200" DisplayMemberBinding="{Binding Duration, StringFormat=mm\\:ss}" />
                 </GridView>
             </ListView.View>
         </ListView>

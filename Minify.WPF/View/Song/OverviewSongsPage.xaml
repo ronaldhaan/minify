@@ -9,10 +9,9 @@
       d:DesignHeight="450" 
       d:DesignWidth="800"
       Height="auto"
-      Width="auto"
-      Title="OverviewSongsPage">
+      Width="auto">
     <StackPanel>
-        <Label Content="Songs"
+        <Label Content="{DynamicResource Translation.Songs}"
                    Style="{DynamicResource MahApps.Styles.Label}"
                    FontSize="20"/>
         <ListView Name="Songs" 
@@ -20,11 +19,11 @@
                   SelectionChanged="Songs_SelectionChanged" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                    <GridViewColumn Header="Artist" DisplayMemberBinding="{Binding Artist}" Width="150"/>
-                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="150"/>
-                    <GridViewColumn Header="Duration" DisplayMemberBinding="{Binding Duration}" Width="150"/>
-                    <GridViewColumn Header="Add">
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Name}" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Artist}" DisplayMemberBinding="{Binding Artist}" Width="150"/>
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Genre}" DisplayMemberBinding="{Binding Genre}" Width="150"/>
+                    <GridViewColumn Header="{DynamicResource Translation.Song.Duration}" DisplayMemberBinding="{Binding Duration}" Width="150"/>
+                    <GridViewColumn Header="{DynamicResource Translation.Actions.Add}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <local:MiniButton x:Name="AddButton"

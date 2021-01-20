@@ -42,7 +42,7 @@
             Grid.Column="1" >
             <TextBox x:Name="tbxSearchSongs" 
                 Style="{DynamicResource MahApps.Styles.TextBox.Search}"
-                Text="Search..." 
+                Text="{DynamicResource Translation.Song.Search}" 
                 TextChanged="TbxSearchSongs_TextChanged" 
                 MaxLength="30" 
                 Margin="5"  
@@ -107,10 +107,10 @@
                           VerticalScrollBarVisibility="auto"
                           HorizontalScrollBarVisibility="Disabled"
                           Height="auto">
-                <Frame ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                <Frame x:Name="contentFrame"
+                       ScrollViewer.VerticalScrollBarVisibility="Visible" 
                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                        Height="auto"
-                       Name="contentFrame"
                        NavigationUIVisibility="Hidden"/>
             </ScrollViewer>
         </StackPanel>
@@ -119,11 +119,11 @@
             <Label x:Name="lblSongName"  
                 Style="{DynamicResource MahApps.Styles.Label}" 
                 Margin="5" 
-                FontSize="24" />
+                FontSize="24"/>
             <Label x:Name="lblArtist" 
                 Style="{DynamicResource MahApps.Styles.Label}" 
                 Margin="5" 
-                FontSize="24" />
+                FontSize="24"/>
         </StackPanel>
         <StackPanel x:Name="LogoutPanel" Grid.Row="0" Grid.Column="3">
             <!--placeholder for logout-->
@@ -134,8 +134,9 @@
             <controls:MiniButton
                 Style="{DynamicResource MahApps.Styles.Button}" 
                 Click="BtnLogout_Click" 
-                Width="60"
-                Content="Logout"/>
+                Margin="50 0"
+                MinWidth="50"
+                Content="{DynamicResource Translation.Auth.Logout}"/>
         </StackPanel>
         <Separator Grid.ColumnSpan="3"
                    Grid.Row="2"
@@ -152,7 +153,7 @@
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="Previous"
+                        ToolTip="{DynamicResource Translation.Media.Previous}"
                         Width="50"
                         Height="50"
                         Style="{DynamicResource MahApps.Styles.Button.Circle}"
@@ -166,7 +167,7 @@
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="Play"
+                        ToolTip="{DynamicResource Translation.Media.Play}"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
@@ -181,7 +182,7 @@
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="Pause"
+                        ToolTip="{DynamicResource Translation.Media.Pause}"
                         Visibility="Collapsed"
                         Width="50"
                         Height="50" 
@@ -195,7 +196,7 @@
                         ToolTipService.InitialShowDelay="5000" 
                         ToolTipService.ShowDuration="2000" 
                         ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="Next"
+                        ToolTip="{DynamicResource Translation.Media.Next}"
                         Width="50"
                         Height="50" 
                         Style="{DynamicResource MahApps.Styles.Button.Circle}" 
@@ -203,15 +204,8 @@
                         Click="BtnNext_Click">
                     <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid"/>
                 </controls:MiniButton>
-
-
-                <!--<Image Name="btn_Back" Source="/ImageResources\back.png" MouseDown="OnMouseDownBack" Height="50" Width="50" Margin="5, 0 , 5, 0" />
-                <Image Name="btn_Play" Source="/ImageResources\play.png" MouseDown="OnMouseDownPlay" Height="50" Width="50" Visibility="Visible" />
-               
-                <Image Name="btn_Pause" Source="/ImageResources\pause.png" MouseDown="OnMouseDownPause" Height="50" Width="50" Visibility="Collapsed" Margin="5, 0 , 5, 0" />
-                <Image Name="btn_Next" Source="/ImageResources\next.png" MouseDown="OnMouseDownNext" Height="50" Width="50" Margin="5, 0 , 5, 0" />
-                -->
-                </StackPanel>
+               </StackPanel>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" >
                 <Label x:Name="lblCurrentTime"
                        Style="{DynamicResource MahApps.Styles.Label}" 
