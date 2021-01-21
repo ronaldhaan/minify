@@ -34,8 +34,8 @@
         <StackPanel x:Name="MessagePanel" 
                     Grid.Row="1" 
                     Grid.Column="2" 
-                    Visibility="Hidden">
-            <local:ChatControl x:Name="chatControl" Visibility="Collapsed"/>
+                    Visibility="Collapsed">
+            <local:ChatControl x:Name="chatControl"/>
         </StackPanel>
         <StackPanel x:Name="SearchPanel"
             Grid.Row="0" 
@@ -87,12 +87,14 @@
             </StackPanel>
             <StackPanel>
                 <StackPanel.Children>
-                    <local:ControlHitlistList x:Name="HitlistMenu"
-                                              SelectionChanged="HitlistMenu_SelectionChanged"/>
+                    <controls:ListControl x:Name="HitlistMenu"
+                                          Title="{DynamicResource Translation.Hitlists}"
+                                          SelectionChanged="HitlistMenu_SelectionChanged"/>
 
                     <Separator Foreground="{StaticResource MahApps.Brushes.Accent}"/>
-                    <local:ControlStreamroomList x:Name="streamroomMenu" 
-                                                 SelectionChanged="Streamroom_SelectionChanged"/>
+                    <controls:ListControl x:Name="streamroomMenu" 
+                                          Title="{DynamicResource Translation.Streamrooms}"
+                                          SelectionChanged="Streamroom_SelectionChanged"/>
                 </StackPanel.Children>
             </StackPanel>
         </StackPanel>
@@ -113,18 +115,7 @@
                        Height="auto"
                        NavigationUIVisibility="Hidden"/>
             </ScrollViewer>
-        </StackPanel>
-        <StackPanel x:Name="SongPanel" Grid.Row="2" Grid.Column="0" >
-            <!--placeholder for displaying songs and artist-->
-            <Label x:Name="lblSongName"  
-                Style="{DynamicResource MahApps.Styles.Label}" 
-                Margin="5" 
-                FontSize="24"/>
-            <Label x:Name="lblArtist" 
-                Style="{DynamicResource MahApps.Styles.Label}" 
-                Margin="5" 
-                FontSize="24"/>
-        </StackPanel>
+        </StackPanel>        
         <StackPanel x:Name="LogoutPanel" Grid.Row="0" Grid.Column="3">
             <!--placeholder for logout-->
             <Label x:Name="lblUserName" 
@@ -142,103 +133,10 @@
                    Grid.Row="2"
                    VerticalAlignment="Top"
                    Margin="0"/>
-        <StackPanel x:Name="MediaPlayerPanel" 
-                    Grid.Row="2" 
-                    Grid.Column="1" 
-                    Margin="0 5 0 0">
-            
-           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-
-                <controls:MiniButton x:Name="btnBack"
-                        ToolTipService.InitialShowDelay="5000" 
-                        ToolTipService.ShowDuration="2000" 
-                        ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="{DynamicResource Translation.Media.Previous}"
-                        Width="50"
-                        Height="50"
-                        Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                        Margin="5, 5, 5, 5"
-                        Click="BtnBack_Click"
-                        MouseDoubleClick="BtnBack_MouseDoubleClick">
-                    <iconPacks:PackIconFontAwesome Kind="ArrowLeftSolid"/>
-                </controls:MiniButton>
-
-                <controls:MiniButton x:Name="btnPlay"
-                        ToolTipService.InitialShowDelay="5000" 
-                        ToolTipService.ShowDuration="2000" 
-                        ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="{DynamicResource Translation.Media.Play}"
-                        Width="50"
-                        Height="50" 
-                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Margin="5, 5, 5, 5"
-                        Click="BtnPlay_Click">
-                    <iconPacks:PackIconFontAwesome Kind="PlaySolid" />
-                </controls:MiniButton>
-
-
-
-                <controls:MiniButton x:Name="btnPause"
-                        ToolTipService.InitialShowDelay="5000" 
-                        ToolTipService.ShowDuration="2000" 
-                        ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="{DynamicResource Translation.Media.Pause}"
-                        Visibility="Collapsed"
-                        Width="50"
-                        Height="50" 
-                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Margin="5, 5, 5, 5"
-                        Click="BtnPause_Click">
-                    <iconPacks:PackIconFontAwesome Kind="PauseSolid" />
-                </controls:MiniButton>
-
-                <controls:MiniButton x:Name="btnNext"
-                        ToolTipService.InitialShowDelay="5000" 
-                        ToolTipService.ShowDuration="2000" 
-                        ToolTipService.BetweenShowDelay="10000" 
-                        ToolTip="{DynamicResource Translation.Media.Next}"
-                        Width="50"
-                        Height="50" 
-                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                        Margin="5, 5, 5, 5"
-                        Click="BtnNext_Click">
-                    <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid"/>
-                </controls:MiniButton>
-               </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Label x:Name="lblCurrentTime"
-                       Style="{DynamicResource MahApps.Styles.Label}" 
-                       VerticalAlignment="Center"
-                       Content="00:00"/>
-                
-                <Slider x:Name="timelineSlider" 
-                    Style="{DynamicResource MahApps.Styles.Slider}" 
-                    Height="5" 
-                    Width="400" 
-                    Minimum="0" 
-                    Maximum="100" 
-                    Value="0" 
-                    ValueChanged="TimelineSlider_ValueChanged"
-                    Foreground="#FF821BB2" />
-                <Label x:Name="lblDuration"
-                       Style="{DynamicResource MahApps.Styles.Label}" 
-                       VerticalAlignment="Center" Content="00:00"/>
-            </StackPanel>
-        </StackPanel>
-        
-        <StackPanel x:Name="VolumePanel"                     
-                    Grid.Column="2" 
-                    Grid.Row="2" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Stretch">
-            
-            <Slider Name="volumeSlider"  
-                    ValueChanged="VolumeSlider_ValueChanged" 
-                    Minimum="0" 
-                    Maximum="3" 
-                    Value="1.5" 
-                    Margin="30 0 30 0"/>
+        <StackPanel Grid.Column="0" 
+                    Grid.Row="3" 
+                    Grid.ColumnSpan="3">
+            <controls:MediaControl x:Name="mediaControl" />
         </StackPanel>
     </Grid>
 </md:MetroWindow>

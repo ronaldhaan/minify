@@ -5,11 +5,11 @@ using System.Windows.Controls;
 
 namespace Minify.WPF.Models
 {
-    public class EntitySelectionChangedEventArgs : SelectionChangedEventArgs
+    public class ListControlSelectionChangedEventArgs : SelectionChangedEventArgs
     {
         public Guid Id { get; set; }
 
-        public EntitySelectionChangedEventArgs(Guid Id, SelectionChangedEventArgs e) : base(e.RoutedEvent, e.RemovedItems, e.AddedItems)
+        public ListControlSelectionChangedEventArgs(Guid Id, SelectionChangedEventArgs e) : base(e.RoutedEvent, e.RemovedItems, e.AddedItems)
         {
             this.Id = Id;
         }

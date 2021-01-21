@@ -6,6 +6,7 @@ using Minify.Core.Models;
 using Minify.DAL.Entities;
 using Minify.WPF.Managers;
 using Minify.WPF.Models;
+using Minify.WPF.ViewModels;
 
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,6 @@ namespace Minify.WPF.View
 
         private readonly Navigation _navigation;
 
-        private readonly WpfMediaManager _mediaManager;
-
-        public WpfMediaManager MediaManager { get => _mediaManager;  }
-
         public MainWindow()
         {
             _loginController = AppManager.Get<LoginController>();
@@ -41,14 +38,7 @@ namespace Minify.WPF.View
 
             _navigation = new Navigation(this);
 
-            _mediaManager = new WpfMediaManager(null);
-            _mediaManager.UpdateMediaplayer += MediaManager_UpdateMediaplayer;
-            _mediaManager.OnPlay += MediaManager_OnPlay;
-            _mediaManager.OnPause += MediaManager_OnPause;
-
             InitializeComponent();
-
-            _mediaManager.Volume = (double)volumeSlider.Value;
 
             var user = AppManager.Get<UserController>().Get(appData.UserId);
 
@@ -58,26 +48,59 @@ namespace Minify.WPF.View
                 UtilityWpf.SetDarkTheme();
         }
 
-        public void HitlistSongSelectedChanged(object sender, PlaySongEventArgs e)
+        public override void EndInit()
         {
-            _mediaManager.Songs = e.Songs;
-            _mediaManager.Open(e.Song);
-            _mediaManager.Play();
+            base.EndInit();
+            UpdateHitlistMenu();
+            UpdateStreamroomMenu();
+
+            mediaControl.OnPlay += MediaControl_OnPlay;
+            mediaControl.OnPause += MediaControl_OnPause;
         }
+
 
         #region Events
 
+        private void MediaControl_OnPause(object sender, EventArgs e)
+        {
+            _navigation.DetailStreamroomPage?.Pause();
+        }
+
+        internal void PlaySong(object sender, PlaySongEventArgs e)
+        {
+            mediaControl.PlaySong(this, e);
+        }
+
+        private void MediaControl_OnPlay(object sender, EventArgs e)
+        {
+            _navigation.DetailStreamroomPage?.Play();
+        }
+
+        
         #region HitlistMenu
+        public void HitlistSongSelectedChanged(object sender, PlaySongEventArgs e)
+        {
+            mediaControl.PlaySong(sender, e);
+        }
+
+        private void UpdateHitlistMenu()
+        {
+            var hitlists = AppManager.Get<HitlistController>().GetHitlistsByUserId(appData.UserId);
+
+            HitlistMenu.ItemsSource = ListControlViewModel.GetViewModel(hitlists);
+        }
+
         public void RefreshHitListMenu(object sender, EventArgs e)
         {
             ResetSelectedHitlist();
-            HitlistMenu.Refresh();
+            UpdateHitlistMenu();
 
             Navigate(_navigation.CreateOverviewSongsPage()); ;
         }
 
-        public void UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
+        public void AddHitlistPage_UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
         {
+            UpdateHitlistMenu();
             // set the new item as selected
             HitlistMenu.UpdateSelected(e.Id);
 
@@ -87,7 +110,7 @@ namespace Minify.WPF.View
 
         private void ResetSelectedHitlist() => HitlistMenu.Reset();
 
-        private void HitlistMenu_SelectionChanged(object sender, EntitySelectionChangedEventArgs e)
+        private void HitlistMenu_SelectionChanged(object sender, ListControlSelectionChangedEventArgs e)
         {
             ResetSelectedStreamroom();
             CloseStreamRoom();
@@ -96,11 +119,19 @@ namespace Minify.WPF.View
         #endregion HitlistMenu
 
         #region Streamroom Control
-        public void Streamroom_SelectionChanged(object sender, EntitySelectionChangedEventArgs e)
+        private void UpdateStreamroomMenu()
         {
-            ResetSelectedHitlist();
+            var streamrooms = AppManager.Get<StreamroomController>().GetAll(true);
+
+            streamroomMenu.ItemsSource = ListControlViewModel.GetViewModel(streamrooms);
+
+        }
+
+        public void Streamroom_SelectionChanged(object sender, ListControlSelectionChangedEventArgs e)
+        {
             CloseStreamRoom();
-            Navigate(_navigation.CreateDetailStreamroomPage(e.Id, _mediaManager));
+            ResetSelectedHitlist();
+            OpenStreamroom(e.Id);
         }
 
         public void OverviewStreamroom_MessagesRefreshed(object sender, LocalStreamroomUpdatedEventArgs e)
@@ -113,18 +144,25 @@ namespace Minify.WPF.View
             }));
         }
 
-        public void OpenStreamroom(object sender, CreatedStreamRoomEventArgs e)
+        public void DetailHitlistPage_StreamroomCreated(object sender, CreatedStreamRoomEventArgs e)
         {
             CloseStreamRoom();
-
-
-            MessagePanel.Visibility = Visibility.Visible;
-
+            ResetSelectedHitlist();
             // set the new item as selected
+            UpdateStreamroomMenu();
             streamroomMenu.UpdateSelected(e.Streamroom.Id);
-            Navigate(_navigation.CreateDetailStreamroomPage(e.Streamroom.Id, _mediaManager));
 
-            timelineSlider.IsEnabled = _navigation.DetailStreamroomPage.UserId is Guid id && appData.BelongsEntityToUser(id);
+            OpenStreamroom(e.Streamroom.Id);
+        }
+
+        public void OpenStreamroom(Guid id)
+        {
+            MessagePanel.Visibility = Visibility.Visible;
+            chatControl.StreamroomId = id;
+
+            Navigate(_navigation.CreateDetailStreamroomPage(id, mediaControl.MediaManager));
+
+            mediaControl.EnableSlider(_navigation.DetailStreamroomPage.UserId is Guid userId && appData.BelongsEntityToUser(userId));
         }
 
         private void CloseStreamRoom()
@@ -134,47 +172,13 @@ namespace Minify.WPF.View
                 MessagePanel.Visibility = Visibility.Collapsed;
                 _navigation.DetailStreamroomPage?.Close();
                 _navigation.DetailStreamroomPage = null;
-                _mediaManager.Stop();
+                mediaControl.Stop();
 
-                timelineSlider.IsEnabled = true;
+                mediaControl.EnableSlider(true);
             }
         }
         #endregion Streamroom Control
 
-        private void MediaManager_UpdateMediaplayer(object sender, UpdateMediaplayerEventArgs e) => SetSongData(e);
-
-        public void PlaySong(object sender, PlaySongEventArgs e)
-        {
-            _mediaManager.Songs = e.Songs;
-            _mediaManager.Open(e.Song);
-            _mediaManager.Play();
-        }
-
-        private void SetSongData(UpdateMediaplayerEventArgs e)
-        {
-            if ((string)lblSongName.Content != e.SongName)
-            {
-                lblSongName.Content = e.SongName;
-            }
-            if ((string)lblArtist.Content != e.Artist)
-            {
-                lblArtist.Content = e.Artist;
-            }
-
-            double duration = e.Duration.TotalMilliseconds;
-            if (timelineSlider.Maximum != duration)
-            {
-                timelineSlider.Maximum = e.Duration.TotalMilliseconds;
-            }
-
-            timelineSlider.Value = e.Position.TotalMilliseconds;
-
-
-            if (e.SongName == null)
-            {
-                CanRefresh();
-            }
-        }
 
         #region Controls
 
@@ -191,7 +195,7 @@ namespace Minify.WPF.View
             MainWindow overview = new MainWindow();
             overview.Show();
             CloseStreamRoom();
-            _mediaManager.Close();
+            //_mediaManager.Close();
             Close();
         }
 
@@ -233,59 +237,11 @@ namespace Minify.WPF.View
         }
         #endregion Navigation Buttons
 
-        private void BtnPlay_Click(object sender, RoutedEventArgs e) => Play();
-
-        private void BtnPause_Click(object sender, RoutedEventArgs e) => Pause();
-
-        private void BtnNext_Click(object sender, RoutedEventArgs e)
-        {
-            if(CanRefresh())
-                DisplayPause(_mediaManager.Next());
-        }
-
-        private void BtnBack_Click(object sender, RoutedEventArgs e)
-        {
-            if(CanRefresh())
-                _mediaManager.Replay();
-        }
-
-        private void BtnBack_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (CanRefresh())
-                DisplayPause(_mediaManager.Previous());
-        }
-
-        private bool CanRefresh() => _navigation.Refresh(_mediaManager.GetCurrentSong());
-
-        private void TimelineSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            // Overloaded constructor takes the arguments days, hours, minutes, seconds, milliseconds.
-            // Create a TimeSpan with miliseconds equal to the slider value.
-            double minBetween = 2000;
-            if (e.OldValue - e.NewValue > minBetween || e.NewValue - e.OldValue > minBetween)
-            {
-                int SliderValue = (int)timelineSlider.Value;
-                _mediaManager.Position = new TimeSpan(0, 0, 0, 0, SliderValue);
-            }
-
-            var duration = _mediaManager.GetCurrentSong().Duration.ToString(@"mm\:ss");
-            if (lblDuration.Content != null && (string)lblDuration.Content != duration)
-            {
-                lblDuration.Content = duration;
-            }
-
-            var position = _mediaManager.Position.ToString(@"mm\:ss");
-            if (lblCurrentTime.Content != null && (string)lblCurrentTime.Content != position)
-            {
-                lblCurrentTime.Content = position;
-            }
-        }
-
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
             _loginController.Logout();
             CloseStreamRoom();
-            _mediaManager.Close();
+            mediaControl.Close();
             Login login = new Login();
             login.Show();
             Close();
@@ -302,99 +258,25 @@ namespace Minify.WPF.View
                 }
                 else
                 {
-                   Navigate(new Label
-                    {
-                        Content = "No songs could be found"
-                    });
+                   Navigate(new Label { Content = "No songs could be found" });
                 }
             }
-        }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _mediaManager.Volume = (double)volumeSlider.Value;
-        }   
-
+        }           
         #endregion Controls
-        private void MediaManager_OnPause(object sender, EventArgs e)
-        {
-            DisplayPlay();
-        }
-
-        private void MediaManager_OnPlay(object sender, UpdateMediaplayerEventArgs e)
-        {
-            DisplayPause();
-            SetSongData(e);
-        }
         #endregion Events
-        private void DisplayPause(bool condition)
-        {
-            if (condition)
-            {
-                DisplayPause();
-            }
-            else
-            {
-                DisplayPlay();
-            }
-        }
-
-        private void DisplayPlay()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                btnPause.Visibility = Visibility.Collapsed;
-                btnPlay.Visibility = Visibility.Visible;
-            });
-        }
-
-        private void DisplayPause()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                btnPlay.Visibility = Visibility.Collapsed;
-                btnPause.Visibility = Visibility.Visible;
-            });
-        }
 
         private void Navigate(object obj) => contentFrame?.Navigate(obj);
 
         public void ResetSelectedStreamroom()
         {
             streamroomMenu.Reset();
-            streamroomMenu.Update();
-        }
-
-        private void Play()
-        {
-            if (CanRefresh())
-            {
-                _navigation.DetailStreamroomPage?.Play();
-                _mediaManager.Play();
-            }
-        }
-
-        private void Pause()
-        {
-            if (CanRefresh())
-            {
-                _navigation.DetailStreamroomPage?.Pause();
-                _mediaManager.Pause();
-            }
         }
 
         private void MetroWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
             {
-                if (_mediaManager.Paused)
-                {
-                    Play();
-                }
-                else
-                {
-                    Pause();
-                }
+                mediaControl.ToggleMediaPlayer();
             }
         }
 

@@ -27,6 +27,7 @@ namespace Minify.DAL.Entities
 
         public Streamroom(Guid hitlistId, Guid currentSongId)
         {
+            Id = Guid.NewGuid();
             HitlistId = hitlistId;
             CurrentSongId = currentSongId;
             CurrentSongPosition = new TimeSpan(0, 0, 0);

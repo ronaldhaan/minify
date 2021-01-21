@@ -54,8 +54,8 @@ namespace Minify.Core.Managers
             {
                 UpdateData();
             }
-
             LoadData();
+
             StreamroomRefreshed?.Invoke(this, new LocalStreamroomUpdatedEventArgs(_streamroom, _messages));
         }
 
@@ -99,12 +99,17 @@ namespace Minify.Core.Managers
 
         private void UpdateData()
         {
-            if (_appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
+            Song song = _manager.GetCurrentSong();
+            if(song != null)
             {
-                _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
-                _streamroom.CurrentSongId = _manager.GetCurrentSong().Id;
-                Update();
+                if (_appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
+                {
+                    _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
+                    _streamroom.CurrentSongId = song.Id;
+                    Update();
+                }
             }
+            
         }
 
         private void LoadData()

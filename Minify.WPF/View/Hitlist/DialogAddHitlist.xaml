@@ -19,7 +19,7 @@
                 <ComboBox Name="cbxHitlist"
                       IsEditable="True"
                       Style="{DynamicResource MahApps.Styles.ComboBox}"
-                      ItemsSource="{Binding Translation.Hitlists}"
+                      ItemsSource="{Binding Hitlists}"
                       DisplayMemberPath="Title"
                       SelectedValuePath="Id"
                       IsSynchronizedWithCurrentItem="True"

@@ -8,6 +8,8 @@ namespace Minify.Core.Models
     public class PlaySongEventArgs : EventArgs
     {
         public Song Song { get; set; }
+
+        public TimeSpan CurrentSongPosition { get; set; }
         public List<Song> Songs { get; set; }
 
         public PlaySongEventArgs(Song song) : this(song, new List<Song> { song }) { }

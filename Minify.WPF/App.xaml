@@ -13,6 +13,7 @@
                 <!-- Theme setting -->
                 <ResourceDictionary Source="pack://application:,,,/Minify.WPF;component/View/Styles/Light.Accent1.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Minify.WPF;component/View/Styles/Dark.Accent1.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Minify.WPF;component/Resources/StringResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

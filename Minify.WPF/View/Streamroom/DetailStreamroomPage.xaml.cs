@@ -20,7 +20,6 @@ namespace Minify.WPF.View
         private readonly Guid _streamroomId;
 
         private readonly StreamroomManager _streamroomManager;
-        private readonly WpfMediaManager _mediaManager;
 
         private readonly HitlistController _hitlistController;
         private readonly MessageController _messageController;
@@ -30,13 +29,14 @@ namespace Minify.WPF.View
 
         public event StreamroomRefreshedEventHandler MessagesRefreshed;
 
+        public event EventHandler<PlaySongEventArgs> OnPlaySong;
+
         public Guid StreamroomId { get => _streamroomId; }
 
         public Guid? UserId { get => _streamroom?.Hitlist?.UserId; }
 
         public DetailStreamroomPage(Guid streamroomId, WpfMediaManager manager)
         {
-            _mediaManager = manager;
             _streamroomId = streamroomId;
             _streamroomManager = new StreamroomManager(streamroomId, manager);
             _streamroomManager.StreamroomRefreshed += UpdateLocalStreamroom;
@@ -64,6 +64,7 @@ namespace Minify.WPF.View
             }
 
             CreateMessage($"{appData.UserName} neemt nu deel aan de stream!");
+            _streamroomManager.Start();
         }
 
         private void PlaySong()
@@ -71,11 +72,14 @@ namespace Minify.WPF.View
             if (!Core.Utility.CollectionIsNullOrEmpty(_streamroom.Hitlist.Songs))
             {
                 _songs = _hitlistController.GetSongs(_streamroom.Hitlist.Songs);
+                var song = _songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId));
 
-                _mediaManager.Open(_songs.FirstOrDefault(s => s.Id.Equals(_streamroom.CurrentSongId)));
-                _mediaManager.CurrentSongPosition = _streamroom.CurrentSongPosition;
-                streamroomSongs.ItemsSource = _songs;
-                streamroomSongs.Visibility = Visibility.Visible;
+                if (song != null)
+                {
+                    OnPlaySong?.Invoke(this, new PlaySongEventArgs(song) { CurrentSongPosition = _streamroom.CurrentSongPosition });
+                    streamroomSongs.ItemsSource = _songs;
+                    streamroomSongs.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -120,10 +124,11 @@ namespace Minify.WPF.View
             {
                 _streamroom = e.Streamroom;
 
-                if (_mediaManager.GetCurrentSong()?.Id != _streamroom.Song.Id)
-                {
-                    _mediaManager.Close();
-                }
+                #warning implementation needed
+                //if (_mediaManager.GetCurrentSong()?.Id != _streamroom.Song.Id)
+                //{
+                //    _mediaManager.Close();
+                //}
 
                 //invoken naar overview
                 MessagesRefreshed?.Invoke(this, e);
@@ -132,19 +137,12 @@ namespace Minify.WPF.View
 
         private void StreamroomSongs_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _mediaManager.Close();
-
             if (!Core.Utility.ListIsNullOrEmpty(e.AddedItems) && e.AddedItems[0] is Song selected)
             {
-                // Initialize songs
-                _mediaManager.Songs = _songs;
-                // Open song
-                _mediaManager.Open(selected);
-
-                // Play song
-                _mediaManager.Play();
+                OnPlaySong?.Invoke(this, new PlaySongEventArgs(selected, _songs));
             }
         }
+
         public void Play() => _streamroomManager.Play();
 
         public void Pause() => _streamroomManager.Pause();
@@ -156,12 +154,6 @@ namespace Minify.WPF.View
             CreateMessage($"{appData.UserName} heeft de stream verlaten!");
         }
 
-        public override void EndInit()
-        {
-            base.EndInit();
-            // start with reloading the data.
-            _streamroomManager.Start();
-        }
         private void CreateMessage(string message)
         {
             _messageController.CreateMessage(new Message

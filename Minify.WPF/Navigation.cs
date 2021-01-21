@@ -33,7 +33,7 @@ namespace Minify.WPF
             get { return _addHitlistPage; }
             set
             {
-                value.HitlistAdded += _mainWindow.UpdateHitlistMenu;
+                value.HitlistAdded += _mainWindow.AddHitlistPage_UpdateHitlistMenu;
                 _addHitlistPage = value;
             }
         }
@@ -44,7 +44,7 @@ namespace Minify.WPF
             set
             {
                 value.HitlistSongsSelectionChanged += _mainWindow.PlaySong;
-                value.StreamroomCreated += _mainWindow.OpenStreamroom;
+                value.StreamroomCreated += _mainWindow.DetailHitlistPage_StreamroomCreated;
                 value.RefreshHitlistOverview += _mainWindow.RefreshHitListMenu;
                 _hitlistPage = value;
             }

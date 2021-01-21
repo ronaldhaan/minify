@@ -154,7 +154,7 @@ namespace Minify.Core.Managers
         /// <param name="e"></param>
         protected virtual void Update(object sender, EventArgs e)
         {
-            if (NaturalDurationHasTimeSpan())
+            if (NaturalDurationHasTimeSpan() && _currentSong != null)
             {
                 _currentSongPosition = GetPlayerPosition();
 
@@ -176,7 +176,7 @@ namespace Minify.Core.Managers
         /// <param name="e"></param>
         protected virtual void MediaOpened(object sender, EventArgs e)
         {
-            if (NaturalDurationHasTimeSpan())
+            if (NaturalDurationHasTimeSpan() && _currentSong != null)
             {
                 UpdateMediaPlayerPosition();
                 UpdateMediaplayer?.Invoke(this,
@@ -197,16 +197,19 @@ namespace Minify.Core.Managers
         /// <param name="e"></param>
         protected virtual void MediaEnded(object sender, EventArgs e)
         {
-            Close();
+            if (_currentSong != null)
+            {
+                Close();
 
-            if (Songs.Last() != _currentSong)
-                Next();
-            else
-                _currentSong = Songs.First();
+                if (Songs.Last() != _currentSong)
+                    Next();
+                else
+                    _currentSong = Songs.First();
 
-            UpdateMediaplayer?.Invoke(this,
-                new UpdateMediaplayerEventArgs()
-            );
+                UpdateMediaplayer?.Invoke(this,
+                    new UpdateMediaplayerEventArgs()
+                );
+            }
         }
 
         #endregion Virtual Methods

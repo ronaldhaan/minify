@@ -63,6 +63,7 @@ namespace Minify.Core.Controllers
                     .Include(s => s.Song)
                     .Include(s => s.Hitlist)
                         .ThenInclude(h => h.User)
+                            .ThenInclude(u => u.Person)
                     .Include(s => s.Hitlist)
                         .ThenInclude(h => h.Songs)
                             .ThenInclude(hs => hs.Song);

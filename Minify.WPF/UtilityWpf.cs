@@ -1,5 +1,6 @@
 ﻿using ControlzEx.Theming;
 
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -25,6 +26,13 @@ namespace Minify.WPF
         internal static void SetDarkTheme()
         {
             ThemeManager.Current.ChangeTheme(Application, DarkTheme);
+        }
+
+        public static bool IsInDesignMode
+        {
+            get => (bool)DependencyPropertyDescriptor
+                    .FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement))
+                    .Metadata.DefaultValue;
         }
     }
 }
