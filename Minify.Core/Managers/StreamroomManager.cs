@@ -23,7 +23,6 @@ namespace Minify.Core.Managers
         private List<Message> _messages;
 
         private readonly DateTime _timeJoined;
-        private readonly MediaManager _manager;
 
         private readonly StreamroomController _streamroomController;
         private readonly MessageController _messageController;
@@ -31,12 +30,11 @@ namespace Minify.Core.Managers
         public StreamroomRefreshedEventHandler StreamroomRefreshed;
         public StreamroomIsPausedToggledEventHandler IsPausedToggled;
 
-        public StreamroomManager(Guid streamroomId, MediaManager manager)
+        public StreamroomManager(Guid streamroomId)
         {
             _streamroomController = AppManager.Get<StreamroomController>();
             _messageController = AppManager.Get<MessageController>();
             _appData = AppManager.Get<AppData>();
-            _manager = manager;
 
             _timer = new Timer(INTERVAL);
             _messages = new List<Message>();
@@ -99,17 +97,15 @@ namespace Minify.Core.Managers
 
         private void UpdateData()
         {
-            Song song = _manager.GetCurrentSong();
-            if(song != null)
+            if(_appData.CurrentSong != null)
             {
                 if (_appData.BelongsEntityToUser(_streamroom.Hitlist.UserId))
                 {
-                    _streamroom.CurrentSongPosition = _manager.CurrentSongPosition;
-                    _streamroom.CurrentSongId = song.Id;
+                    _streamroom.CurrentSongPosition = _appData.CurrentSongPosition;
+                    _streamroom.CurrentSongId = _appData.CurrentSong.Id;
                     Update();
                 }
-            }
-            
+            }            
         }
 
         private void LoadData()

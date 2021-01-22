@@ -78,7 +78,7 @@ namespace Minify.WPF.Controls
                 _mediaManager.Position = new TimeSpan(0, 0, 0, 0, SliderValue);
             }
 
-            var duration = _mediaManager.GetCurrentSong().Duration.ToString(@"mm\:ss");
+            var duration = _mediaManager.CurrentSong?.Duration.ToString(@"mm\:ss");
             if (lblDuration.Content != null && (string)lblDuration.Content != duration)
             {
                 lblDuration.Content = duration;
@@ -93,8 +93,7 @@ namespace Minify.WPF.Controls
 
         public void PlaySong(object sender, PlaySongEventArgs e)
         {
-            _mediaManager.Songs = e.Songs;
-            _mediaManager.Open(e.Song);
+            _mediaManager.Open(e.Songs);
             _mediaManager.Play();
         }
 

@@ -13,11 +13,11 @@ namespace Minify.Core.Managers
     /// </summary>
     public abstract class MediaManager
     {
-        protected Song _currentSong;
+        private Song _currentSong;
         protected TimeSpan _currentSongPosition;
         private bool _paused;
 
-        public List<Song> Songs { get; set; }
+        public List<Song> Songs { get; protected set; }
 
         public bool Paused { get => _paused; private set => _paused = value; }
 
@@ -25,10 +25,29 @@ namespace Minify.Core.Managers
         public virtual event EventHandler<UpdateMediaplayerEventArgs> OnPlay;
         public virtual event EventHandler OnPause;
 
+
+        public Song CurrentSong
+        {
+            get => _currentSong;
+            protected set
+            {
+                _currentSong = value;
+                AppManager.Get<AppData>().CurrentSong = value;
+            }
+        }
+
         /// <summary>
         /// Updates the current position variable
         /// </summary>
-        public virtual TimeSpan CurrentSongPosition { get => _currentSongPosition; set => _currentSongPosition = value; }
+        public virtual TimeSpan CurrentSongPosition
+        {
+            get => _currentSongPosition;
+            protected set
+            {
+                _currentSongPosition = value;
+                AppManager.Get<AppData>().CurrentSongPosition = value;
+            }
+        }
 
         /// <summary>
         /// Initialize the Songs variable
@@ -56,15 +75,15 @@ namespace Minify.Core.Managers
 
             Song song = up ? Songs.Last() : Songs.First();
 
-            if (song == _currentSong)
+            if (song == CurrentSong)
             {
                 return false;
             }
 
-            int index = Songs.FindIndex(x => x.Id.Equals(_currentSong.Id));
+            int index = Songs.FindIndex(x => x.Id.Equals(CurrentSong.Id));
             int newIndex = up ? index + 1 : index - 1;
-            _currentSong = Songs[newIndex];
-            Open(_currentSong);
+            CurrentSong = Songs[newIndex];
+            Open(CurrentSong);
             Play();
 
             return true;
@@ -72,17 +91,27 @@ namespace Minify.Core.Managers
 
         #region Virtual Methods
 
+        public virtual void Open(List<Song> songs)
+        {
+            if (!Utility.ListIsNullOrEmpty(songs))
+            {
+                Songs = songs;
+                Open(songs.FirstOrDefault());
+            }
+        }
+
+
         /// <summary>
         /// Opens a song in the mediaplayer
         /// </summary>
         /// <param name="song"></param>
         public virtual void Open(Song song, TimeSpan currentPosition = default)
         {
-            _currentSong = song;
+            CurrentSong = song;
 
-            if (_currentSong != null)
+            if (CurrentSong != null)
             {
-                InitializePlayer(_currentSong, currentPosition);
+                InitializePlayer(CurrentSong, currentPosition);
 
                 InitializeTimer();
             }
@@ -94,10 +123,10 @@ namespace Minify.Core.Managers
         /// <param name="song"></param>
         public virtual void Play()
         {
-            if (_currentSong != null)
+            if (CurrentSong != null)
             {
                 Paused = false;
-                OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(_currentSong, CurrentSongPosition));
+                OnPlay?.Invoke(this, new UpdateMediaplayerEventArgs(CurrentSong, CurrentSongPosition));
             }
         }
 
@@ -139,29 +168,20 @@ namespace Minify.Core.Managers
         public virtual bool Previous() => MoveTo(false);
 
         /// <summary>
-        /// Returns the mediaplayer's current song
-        /// </summary>
-        /// <returns>Mediaplayer's song</returns>
-        public virtual Song GetCurrentSong()
-        {
-            return _currentSong;
-        }
-
-        /// <summary>
         /// Invoke the event handler for updating the mediaplayer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected virtual void Update(object sender, EventArgs e)
         {
-            if (NaturalDurationHasTimeSpan() && _currentSong != null)
+            if (NaturalDurationHasTimeSpan() && CurrentSong != null)
             {
                 _currentSongPosition = GetPlayerPosition();
 
                 UpdateMediaplayer?.Invoke(this,
                     new UpdateMediaplayerEventArgs(
-                        _currentSong.Name,
-                        _currentSong.Artist,
+                        CurrentSong.Name,
+                        CurrentSong.Artist,
                         _currentSongPosition,
                         GetNaturalDuration()
                     )
@@ -176,13 +196,13 @@ namespace Minify.Core.Managers
         /// <param name="e"></param>
         protected virtual void MediaOpened(object sender, EventArgs e)
         {
-            if (NaturalDurationHasTimeSpan() && _currentSong != null)
+            if (NaturalDurationHasTimeSpan() && CurrentSong != null)
             {
                 UpdateMediaPlayerPosition();
                 UpdateMediaplayer?.Invoke(this,
                     new UpdateMediaplayerEventArgs(
-                        _currentSong.Name,
-                        _currentSong.Artist,
+                        CurrentSong.Name,
+                        CurrentSong.Artist,
                         CurrentSongPosition,
                         GetNaturalDuration()
                     )
@@ -197,14 +217,14 @@ namespace Minify.Core.Managers
         /// <param name="e"></param>
         protected virtual void MediaEnded(object sender, EventArgs e)
         {
-            if (_currentSong != null)
+            if (CurrentSong != null)
             {
                 Close();
 
-                if (Songs.Last() != _currentSong)
+                if (Songs.Last() != CurrentSong)
                     Next();
                 else
-                    _currentSong = Songs.First();
+                    CurrentSong = Songs.First();
 
                 UpdateMediaplayer?.Invoke(this,
                     new UpdateMediaplayerEventArgs()

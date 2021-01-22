@@ -40,14 +40,7 @@
         <StackPanel x:Name="SearchPanel"
             Grid.Row="0" 
             Grid.Column="1" >
-            <TextBox x:Name="tbxSearchSongs" 
-                Style="{DynamicResource MahApps.Styles.TextBox.Search}"
-                Text="{DynamicResource Translation.Song.Search}" 
-                TextChanged="TbxSearchSongs_TextChanged" 
-                MaxLength="30" 
-                Margin="5"  
-                Width="160" Height="30" 
-                HorizontalAlignment="Left" />
+            <controls:SearchBox x:Name="tbxSearchSongs" TextChanged="TbxSearchSongs_TextChanged"/>
         </StackPanel>
         <StackPanel x:Name="MenuPanel" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Orientation="Horizontal">
             <StackPanel HorizontalAlignment="Left">

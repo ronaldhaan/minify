@@ -16,6 +16,10 @@ namespace Minify.Core.Models
 
         public DateTime LoginDate { get; set; }
 
+        public Song CurrentSong { get; set; }
+
+        public TimeSpan CurrentSongPosition { get; set; }
+
         public string AppName { get; set; }
 
         public string CompanyName { get; set; }

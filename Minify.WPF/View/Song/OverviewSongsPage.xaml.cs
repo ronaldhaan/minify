@@ -1,4 +1,5 @@
-﻿using Minify.Core.Controllers;
+﻿using Minify.Core;
+using Minify.Core.Controllers;
 using Minify.Core.Managers;
 using Minify.Core.Models;
 using Minify.DAL.Entities;
@@ -29,12 +30,12 @@ namespace Minify.WPF.View
             _hitlistController = AppManager.Get<HitlistController>();
             InitializeComponent();
 
-            if(songs == null)
+            if(Utility.ListIsNullOrEmpty(songs))
             {
                 songs = _songController.GetAll();
-                _songs = songs;
             }
 
+            _songs = songs;
             Songs.ItemsSource = _songs;
         }
 

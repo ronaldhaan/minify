@@ -22,13 +22,12 @@ namespace Minify.WPF.View
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        private const string SEARCH_STANDARD_VAL = "Search...";
 
         private readonly SongController _songController;
         private readonly AppData appData;
         private readonly LoginController _loginController;
 
-        private readonly Navigation _navigation;
+        private readonly Navigation _navigate;
 
         public MainWindow()
         {
@@ -36,7 +35,7 @@ namespace Minify.WPF.View
             _songController = AppManager.Get<SongController>();
             appData = AppManager.Get<AppData>();
 
-            _navigation = new Navigation(this);
+            _navigate = new Navigation(this);
 
             InitializeComponent();
 
@@ -63,7 +62,7 @@ namespace Minify.WPF.View
 
         private void MediaControl_OnPause(object sender, EventArgs e)
         {
-            _navigation.DetailStreamroomPage?.Pause();
+            _navigate.DetailStreamroomPage?.Pause();
         }
 
         internal void PlaySong(object sender, PlaySongEventArgs e)
@@ -73,7 +72,7 @@ namespace Minify.WPF.View
 
         private void MediaControl_OnPlay(object sender, EventArgs e)
         {
-            _navigation.DetailStreamroomPage?.Play();
+            _navigate.DetailStreamroomPage?.Play();
         }
 
         
@@ -95,7 +94,7 @@ namespace Minify.WPF.View
             ResetSelectedHitlist();
             UpdateHitlistMenu();
 
-            Navigate(_navigation.CreateOverviewSongsPage()); ;
+            Navigate(_navigate.To<OverviewSongsPage>());
         }
 
         public void AddHitlistPage_UpdateHitlistMenu(object sender, UpdateHitlistMenuEventArgs e)
@@ -105,7 +104,7 @@ namespace Minify.WPF.View
             HitlistMenu.UpdateSelected(e.Id);
 
             //display current hitlist
-            Navigate(_navigation.CreateDetailHitlistPage(e.Id));
+            Navigate(_navigate.To<DetailHitlistPage>(e.Id));
         }
 
         private void ResetSelectedHitlist() => HitlistMenu.Reset();
@@ -114,7 +113,7 @@ namespace Minify.WPF.View
         {
             ResetSelectedStreamroom();
             CloseStreamRoom();
-            Navigate(_navigation.CreateDetailHitlistPage(e.Id));
+            Navigate(_navigate.To<DetailHitlistPage>(e.Id));
         }
         #endregion HitlistMenu
 
@@ -160,18 +159,18 @@ namespace Minify.WPF.View
             MessagePanel.Visibility = Visibility.Visible;
             chatControl.StreamroomId = id;
 
-            Navigate(_navigation.CreateDetailStreamroomPage(id, mediaControl.MediaManager));
+            Navigate(_navigate.To<DetailStreamroomPage>(id));
 
-            mediaControl.EnableSlider(_navigation.DetailStreamroomPage.UserId is Guid userId && appData.BelongsEntityToUser(userId));
+            mediaControl.EnableSlider(_navigate.DetailStreamroomPage.UserId is Guid userId && appData.BelongsEntityToUser(userId));
         }
 
         private void CloseStreamRoom()
         {
-            if (_navigation.DetailStreamroomPage != null)
+            if (_navigate.DetailStreamroomPage != null)
             {
                 MessagePanel.Visibility = Visibility.Collapsed;
-                _navigation.DetailStreamroomPage?.Close();
-                _navigation.DetailStreamroomPage = null;
+                _navigate.DetailStreamroomPage?.Close();
+                _navigate.DetailStreamroomPage = null;
                 mediaControl.Stop();
 
                 mediaControl.EnableSlider(true);
@@ -195,7 +194,7 @@ namespace Minify.WPF.View
             MainWindow overview = new MainWindow();
             overview.Show();
             CloseStreamRoom();
-            //_mediaManager.Close();
+            mediaControl.Close();
             Close();
         }
 
@@ -205,7 +204,7 @@ namespace Minify.WPF.View
             ResetSelectedHitlist();
             ResetSelectedStreamroom();
 
-           Navigate(_navigation.CreateOverviewSongsPage());
+           Navigate(_navigate.To<OverviewSongsPage>());
         }
 
         private void Btn_Add_Hitlist(object sender, RoutedEventArgs e)
@@ -214,7 +213,7 @@ namespace Minify.WPF.View
             ResetSelectedHitlist();
             ResetSelectedStreamroom();
 
-            Navigate(_navigation.CreateAddHilistPage());
+            Navigate(_navigate.To<AddHitlistPage>());
         }
 
         private void BtnUser_Click(object sender, RoutedEventArgs e)
@@ -223,7 +222,7 @@ namespace Minify.WPF.View
             ResetSelectedHitlist();
             ResetSelectedStreamroom();
 
-           Navigate(new DetailUserPage());
+           Navigate(_navigate.To<DetailUserPage>());
 
         }
 
@@ -233,7 +232,7 @@ namespace Minify.WPF.View
             ResetSelectedHitlist();
             ResetSelectedStreamroom();
 
-           Navigate(new SettingsPage());
+           Navigate(_navigate.To<SettingsPage>());
         }
         #endregion Navigation Buttons
 
@@ -249,19 +248,20 @@ namespace Minify.WPF.View
 
         private void TbxSearchSongs_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbxSearchSongs.Text) && tbxSearchSongs.Text != SEARCH_STANDARD_VAL)
+            if (!string.IsNullOrEmpty(tbxSearchSongs.Text))
             {
                 var songs = _songController.Search(tbxSearchSongs.Text);
                 if (!Core.Utility.ListIsNullOrEmpty(songs))
                 {
-                   Navigate(_navigation.CreateOverviewSongsPage(songs));
+                   Navigate(_navigate.To<OverviewSongsPage>(songs));
                 }
                 else
                 {
                    Navigate(new Label { Content = "No songs could be found" });
                 }
             }
-        }           
+        }
+
         #endregion Controls
         #endregion Events
 

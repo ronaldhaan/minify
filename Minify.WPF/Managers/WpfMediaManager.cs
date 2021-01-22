@@ -39,7 +39,7 @@ namespace Minify.WPF.Managers
             _currentSongPosition = currentPosition;
             _mediaPlayer.Position = _currentSongPosition;
 
-            _mediaPlayer.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
+            _mediaPlayer.Open(new Uri(CurrentSong.Path, UriKind.RelativeOrAbsolute));
 
 
             Play();

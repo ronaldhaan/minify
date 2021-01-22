@@ -35,10 +35,10 @@ namespace Minify.WPF.View
 
         public Guid? UserId { get => _streamroom?.Hitlist?.UserId; }
 
-        public DetailStreamroomPage(Guid streamroomId, WpfMediaManager manager)
+        public DetailStreamroomPage(Guid streamroomId)
         {
             _streamroomId = streamroomId;
-            _streamroomManager = new StreamroomManager(streamroomId, manager);
+            _streamroomManager = new StreamroomManager(streamroomId);
             _streamroomManager.StreamroomRefreshed += UpdateLocalStreamroom;
 
             _hitlistController = AppManager.Get<HitlistController>();
